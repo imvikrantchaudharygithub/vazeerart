@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import {SanityImage} from '@/components/media/SanityImage'
-import {alternateOrder, filterProjects, type ProjectVM, type WorkFilter} from '@/lib/viewmodel/projects'
+import {alternateOrder, filterProjects, type ProjectCardVM, type WorkFilter} from '@/lib/viewmodel/projects'
 import styles from './ProjectList.module.css'
 
-type Props = {projects: ProjectVM[]; filter: WorkFilter; numberPrefix: string; cta: string}
+type Props = {projects: ProjectCardVM[]; filter: WorkFilter; numberPrefix: string; cta: string}
 
 export function ProjectList({projects, filter, numberPrefix, cta}: Props) {
   const visible = filterProjects(projects, filter)

@@ -27,7 +27,7 @@ export function ProjectHero({project, labels, showRec}: Props) {
         <div className={styles.cover}>
           <div className={styles.bg}>
             <div className={styles.kenburns} data-motion="loop">
-              {project.cover && <SanityImage image={project.cover} sizes="(max-width: 1500px) 100vw, 1400px" priority />}
+              {project.cover && <SanityImage image={{...project.cover, alt: project.cover.alt || `Key frame from ${project.title}`}} sizes="(max-width: 1500px) 100vw, 1400px" priority />}
             </div>
           </div>
           <div className={styles.hud} aria-hidden="true">

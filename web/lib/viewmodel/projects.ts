@@ -17,6 +17,10 @@ export type ProjectVM = {
   seo: SeoVM
 }
 
+/** What the /work list renders — the narrowest shape sent to the client island. */
+export type ProjectCardVM = Pick<ProjectVM, 'id' | 'slug' | 'title' | 'formatLower' | 'year' | 'role' | 'category' | 'cover' | 'n'>
+export const toProjectCard = ({id, slug, title, formatLower, year, role, category, cover, n}: ProjectVM): ProjectCardVM => ({id, slug, title, formatLower, year, role, category, cover, n})
+
 export function deriveProjects(raw: PROJECTS_QUERY_RESULT): ProjectVM[] {
   let counter = 0
   return raw.flatMap((p) => {
@@ -41,7 +45,7 @@ export function deriveProjects(raw: PROJECTS_QUERY_RESULT): ProjectVM[] {
 export const pageProjects = (all: ProjectVM[]) => all.filter((p) => !p.creditOnly)
 export const homeProjects = (all: ProjectVM[]) => pageProjects(all).filter((p) => p.showOnHome)
 
-export function filterProjects(pages: ProjectVM[], filter: WorkFilter): ProjectVM[] {
+export function filterProjects<T extends Pick<ProjectVM, 'category'>>(pages: T[], filter: WorkFilter): T[] {
   if (filter === 'cinematography') return pages.filter((p) => p.category === 'dop')
   if (filter === 'editing') return pages.filter((p) => p.category === 'editor')
   return pages

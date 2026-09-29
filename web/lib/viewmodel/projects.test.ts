@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest'
-import {alternateOrder, deriveProjects, filterProjects, homeProjects, nextProject, pageProjects, parseWorkFilter, showreelOrderNote} from './projects'
+import {alternateOrder, deriveProjects, filterProjects, homeProjects, nextProject, pageProjects, parseWorkFilter, showreelOrderNote, toProjectCard} from './projects'
 
 const raw = (slug: string, category: 'dop' | 'editor', creditOnly = false, showOnHome = true) => ({
   _id: `project-${slug}`, title: slug.toUpperCase(), slug, format: 'Music Video', year: '2022',
@@ -29,6 +29,18 @@ describe('pageProjects / filterProjects', () => {
     expect(filterProjects(pages, 'all').map((p) => p.slug)).toEqual(['a', 'b', 'c'])
     expect(filterProjects(pages, 'cinematography').map((p) => p.slug)).toEqual(['a', 'c'])
     expect(filterProjects(pages, 'editing').map((p) => p.slug)).toEqual(['b'])
+  })
+})
+
+describe('toProjectCard', () => {
+  it('keeps exactly the nine keys the /work list renders — no frameGrabs or seo', () => {
+    const card = toProjectCard(all[0])
+    expect(Object.keys(card).sort()).toEqual(['category', 'cover', 'formatLower', 'id', 'n', 'role', 'slug', 'title', 'year'])
+    expect(card).toEqual({id: 'project-a', slug: 'a', title: 'A', formatLower: 'music video', year: '2022', role: 'Director of Photography', category: 'dop', cover: null, n: '01'})
+  })
+  it('lets filterProjects run on cards', () => {
+    const cards = pageProjects(all).map(toProjectCard)
+    expect(filterProjects(cards, 'editing').map((c) => c.slug)).toEqual(['b'])
   })
 })
 

@@ -1,5 +1,6 @@
 import {Suspense} from 'react'
 import type {WorkVM} from '@/lib/viewmodel/pagesContent'
+import {FilterChips} from './FilterChips'
 import {WorkFilters} from './WorkFilters'
 import styles from './WorkHeader.module.css'
 
@@ -12,7 +13,7 @@ export function WorkHeader({work}: {work: WorkVM}) {
       </div>
       <div className={styles.side}>
         <p className={styles.intro}>{work.intro}</p>
-        <Suspense fallback={<div className={styles.filters} />}>
+        <Suspense fallback={<FilterChips labels={work.filters} active="all" />}>
           <WorkFilters labels={work.filters} />
         </Suspense>
       </div>

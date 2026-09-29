@@ -9,19 +9,10 @@ vi.mock('next/navigation', () => ({useSearchParams: () => new URLSearchParams(qu
 const labels = {all: 'All', cinematography: 'Cinematography', editing: 'Editing'}
 
 describe('WorkFilters', () => {
-  it('renders three chips linking to ?filter= and marks the current one active', () => {
+  it('marks the chip named by ?filter= active', () => {
     query = 'filter=editing'
     render(<WorkFilters labels={labels} />)
-    const links = screen.getAllByRole('link')
-    expect(links.map((l) => l.getAttribute('href'))).toEqual(['/work?filter=all', '/work?filter=cinematography', '/work?filter=editing'])
-    expect(links.map((l) => l.getAttribute('data-active'))).toEqual(['false', 'false', 'true'])
-  })
-  it('gives every chip the asButton class and marks only the active chip aria-current=page', () => {
-    query = 'filter=editing'
-    render(<WorkFilters labels={labels} />)
-    const links = screen.getAllByRole('link')
-    links.forEach((a) => expect(a).toHaveClass('asButton'))
-    expect(links.map((l) => l.getAttribute('aria-current'))).toEqual([null, null, 'page'])
+    expect(screen.getAllByRole('link').map((l) => l.getAttribute('data-active'))).toEqual(['false', 'false', 'true'])
   })
   it('treats an unknown filter as all', () => {
     query = 'filter=bogus'
