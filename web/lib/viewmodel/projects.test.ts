@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest'
-import {alternateOrder, deriveProjects, filterProjects, nextProject, pageProjects, showreelOrderNote} from './projects'
+import {alternateOrder, deriveProjects, filterProjects, homeProjects, nextProject, pageProjects, parseWorkFilter, showreelOrderNote} from './projects'
 
 const raw = (slug: string, category: 'dop' | 'editor', creditOnly = false, showOnHome = true) => ({
   _id: `project-${slug}`, title: slug.toUpperCase(), slug, format: 'Music Video', year: '2022',
@@ -52,5 +52,19 @@ describe('showreelOrderNote', () => {
   it('joins page project titles unless overridden', () => {
     expect(showreelOrderNote(pageProjects(all), 'in order of appearance:', null)).toBe('(in order of appearance: A, B, C)')
     expect(showreelOrderNote(pageProjects(all), 'x', 'Custom')).toBe('(x Custom)')
+  })
+})
+
+describe('homeProjects', () => {
+  it('excludes credit-only and showOnHome:false entries', () => {
+    expect(homeProjects(all).map((p) => p.slug)).toEqual(['a', 'b'])
+  })
+})
+
+describe('parseWorkFilter', () => {
+  it('accepts known filters and falls back to all', () => {
+    expect(parseWorkFilter('editing')).toBe('editing')
+    expect(parseWorkFilter('bogus')).toBe('all')
+    expect(parseWorkFilter(undefined)).toBe('all')
   })
 })

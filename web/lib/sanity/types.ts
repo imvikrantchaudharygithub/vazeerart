@@ -504,101 +504,180 @@ export type AllSanitySchemaTypes =
 
 // Source: ../web/lib/sanity/queries.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_id == "siteSettings"][0]{  brandWord, brandScript, copyright,  socials[]{ label, url },  management{ label, handle, url }, dm{ label, handle, url },  marqueeWords,  pages[]{ key, navLabel, menuLabel, preFooterScript, preFooterLabel },  leaderLeft, leaderRight, leaderSkip, menuScript, menuClose, menuSocialsLabel,  menuPhoto {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }},  showIntro, showMarquee, showGrain, showRec,  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
-export type SITE_SETTINGS_QUERY_RESULT =
-  | {
-      brandWord: null;
-      brandScript: null;
-      copyright: null;
-      socials: null;
-      management: null;
-      dm: null;
-      marqueeWords: null;
-      pages: null;
-      leaderLeft: null;
-      leaderRight: null;
-      leaderSkip: null;
-      menuScript: null;
-      menuClose: null;
-      menuSocialsLabel: null;
-      menuPhoto: null;
-      showIntro: null;
-      showMarquee: null;
-      showGrain: null;
-      showRec: null;
-      seo: null;
-    }
-  | {
-      brandWord: null;
-      brandScript: null;
-      copyright: null;
-      socials: null;
-      management: null;
-      dm: null;
-      marqueeWords: null;
-      pages: null;
-      leaderLeft: null;
-      leaderRight: null;
-      leaderSkip: null;
-      menuScript: null;
-      menuClose: null;
-      menuSocialsLabel: null;
-      menuPhoto: null;
-      showIntro: null;
-      showMarquee: null;
-      showGrain: null;
-      showRec: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
+// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{  brandWord, brandScript, copyright,  socials[]{ label, url },  management{ label, handle, url }, dm{ label, handle, url },  marqueeWords,  pages[]{ key, navLabel, menuLabel, preFooterScript, preFooterLabel },  leaderLeft, leaderRight, leaderSkip, menuScript, menuClose, menuSocialsLabel,  menuPhoto {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }},  showIntro, showMarquee, showGrain, showRec,  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
+export type SITE_SETTINGS_QUERY_RESULT = {
+  brandWord: string;
+  brandScript: string;
+  copyright: string;
+  socials: Array<{
+    label: string;
+    url: string;
+  }> | null;
+  management: {
+    label: string;
+    handle: string;
+    url: string;
+  } | null;
+  dm: {
+    label: string;
+    handle: string;
+    url: string;
+  } | null;
+  marqueeWords: Array<string> | null;
+  pages: Array<{
+    key: "about" | "contact" | "frames" | "home" | "work";
+    navLabel: string;
+    menuLabel: string;
+    preFooterScript: string | null;
+    preFooterLabel: string | null;
+  }>;
+  leaderLeft: string;
+  leaderRight: string;
+  leaderSkip: string;
+  menuScript: string;
+  menuClose: string;
+  menuSocialsLabel: string;
+  menuPhoto: {
+    alt: string;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+    asset: {
+      _id: string;
+      url: string;
+      extension: string;
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+  };
+  showIntro: boolean | null;
+  showMarquee: boolean | null;
+  showGrain: boolean | null;
+  showRec: boolean | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    image: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
+      } | null;
+    } | null;
+  } | null;
+} | null;
+
+// Source: ../web/lib/sanity/queries.ts
+// Variable: HOME_QUERY
+// Query: *[_type == "homePage" && _id == "homePage"][0]{  hero{ word, script, mainImage {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, polaroidLeft { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url }, polaroidRight { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url } },  intro{ script, heading, subline, body, ctaLabel, imageA {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, imageB {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} },  reels{ headingBlock{ script, heading }, ctaLabel },  explore{ headingBlock{ script, heading }, cards[]{ label, sub, target, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} } },  currently{ script, heading, body, ctaLabel, bgImage {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} },  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
+export type HOME_QUERY_RESULT = {
+  hero: {
+    word: string;
+    script: string;
+    mainImage: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
+      } | null;
+    };
+    polaroidLeft: {
+      kind: "image" | "video";
+      image: {
+        alt: string;
+        hotspot: SanityImageHotspot | null;
+        crop: SanityImageCrop | null;
+        asset: {
+          _id: string;
+          url: string;
+          extension: string;
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
         } | null;
       } | null;
-    }
-  | {
-      brandWord: string;
-      brandScript: string;
-      copyright: string;
-      socials: Array<{
-        label: string;
-        url: string;
-      }> | null;
-      management: {
-        label: string;
-        handle: string;
-        url: string;
+      videoUrl: string | null;
+    };
+    polaroidRight: {
+      kind: "image" | "video";
+      image: {
+        alt: string;
+        hotspot: SanityImageHotspot | null;
+        crop: SanityImageCrop | null;
+        asset: {
+          _id: string;
+          url: string;
+          extension: string;
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
       } | null;
-      dm: {
-        label: string;
-        handle: string;
+      videoUrl: string | null;
+    };
+  } | null;
+  intro: {
+    script: string;
+    heading: string;
+    subline: string;
+    body: string;
+    ctaLabel: string;
+    imageA: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
         url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
       } | null;
-      marqueeWords: Array<string> | null;
-      pages: Array<{
-        key: "about" | "contact" | "frames" | "home" | "work";
-        navLabel: string;
-        menuLabel: string;
-        preFooterScript: string | null;
-        preFooterLabel: string | null;
-      }>;
-      leaderLeft: string;
-      leaderRight: string;
-      leaderSkip: string;
-      menuScript: string;
-      menuClose: string;
-      menuSocialsLabel: string;
-      menuPhoto: {
+    };
+    imageB: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
+      } | null;
+    };
+  } | null;
+  reels: {
+    headingBlock: {
+      script: string;
+      heading: string;
+    };
+    ctaLabel: string;
+  } | null;
+  explore: {
+    headingBlock: {
+      script: string;
+      heading: string;
+    };
+    cards: Array<{
+      label: string;
+      sub: string;
+      target: "about" | "contact" | "frames" | "work";
+      image: {
         alt: string;
         hotspot: SanityImageHotspot | null;
         crop: SanityImageCrop | null;
@@ -611,358 +690,87 @@ export type SITE_SETTINGS_QUERY_RESULT =
           lqip: string | null;
         } | null;
       };
-      showIntro: boolean | null;
-      showMarquee: boolean | null;
-      showGrain: boolean | null;
-      showRec: boolean | null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
+    }> | null;
+  } | null;
+  currently: {
+    script: string;
+    heading: string;
+    body: string;
+    ctaLabel: string;
+    bgImage: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
       } | null;
-    }
-  | null;
-
-// Source: ../web/lib/sanity/queries.ts
-// Variable: HOME_QUERY
-// Query: *[_id == "homePage"][0]{  hero{ word, script, mainImage {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, polaroidLeft { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url }, polaroidRight { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url } },  intro{ script, heading, subline, body, ctaLabel, imageA {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, imageB {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} },  reels{ headingBlock{ script, heading }, ctaLabel },  explore{ headingBlock{ script, heading }, cards[]{ label, sub, target, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} } },  currently{ script, heading, body, ctaLabel, bgImage {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} },  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
-export type HOME_QUERY_RESULT =
-  | {
-      hero: null;
-      intro: null;
-      reels: null;
-      explore: null;
-      currently: null;
-      seo: null;
-    }
-  | {
-      hero: null;
-      intro: null;
-      reels: null;
-      explore: null;
-      currently: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
+    };
+  } | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    image: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
       } | null;
-    }
-  | {
-      hero: {
-        word: null;
-        script: string;
-        mainImage: null;
-        polaroidLeft: null;
-        polaroidRight: null;
-      } | null;
-      intro: null;
-      reels: null;
-      explore: null;
-      currently: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | {
-      hero: {
-        word: string;
-        script: string;
-        mainImage: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        };
-        polaroidLeft: {
-          kind: "image" | "video";
-          image: {
-            alt: string;
-            hotspot: SanityImageHotspot | null;
-            crop: SanityImageCrop | null;
-            asset: {
-              _id: string;
-              url: string;
-              extension: string;
-              width: number | null;
-              height: number | null;
-              lqip: string | null;
-            } | null;
-          } | null;
-          videoUrl: string | null;
-        };
-        polaroidRight: {
-          kind: "image" | "video";
-          image: {
-            alt: string;
-            hotspot: SanityImageHotspot | null;
-            crop: SanityImageCrop | null;
-            asset: {
-              _id: string;
-              url: string;
-              extension: string;
-              width: number | null;
-              height: number | null;
-              lqip: string | null;
-            } | null;
-          } | null;
-          videoUrl: string | null;
-        };
-      } | null;
-      intro: {
-        script: string;
-        heading: string;
-        subline: string;
-        body: string;
-        ctaLabel: string;
-        imageA: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        };
-        imageB: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        };
-      } | null;
-      reels: {
-        headingBlock: {
-          script: string;
-          heading: string;
-        };
-        ctaLabel: string;
-      } | null;
-      explore: {
-        headingBlock: {
-          script: string;
-          heading: string;
-        };
-        cards: Array<{
-          label: string;
-          sub: string;
-          target: "about" | "contact" | "frames" | "work";
-          image: {
-            alt: string;
-            hotspot: SanityImageHotspot | null;
-            crop: SanityImageCrop | null;
-            asset: {
-              _id: string;
-              url: string;
-              extension: string;
-              width: number | null;
-              height: number | null;
-              lqip: string | null;
-            } | null;
-          };
-        }> | null;
-      } | null;
-      currently: {
-        script: string;
-        heading: string;
-        body: string;
-        ctaLabel: string;
-        bgImage: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        };
-      } | null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | null;
+    } | null;
+  } | null;
+} | null;
 
 // Source: ../web/lib/sanity/queries.ts
 // Variable: WORK_QUERY
-// Query: *[_id == "workPage"][0]{  title, script, intro, filterAll, filterDop, filterEditor,  showreel{ poster {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, videoUrl, label, orderNotePrefix, orderNoteOverride },  numberPrefix, projectCta,  skills{ headingBlock{ script, heading }, items[]{ label, tilt, media { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url } } },  projectPage{ backLabel, reelPrefix, roleLabel, formatLabel, yearLabel, aspectLabel, grabsScript, grabsHeading, upNextScript },  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
-export type WORK_QUERY_RESULT =
-  | {
-      title: null;
-      script: null;
-      intro: null;
-      filterAll: null;
-      filterDop: null;
-      filterEditor: null;
-      showreel: null;
-      numberPrefix: null;
-      projectCta: null;
-      skills: null;
-      projectPage: null;
-      seo: null;
-    }
-  | {
-      title: string | null;
-      script: null;
-      intro: null;
-      filterAll: null;
-      filterDop: null;
-      filterEditor: null;
-      showreel: null;
-      numberPrefix: null;
-      projectCta: null;
-      skills: null;
-      projectPage: null;
-      seo: null;
-    }
-  | {
-      title: null;
-      script: null;
-      intro: null;
-      filterAll: null;
-      filterDop: null;
-      filterEditor: null;
-      showreel: null;
-      numberPrefix: null;
-      projectCta: null;
-      skills: null;
-      projectPage: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
+// Query: *[_type == "workPage" && _id == "workPage"][0]{  title, script, intro, filterAll, filterDop, filterEditor,  showreel{ poster {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, videoUrl, label, orderNotePrefix, orderNoteOverride },  numberPrefix, projectCta,  skills{ headingBlock{ script, heading }, items[]{ label, tilt, media { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url } } },  projectPage{ backLabel, reelPrefix, roleLabel, formatLabel, yearLabel, aspectLabel, grabsScript, grabsHeading, upNextScript },  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
+export type WORK_QUERY_RESULT = {
+  title: string;
+  script: string;
+  intro: string;
+  filterAll: string;
+  filterDop: string;
+  filterEditor: string;
+  showreel: {
+    poster: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
       } | null;
-    }
-  | {
-      title: string;
-      script: null;
-      intro: null;
-      filterAll: null;
-      filterDop: null;
-      filterEditor: null;
-      showreel: null;
-      numberPrefix: null;
-      projectCta: null;
-      skills: null;
-      projectPage: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | {
-      title: null;
+    };
+    videoUrl: string | null;
+    label: string;
+    orderNotePrefix: string;
+    orderNoteOverride: string | null;
+  } | null;
+  numberPrefix: string;
+  projectCta: string;
+  skills: {
+    headingBlock: {
       script: string;
-      intro: null;
-      filterAll: null;
-      filterDop: null;
-      filterEditor: null;
-      showreel: null;
-      numberPrefix: null;
-      projectCta: null;
-      skills: null;
-      projectPage: null;
-      seo: {
-        title: string | null;
-        description: string | null;
+      heading: string;
+    };
+    items: Array<{
+      label: string;
+      tilt: number;
+      media: {
+        kind: "image" | "video";
         image: {
           alt: string;
           hotspot: SanityImageHotspot | null;
@@ -976,276 +784,68 @@ export type WORK_QUERY_RESULT =
             lqip: string | null;
           } | null;
         } | null;
-      } | null;
-    }
-  | {
-      title: null;
-      script: string;
-      intro: string;
-      filterAll: null;
-      filterDop: null;
-      filterEditor: null;
-      showreel: null;
-      numberPrefix: null;
-      projectCta: null;
-      skills: null;
-      projectPage: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | {
-      title: null;
-      script: null;
-      intro: {
-        script: string;
-        heading: string;
-        subline: string;
-        body: string;
-        ctaLabel: string;
-        imageA: ImageWithAlt;
-        imageB: ImageWithAlt;
-      } | null;
-      filterAll: null;
-      filterDop: null;
-      filterEditor: null;
-      showreel: null;
-      numberPrefix: null;
-      projectCta: null;
-      skills: null;
-      projectPage: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | {
-      title: string;
-      script: string;
-      intro: string;
-      filterAll: string;
-      filterDop: string;
-      filterEditor: string;
-      showreel: {
-        poster: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        };
         videoUrl: string | null;
-        label: string;
-        orderNotePrefix: string;
-        orderNoteOverride: string | null;
+      };
+    }> | null;
+  } | null;
+  projectPage: {
+    backLabel: string;
+    reelPrefix: string;
+    roleLabel: string;
+    formatLabel: string;
+    yearLabel: string;
+    aspectLabel: string;
+    grabsScript: string;
+    grabsHeading: string;
+    upNextScript: string;
+  } | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    image: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
       } | null;
-      numberPrefix: string;
-      projectCta: string;
-      skills: {
-        headingBlock: {
-          script: string;
-          heading: string;
-        };
-        items: Array<{
-          label: string;
-          tilt: number;
-          media: {
-            kind: "image" | "video";
-            image: {
-              alt: string;
-              hotspot: SanityImageHotspot | null;
-              crop: SanityImageCrop | null;
-              asset: {
-                _id: string;
-                url: string;
-                extension: string;
-                width: number | null;
-                height: number | null;
-                lqip: string | null;
-              } | null;
-            } | null;
-            videoUrl: string | null;
-          };
-        }> | null;
-      } | null;
-      projectPage: {
-        backLabel: string;
-        reelPrefix: string;
-        roleLabel: string;
-        formatLabel: string;
-        yearLabel: string;
-        aspectLabel: string;
-        grabsScript: string;
-        grabsHeading: string;
-        upNextScript: string;
-      } | null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | null;
+    } | null;
+  } | null;
+} | null;
 
 // Source: ../web/lib/sanity/queries.ts
 // Variable: FRAMES_PAGE_QUERY
-// Query: *[_id == "framesPage"][0]{  script, heading, linkLabel, linkUrl, reelLabel, postLabel, seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
-export type FRAMES_PAGE_QUERY_RESULT =
-  | {
-      script: null;
-      heading: null;
-      linkLabel: null;
-      linkUrl: null;
-      reelLabel: null;
-      postLabel: null;
-      seo: null;
-    }
-  | {
-      script: null;
-      heading: null;
-      linkLabel: null;
-      linkUrl: null;
-      reelLabel: null;
-      postLabel: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
+// Query: *[_type == "framesPage" && _id == "framesPage"][0]{  script, heading, linkLabel, linkUrl, reelLabel, postLabel, seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
+export type FRAMES_PAGE_QUERY_RESULT = {
+  script: string;
+  heading: string;
+  linkLabel: string;
+  linkUrl: string;
+  reelLabel: string;
+  postLabel: string;
+  seo: {
+    title: string | null;
+    description: string | null;
+    image: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
       } | null;
-    }
-  | {
-      script: string;
-      heading: null;
-      linkLabel: null;
-      linkUrl: null;
-      reelLabel: null;
-      postLabel: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | {
-      script: string;
-      heading: string;
-      linkLabel: null;
-      linkUrl: null;
-      reelLabel: null;
-      postLabel: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | {
-      script: string;
-      heading: string;
-      linkLabel: string;
-      linkUrl: string;
-      reelLabel: string;
-      postLabel: string;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | null;
+    } | null;
+  } | null;
+} | null;
 
 // Source: ../web/lib/sanity/queries.ts
 // Variable: FRAMES_QUERY
@@ -1271,282 +871,29 @@ export type FRAMES_QUERY_RESULT = Array<{
 
 // Source: ../web/lib/sanity/queries.ts
 // Variable: ABOUT_QUERY
-// Query: *[_id == "aboutPage"][0]{  hero{ script, heading, body, ctaLabel, portrait {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, polaroid { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url } },  statement{ headingPlain, headingAccent, paragraphs, aside },  credits{ headingBlock{ script, heading }, imdbLabel, imdbUrl },  finale{ script, sub, bgImage {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} },  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
-export type ABOUT_QUERY_RESULT =
-  | {
-      hero: null;
-      statement: null;
-      credits: null;
-      finale: null;
-      seo: null;
-    }
-  | {
-      hero: null;
-      statement: null;
-      credits: null;
-      finale: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
+// Query: *[_type == "aboutPage" && _id == "aboutPage"][0]{  hero{ script, heading, body, ctaLabel, portrait {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, polaroid { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url } },  statement{ headingPlain, headingAccent, paragraphs, aside },  credits{ headingBlock{ script, heading }, imdbLabel, imdbUrl },  finale{ script, sub, bgImage {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} },  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
+export type ABOUT_QUERY_RESULT = {
+  hero: {
+    script: string;
+    heading: string;
+    body: string;
+    ctaLabel: string;
+    portrait: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
       } | null;
-    }
-  | {
-      hero: {
-        script: string;
-        heading: null;
-        body: null;
-        ctaLabel: null;
-        portrait: null;
-        polaroid: null;
-      } | null;
-      statement: null;
-      credits: null;
-      finale: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | {
-      hero: {
-        script: string;
-        heading: string;
-        body: string;
-        ctaLabel: string;
-        portrait: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        };
-        polaroid: {
-          kind: "image" | "video";
-          image: {
-            alt: string;
-            hotspot: SanityImageHotspot | null;
-            crop: SanityImageCrop | null;
-            asset: {
-              _id: string;
-              url: string;
-              extension: string;
-              width: number | null;
-              height: number | null;
-              lqip: string | null;
-            } | null;
-          } | null;
-          videoUrl: string | null;
-        };
-      } | null;
-      statement: {
-        headingPlain: string;
-        headingAccent: string;
-        paragraphs: Array<string> | null;
-        aside: string;
-      } | null;
-      credits: {
-        headingBlock: {
-          script: string;
-          heading: string;
-        };
-        imdbLabel: string;
-        imdbUrl: string;
-      } | null;
-      finale: {
-        script: string;
-        sub: string;
-        bgImage: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        };
-      } | null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | null;
-
-// Source: ../web/lib/sanity/queries.ts
-// Variable: CONTACT_QUERY
-// Query: *[_id == "contactPage"][0]{  script, heading, intro, photo {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }},  form{ heading, typeQuestion, types, nameLabel, contactLabel, datesLabel, briefLabel, submitLabel },  success{ script, body, resetLabel },  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
-export type CONTACT_QUERY_RESULT =
-  | {
-      script: null;
-      heading: null;
-      intro: null;
-      photo: null;
-      form: null;
-      success: null;
-      seo: null;
-    }
-  | {
-      script: null;
-      heading: null;
-      intro: null;
-      photo: null;
-      form: null;
-      success: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | {
-      script: string;
-      heading: null;
-      intro: string;
-      photo: null;
-      form: null;
-      success: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | {
-      script: null;
-      heading: null;
-      intro: {
-        script: string;
-        heading: string;
-        subline: string;
-        body: string;
-        ctaLabel: string;
-        imageA: ImageWithAlt;
-        imageB: ImageWithAlt;
-      } | null;
-      photo: null;
-      form: null;
-      success: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | {
-      script: string;
-      heading: string;
-      intro: null;
-      photo: null;
-      form: null;
-      success: null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
-      } | null;
-    }
-  | {
-      script: string;
-      heading: string;
-      intro: string;
-      photo: {
+    };
+    polaroid: {
+      kind: "image" | "video";
+      image: {
         alt: string;
         hotspot: SanityImageHotspot | null;
         crop: SanityImageCrop | null;
@@ -1558,41 +905,113 @@ export type CONTACT_QUERY_RESULT =
           height: number | null;
           lqip: string | null;
         } | null;
-      };
-      form: {
-        heading: string;
-        typeQuestion: string;
-        types: Array<string> | null;
-        nameLabel: string;
-        contactLabel: string;
-        datesLabel: string;
-        briefLabel: string;
-        submitLabel: string;
       } | null;
-      success: {
-        script: string;
-        body: string;
-        resetLabel: string;
+      videoUrl: string | null;
+    };
+  } | null;
+  statement: {
+    headingPlain: string;
+    headingAccent: string;
+    paragraphs: Array<string> | null;
+    aside: string;
+  } | null;
+  credits: {
+    headingBlock: {
+      script: string;
+      heading: string;
+    };
+    imdbLabel: string;
+    imdbUrl: string;
+  } | null;
+  finale: {
+    script: string;
+    sub: string;
+    bgImage: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
       } | null;
-      seo: {
-        title: string | null;
-        description: string | null;
-        image: {
-          alt: string;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-          asset: {
-            _id: string;
-            url: string;
-            extension: string;
-            width: number | null;
-            height: number | null;
-            lqip: string | null;
-          } | null;
-        } | null;
+    };
+  } | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    image: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
       } | null;
-    }
-  | null;
+    } | null;
+  } | null;
+} | null;
+
+// Source: ../web/lib/sanity/queries.ts
+// Variable: CONTACT_QUERY
+// Query: *[_type == "contactPage" && _id == "contactPage"][0]{  script, heading, intro, photo {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }},  form{ heading, typeQuestion, types, nameLabel, contactLabel, datesLabel, briefLabel, submitLabel },  success{ script, body, resetLabel },  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
+export type CONTACT_QUERY_RESULT = {
+  script: string;
+  heading: string;
+  intro: string;
+  photo: {
+    alt: string;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+    asset: {
+      _id: string;
+      url: string;
+      extension: string;
+      width: number | null;
+      height: number | null;
+      lqip: string | null;
+    } | null;
+  };
+  form: {
+    heading: string;
+    typeQuestion: string;
+    types: Array<string> | null;
+    nameLabel: string;
+    contactLabel: string;
+    datesLabel: string;
+    briefLabel: string;
+    submitLabel: string;
+  } | null;
+  success: {
+    script: string;
+    body: string;
+    resetLabel: string;
+  } | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    image: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
+      } | null;
+    } | null;
+  } | null;
+} | null;
 
 // Source: ../web/lib/sanity/queries.ts
 // Variable: PROJECTS_QUERY
@@ -1663,13 +1082,13 @@ export type PROJECT_SLUGS_QUERY_RESULT = Array<{
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '*[_id == "siteSettings"][0]{\n  brandWord, brandScript, copyright,\n  socials[]{ label, url },\n  management{ label, handle, url }, dm{ label, handle, url },\n  marqueeWords,\n  pages[]{ key, navLabel, menuLabel, preFooterScript, preFooterLabel },\n  leaderLeft, leaderRight, leaderSkip, menuScript, menuClose, menuSocialsLabel,\n  menuPhoto {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n},\n  showIntro, showMarquee, showGrain, showRec,\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': SITE_SETTINGS_QUERY_RESULT;
-    '*[_id == "homePage"][0]{\n  hero{ word, script, mainImage {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, polaroidLeft { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url }, polaroidRight { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } },\n  intro{ script, heading, subline, body, ctaLabel, imageA {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, imageB {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} },\n  reels{ headingBlock{ script, heading }, ctaLabel },\n  explore{ headingBlock{ script, heading }, cards[]{ label, sub, target, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} } },\n  currently{ script, heading, body, ctaLabel, bgImage {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': HOME_QUERY_RESULT;
-    '*[_id == "workPage"][0]{\n  title, script, intro, filterAll, filterDop, filterEditor,\n  showreel{ poster {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, videoUrl, label, orderNotePrefix, orderNoteOverride },\n  numberPrefix, projectCta,\n  skills{ headingBlock{ script, heading }, items[]{ label, tilt, media { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } } },\n  projectPage{ backLabel, reelPrefix, roleLabel, formatLabel, yearLabel, aspectLabel, grabsScript, grabsHeading, upNextScript },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': WORK_QUERY_RESULT;
-    '*[_id == "framesPage"][0]{\n  script, heading, linkLabel, linkUrl, reelLabel, postLabel, seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': FRAMES_PAGE_QUERY_RESULT;
+    '*[_type == "siteSettings" && _id == "siteSettings"][0]{\n  brandWord, brandScript, copyright,\n  socials[]{ label, url },\n  management{ label, handle, url }, dm{ label, handle, url },\n  marqueeWords,\n  pages[]{ key, navLabel, menuLabel, preFooterScript, preFooterLabel },\n  leaderLeft, leaderRight, leaderSkip, menuScript, menuClose, menuSocialsLabel,\n  menuPhoto {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n},\n  showIntro, showMarquee, showGrain, showRec,\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': SITE_SETTINGS_QUERY_RESULT;
+    '*[_type == "homePage" && _id == "homePage"][0]{\n  hero{ word, script, mainImage {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, polaroidLeft { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url }, polaroidRight { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } },\n  intro{ script, heading, subline, body, ctaLabel, imageA {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, imageB {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} },\n  reels{ headingBlock{ script, heading }, ctaLabel },\n  explore{ headingBlock{ script, heading }, cards[]{ label, sub, target, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} } },\n  currently{ script, heading, body, ctaLabel, bgImage {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': HOME_QUERY_RESULT;
+    '*[_type == "workPage" && _id == "workPage"][0]{\n  title, script, intro, filterAll, filterDop, filterEditor,\n  showreel{ poster {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, videoUrl, label, orderNotePrefix, orderNoteOverride },\n  numberPrefix, projectCta,\n  skills{ headingBlock{ script, heading }, items[]{ label, tilt, media { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } } },\n  projectPage{ backLabel, reelPrefix, roleLabel, formatLabel, yearLabel, aspectLabel, grabsScript, grabsHeading, upNextScript },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': WORK_QUERY_RESULT;
+    '*[_type == "framesPage" && _id == "framesPage"][0]{\n  script, heading, linkLabel, linkUrl, reelLabel, postLabel, seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': FRAMES_PAGE_QUERY_RESULT;
     '*[_type == "frame"] | order(orderRank){\n  _id, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, ratio, instagramUrl\n}': FRAMES_QUERY_RESULT;
-    '*[_id == "aboutPage"][0]{\n  hero{ script, heading, body, ctaLabel, portrait {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, polaroid { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } },\n  statement{ headingPlain, headingAccent, paragraphs, aside },\n  credits{ headingBlock{ script, heading }, imdbLabel, imdbUrl },\n  finale{ script, sub, bgImage {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': ABOUT_QUERY_RESULT;
-    '*[_id == "contactPage"][0]{\n  script, heading, intro, photo {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n},\n  form{ heading, typeQuestion, types, nameLabel, contactLabel, datesLabel, briefLabel, submitLabel },\n  success{ script, body, resetLabel },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': CONTACT_QUERY_RESULT;
+    '*[_type == "aboutPage" && _id == "aboutPage"][0]{\n  hero{ script, heading, body, ctaLabel, portrait {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, polaroid { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } },\n  statement{ headingPlain, headingAccent, paragraphs, aside },\n  credits{ headingBlock{ script, heading }, imdbLabel, imdbUrl },\n  finale{ script, sub, bgImage {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': ABOUT_QUERY_RESULT;
+    '*[_type == "contactPage" && _id == "contactPage"][0]{\n  script, heading, intro, photo {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n},\n  form{ heading, typeQuestion, types, nameLabel, contactLabel, datesLabel, briefLabel, submitLabel },\n  success{ script, body, resetLabel },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': CONTACT_QUERY_RESULT;
     '*[_type == "project"] | order(orderRank) {\n  _id, title, "slug": slug.current, format, year, role, category,\n  cover {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, frameGrabs[] {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, videoUrl, showOnHome, creditOnly, seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': PROJECTS_QUERY_RESULT;
     '*[_type == "project" && creditOnly != true && defined(slug.current)]{ "slug": slug.current }': PROJECT_SLUGS_QUERY_RESULT;
   }

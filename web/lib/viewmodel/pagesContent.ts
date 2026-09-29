@@ -1,7 +1,7 @@
 import type {ABOUT_QUERY_RESULT, CONTACT_QUERY_RESULT, FRAMES_PAGE_QUERY_RESULT, FRAMES_QUERY_RESULT, HOME_QUERY_RESULT, WORK_QUERY_RESULT} from '@/lib/sanity/types'
 import {str, toImageVM, toMediaVM, toSeoVM} from './images'
-import {ContentMissingError} from './site'
-import {PAGE_ROUTES, type ImageVM, type MediaVM, type PageKey, type SeoVM} from './types'
+import {ContentMissingError, isPageKey} from './site'
+import {PAGE_ROUTES, type ImageVM, type MediaVM, type SeoVM} from './types'
 
 export type HomeVM = {
   hero: {word: string; script: string; mainImage: ImageVM | null; polaroidLeft: MediaVM | null; polaroidRight: MediaVM | null}
@@ -14,7 +14,7 @@ export type HomeVM = {
 
 export function toHomeVM(raw: HOME_QUERY_RESULT): HomeVM {
   if (!raw) throw new ContentMissingError('homePage')
-  const target = (t: string | null): string => PAGE_ROUTES[(t as PageKey) in PAGE_ROUTES ? (t as PageKey) : 'work']
+  const target = (t: string | null): string => PAGE_ROUTES[isPageKey(t) ? t : 'work']
   return {
     hero: {word: str(raw.hero?.word, 'Vazeer'), script: str(raw.hero?.script, 'art'), mainImage: toImageVM(raw.hero?.mainImage), polaroidLeft: toMediaVM(raw.hero?.polaroidLeft), polaroidRight: toMediaVM(raw.hero?.polaroidRight)},
     intro: {script: str(raw.intro?.script), heading: str(raw.intro?.heading), subline: str(raw.intro?.subline), body: str(raw.intro?.body), ctaLabel: str(raw.intro?.ctaLabel), imageA: toImageVM(raw.intro?.imageA), imageB: toImageVM(raw.intro?.imageB)},
@@ -42,7 +42,7 @@ export function toWorkVM(raw: WORK_QUERY_RESULT): WorkVM {
   if (!raw) throw new ContentMissingError('workPage')
   const pp = raw.projectPage
   return {
-    title: str(raw.title, 'Work'), script: str(raw.script, '& reels'), intro: str(typeof raw.intro === 'string' ? raw.intro : null),
+    title: str(raw.title, 'Work'), script: str(raw.script, '& reels'), intro: str(raw.intro),
     filters: {all: str(raw.filterAll, 'All'), cinematography: str(raw.filterDop, 'Cinematography'), editing: str(raw.filterEditor, 'Editing')},
     showreel: {poster: toImageVM(raw.showreel?.poster), videoUrl: raw.showreel?.videoUrl ?? null, label: str(raw.showreel?.label, 'Showreel'), orderNotePrefix: str(raw.showreel?.orderNotePrefix, 'in order of appearance:'), orderNoteOverride: raw.showreel?.orderNoteOverride ?? null},
     numberPrefix: str(raw.numberPrefix, 'no.'), projectCta: str(raw.projectCta),
@@ -95,7 +95,7 @@ export type ContactVM = {
 export function toContactVM(raw: CONTACT_QUERY_RESULT): ContactVM {
   if (!raw) throw new ContentMissingError('contactPage')
   return {
-    script: str(raw.script), heading: str(raw.heading, 'Touch'), intro: str(typeof raw.intro === 'string' ? raw.intro : null), photo: toImageVM(raw.photo),
+    script: str(raw.script), heading: str(raw.heading, 'Touch'), intro: str(raw.intro), photo: toImageVM(raw.photo),
     form: {heading: str(raw.form?.heading, 'The brief'), typeQuestion: str(raw.form?.typeQuestion), types: (raw.form?.types ?? []).filter((t): t is string => !!t), nameLabel: str(raw.form?.nameLabel), contactLabel: str(raw.form?.contactLabel), datesLabel: str(raw.form?.datesLabel), briefLabel: str(raw.form?.briefLabel), submitLabel: str(raw.form?.submitLabel, 'Send it →')},
     success: {script: str(raw.success?.script), body: str(raw.success?.body), resetLabel: str(raw.success?.resetLabel, 'Send another')},
     seo: toSeoVM(raw.seo),

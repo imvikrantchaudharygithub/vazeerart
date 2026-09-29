@@ -14,7 +14,7 @@ export const PROJECT_FIELDS = /* groq */ `{
   cover ${IMAGE_FIELDS}, frameGrabs[] ${IMAGE_FIELDS}, videoUrl, showOnHome, creditOnly, seo ${SEO_FIELDS}
 }`
 
-export const SITE_SETTINGS_QUERY = defineQuery(`*[_id == "siteSettings"][0]{
+export const SITE_SETTINGS_QUERY = defineQuery(`*[_type == "siteSettings" && _id == "siteSettings"][0]{
   brandWord, brandScript, copyright,
   socials[]{ label, url },
   management{ label, handle, url }, dm{ label, handle, url },
@@ -26,7 +26,7 @@ export const SITE_SETTINGS_QUERY = defineQuery(`*[_id == "siteSettings"][0]{
   seo ${SEO_FIELDS}
 }`)
 
-export const HOME_QUERY = defineQuery(`*[_id == "homePage"][0]{
+export const HOME_QUERY = defineQuery(`*[_type == "homePage" && _id == "homePage"][0]{
   hero{ word, script, mainImage ${IMAGE_FIELDS}, polaroidLeft ${MEDIA_FIELDS}, polaroidRight ${MEDIA_FIELDS} },
   intro{ script, heading, subline, body, ctaLabel, imageA ${IMAGE_FIELDS}, imageB ${IMAGE_FIELDS} },
   reels{ headingBlock{ script, heading }, ctaLabel },
@@ -35,7 +35,7 @@ export const HOME_QUERY = defineQuery(`*[_id == "homePage"][0]{
   seo ${SEO_FIELDS}
 }`)
 
-export const WORK_QUERY = defineQuery(`*[_id == "workPage"][0]{
+export const WORK_QUERY = defineQuery(`*[_type == "workPage" && _id == "workPage"][0]{
   title, script, intro, filterAll, filterDop, filterEditor,
   showreel{ poster ${IMAGE_FIELDS}, videoUrl, label, orderNotePrefix, orderNoteOverride },
   numberPrefix, projectCta,
@@ -44,7 +44,7 @@ export const WORK_QUERY = defineQuery(`*[_id == "workPage"][0]{
   seo ${SEO_FIELDS}
 }`)
 
-export const FRAMES_PAGE_QUERY = defineQuery(`*[_id == "framesPage"][0]{
+export const FRAMES_PAGE_QUERY = defineQuery(`*[_type == "framesPage" && _id == "framesPage"][0]{
   script, heading, linkLabel, linkUrl, reelLabel, postLabel, seo ${SEO_FIELDS}
 }`)
 
@@ -52,7 +52,7 @@ export const FRAMES_QUERY = defineQuery(`*[_type == "frame"] | order(orderRank){
   _id, image ${IMAGE_FIELDS}, ratio, instagramUrl
 }`)
 
-export const ABOUT_QUERY = defineQuery(`*[_id == "aboutPage"][0]{
+export const ABOUT_QUERY = defineQuery(`*[_type == "aboutPage" && _id == "aboutPage"][0]{
   hero{ script, heading, body, ctaLabel, portrait ${IMAGE_FIELDS}, polaroid ${MEDIA_FIELDS} },
   statement{ headingPlain, headingAccent, paragraphs, aside },
   credits{ headingBlock{ script, heading }, imdbLabel, imdbUrl },
@@ -60,7 +60,7 @@ export const ABOUT_QUERY = defineQuery(`*[_id == "aboutPage"][0]{
   seo ${SEO_FIELDS}
 }`)
 
-export const CONTACT_QUERY = defineQuery(`*[_id == "contactPage"][0]{
+export const CONTACT_QUERY = defineQuery(`*[_type == "contactPage" && _id == "contactPage"][0]{
   script, heading, intro, photo ${IMAGE_FIELDS},
   form{ heading, typeQuestion, types, nameLabel, contactLabel, datesLabel, briefLabel, submitLabel },
   success{ script, body, resetLabel },

@@ -24,7 +24,7 @@ export class ContentMissingError extends Error {
   }
 }
 
-const isPageKey = (k: string | null): k is PageKey => !!k && (PAGE_KEYS as readonly string[]).includes(k)
+export const isPageKey = (k: string | null): k is PageKey => !!k && (PAGE_KEYS as readonly string[]).includes(k)
 
 export function toSiteSettingsVM(raw: SITE_SETTINGS_QUERY_RESULT): SiteSettingsVM {
   if (!raw) throw new ContentMissingError('siteSettings')
