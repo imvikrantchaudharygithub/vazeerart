@@ -13,14 +13,15 @@ export function FramesGrid({page, frames}: {page: FramesPageVM; frames: FrameVM[
       <div className={styles.columns}>
         {frames.map((f) => {
           const tile = (
-            <div data-reveal="1" data-testid="frame" data-ratio={f.ratio} className={styles.frame}>
-              <SanityImage image={{...f.image, alt: f.image.alt || f.label}} sizes="(max-width: 600px) 100vw, 280px" />
+            <div key={f.id} data-reveal="1" data-testid="frame" data-ratio={f.ratio} className={styles.frame}>
+              <SanityImage image={{...f.image, alt: f.image.alt || f.label}} sizes="(max-width: 600px) 100vw, 340px" />
             </div>
           )
+          // The linked tile is named by its image alt (which already falls back to f.label).
           return f.instagramUrl ? (
-            <a key={f.id} href={f.instagramUrl} target="_blank" rel="noreferrer" className={styles.frameLink} aria-label={f.label}>{tile}</a>
+            <a key={f.id} href={f.instagramUrl} target="_blank" rel="noreferrer" className={styles.frameLink}>{tile}</a>
           ) : (
-            <div key={f.id}>{tile}</div>
+            tile
           )
         })}
       </div>

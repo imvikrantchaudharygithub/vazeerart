@@ -20,4 +20,38 @@ describe('FramesGrid', () => {
     expect(screen.getByRole('heading', {level: 1})).toHaveTextContent('Frames')
     expect(screen.getByRole('link', {name: '(follow along ↗)'})).toHaveAttribute('href', 'https://instagram.com/x')
   })
+
+  it('names a linked frame by its image alt, falling back to the post label when the alt is empty', () => {
+    const linked = (id: string, alt: string): FrameVM => ({id, image: {...image, alt}, ratio: '16/9', instagramUrl: `https://instagram.com/p/${id}`, label: page.postLabel})
+    render(<FramesGrid page={page} frames={[linked('a', ''), linked('b', 'Riverbank')]} />)
+    const fallback = screen.getByRole('link', {name: page.postLabel})
+    expect(fallback).toHaveAttribute('href', 'https://instagram.com/p/a')
+    const named = screen.getByRole('link', {name: 'Riverbank'})
+    expect(named).toHaveAttribute('href', 'https://instagram.com/p/b')
+    expect(fallback).not.toHaveAttribute('aria-label')
+    expect(named).not.toHaveAttribute('aria-label')
+  })
+
+  it('falls back to the reel label for a 9/16 frame with no alt', () => {
+    const reel: FrameVM = {id: 'r', image: {...image, alt: ''}, ratio: '9/16', instagramUrl: null, label: page.reelLabel}
+    render(<FramesGrid page={page} frames={[reel]} />)
+    expect(screen.getByRole('img', {name: page.reelLabel})).toBeInTheDocument()
+  })
+
+  it('opens frame links in a new tab without a referrer, and marks every tile for the reveal', () => {
+    render(<FramesGrid page={page} frames={frames} />)
+    const tiles = screen.getAllByTestId('frame')
+    expect(tiles).toHaveLength(2)
+    for (const tile of tiles) expect(tile).toHaveAttribute('data-reveal', '1')
+    const anchor = tiles[1].closest('a')
+    expect(anchor).toHaveAttribute('target', '_blank')
+    expect(anchor).toHaveAttribute('rel', 'noreferrer')
+  })
+
+  it('sizes frame images to a 340px column on wide screens', () => {
+    render(<FramesGrid page={page} frames={frames} />)
+    for (const tile of screen.getAllByTestId('frame')) {
+      expect(tile.querySelector('img')).toHaveAttribute('sizes', '(max-width: 600px) 100vw, 340px')
+    }
+  })
 })
