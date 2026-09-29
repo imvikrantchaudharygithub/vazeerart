@@ -1,0 +1,8 @@
+.section{max-width:1480px;margin:0 auto;padding:0 clamp(16px,4vw,48px) clamp(64px,8vw,110px)}
+.poster{position:relative;aspect-ratio:16/9;background:#1c1916}
+.bg{position:absolute;inset:0;overflow:hidden}
+.kenburns{position:absolute;inset:0;animation:kenburns 22s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.14) translate(-2%,-2%)}}
+.meta{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding-top:16px}
+.label{font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:40px;line-height:1}
+.note{font-family:var(--font-bodoni),serif;font-style:italic;font-size:18px;color:#b9b0a2}
