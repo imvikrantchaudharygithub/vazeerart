@@ -43,6 +43,7 @@ describe('Leader', () => {
     document.documentElement.dataset.leader = ''
     render(<Leader left="a" right="b" skip="s" />)
     act(() => vi.advanceTimersByTime(3000))
+    expect(screen.queryByTestId('leader')).toBeNull()
     expect(document.documentElement.dataset.leader).toBe('')
     expect(sessionStorage.getItem('vazeer-leader')).toBeNull()
   })

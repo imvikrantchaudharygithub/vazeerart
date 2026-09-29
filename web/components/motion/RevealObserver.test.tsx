@@ -1,6 +1,7 @@
 // web/components/motion/RevealObserver.test.tsx
 import {render} from '@testing-library/react'
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
+import {revealTransition} from '@/lib/motion/reveal'
 import {RevealObserver} from './RevealObserver'
 
 type Entry = {isIntersecting: boolean; target: Element}
@@ -73,5 +74,41 @@ describe('RevealObserver', () => {
     // The original observer still reveals the element stamped before the change.
     trigger([{isIntersecting: true, target: pending}])
     expect(pending.style.opacity).toBe('1')
+    pending.remove()
+    next.remove()
+  })
+  it('ignores text-only mutations, rescans on element insertions', async () => {
+    const span = document.createElement('span')
+    span.textContent = 'a'
+    document.body.appendChild(span)
+    render(<RevealObserver />)
+    vi.advanceTimersByTime(60) // initial scan
+
+    const qs = vi.spyOn(document, 'querySelectorAll')
+    span.textContent = 'b' // replaces the text node: a childList mutation with no added elements
+    await Promise.resolve()
+    await Promise.resolve()
+    vi.advanceTimersByTime(20)
+    expect(qs).not.toHaveBeenCalled()
+
+    const before = qs.mock.calls.length
+    const el = mount(1500)
+    await Promise.resolve()
+    await Promise.resolve()
+    vi.advanceTimersByTime(20)
+    expect(qs.mock.calls.length).toBeGreaterThan(before)
+    expect(observed).toContain(el)
+
+    qs.mockRestore()
+    span.remove()
+    el.remove()
+  })
+  it('staggers by pre-skip index', () => {
+    const els = [100, 1500, 1600, 1700].map(mount)
+    render(<RevealObserver />)
+    vi.advanceTimersByTime(60)
+    // The in-view element consumed index 0, so the last one is index 3.
+    expect(els[3].style.transition).toBe(revealTransition(3))
+    els.forEach((el) => el.remove())
   })
 })

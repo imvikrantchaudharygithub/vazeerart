@@ -22,7 +22,10 @@ export function Leader({left, right, skip}: Props) {
   }, [])
 
   useEffect(() => {
-    if (document.documentElement.dataset.leader !== 'on') return
+    if (document.documentElement.dataset.leader !== 'on') {
+      setDone(true) // not armed: drop the overlay from the DOM instead of leaving it display:none all session
+      return
+    }
     timers.current = [
       setTimeout(() => setStep(LEADER.STEPS[1]), LEADER.STEP_MS),
       setTimeout(() => setStep(LEADER.STEPS[2]), LEADER.STEP_MS * 2),
