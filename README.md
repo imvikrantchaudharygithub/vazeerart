@@ -38,6 +38,7 @@ Two places read environment variables: the web app (`web/`, locally from `web/.e
 Notes:
 
 - `NEXT_PUBLIC_*` values are inlined at build time. After changing one on Vercel, trigger a redeploy (Deployments → the latest → Redeploy). Changing a server-only variable also needs a redeploy to take effect.
+- The `production` dataset must be public: the site reads published content without a token, so a private dataset breaks the build.
 - Tokens are created at https://www.sanity.io/manage/project/iq6do512/api#tokens (Add API token): `web-read` with the **Viewer** role and `web-inquiries` with the **Editor** role. Sanity shows a token value once; copy it straight into `web/.env.local` / Vercel.
 - On a Vercel preview deployment that is served from a different origin than `NEXT_PUBLIC_SITE_URL`, the contact form answers 403 by design (see "Abuse controls"). Test inquiries on production.
 
@@ -62,12 +63,12 @@ Generate the webhook secret now too: `openssl rand -hex 24` goes into `SANITY_RE
 
 ```bash
 cd studio && npm run seed
-npm run seed                                   # run it twice: it is idempotent (the second run reuses what the first created)
-cd ..
-npx sanity documents query '*[_type in ["project","frame"]] | order(orderRank){_type,"t":coalesce(title,ratio)}' --project iq6do512 --dataset production
+npx sanity documents query '{"projects": count(*[_type == "project"]), "frames": count(*[_type == "frame"])}' --project-id iq6do512 --dataset production
 ```
 
-Expected: 5 `project` and 12 `frame` documents. The seeded pictures are stock placeholders that the editor replaces later.
+Safe on the first run. Re-running overwrites every seeded document (`createOrReplace`), so never run it again once Vazeer has started editing.
+
+Expected line: `{"projects":5,"frames":12}` (JSON key order may differ). The seeded pictures are stock placeholders that the editor replaces later.
 
 ### 3. Deploy the Studio
 
@@ -113,16 +114,17 @@ vercel.com → Add New → Project → import the repository, then:
 Each origin the site is served from (and local dev) must be allowed, with credentials, for the draft-mode and Live requests to work. Add the exact origins, apex and `www` separately if both are used:
 
 ```bash
-npx sanity cors add http://localhost:3000 --credentials --project iq6do512
-npx sanity cors add https://<production-domain> --credentials --project iq6do512
-npx sanity cors add https://<project>.vercel.app --credentials --project iq6do512
+cd studio
+npx sanity cors add http://localhost:3000 --credentials --project-id iq6do512
+npx sanity cors add https://<production-domain> --credentials --project-id iq6do512
+npx sanity cors add https://<project>.vercel.app --credentials --project-id iq6do512
 ```
 
 ### 7. Point the Studio's preview at production
 
 ```bash
 cd studio
-cp .env.example .env.production                # then set SANITY_STUDIO_PREVIEW_URL=https://<production-domain>
+echo "SANITY_STUDIO_PREVIEW_URL=https://<production-domain>" > .env.production
 npm run deploy
 ```
 
@@ -156,7 +158,7 @@ Vercel → Settings → Domains → add the domain. Then, in this order:
 
 `POST /api/inquiry` is the only write path from the public site:
 
-- **Same-origin only.** A request whose `Origin` header does not match `NEXT_PUBLIC_SITE_URL` gets 403. That is why `NEXT_PUBLIC_SITE_URL` must equal the served origin exactly.
+- **Same-origin only.** A request whose `Origin` header does not match `NEXT_PUBLIC_SITE_URL` gets 403. That is why `NEXT_PUBLIC_SITE_URL` must equal the served origin exactly. A request with no `Origin` header at all is allowed (older same-origin fetches omit it); only a mismatching `Origin` is answered with 403.
 - **Rate limit: 5 submissions per minute per IP, per server instance** (a burst of 5, refilling at 5 per minute); beyond that the API answers 429. The counter lives in memory per serverless instance, so it is a speed bump, not a hard global cap. **Vercel WAF rate limiting** (Firewall → a rate-limit rule on `POST /api/inquiry`) is the upgrade path if spam appears.
 - **Honeypot.** The hidden form field is named `website`. When it is filled the API answers `200 {"ok":true}` and stores nothing, so bots see success.
 - The Editor token is used only by this route, on the server, and never reaches the browser.
@@ -167,9 +169,9 @@ Run after the seed and again against production once it is deployed.
 
 Automated:
 
-- [ ] `cd web && npm run build` prerenders every route: `○` for `/`, `/work`, `/frames`, `/about`, `/contact`, `/work/<slug>`; `ƒ` for the API routes.
-- [ ] `cd web && npm run e2e` builds and serves the current code on `localhost:3000` (needs `web/.env.local` with real values) and compares screenshots at 1440 / 1024 / 390. The baselines are already committed. Judge any header diff at 390 against the prototype; do not regenerate baselines to make it pass.
-- [ ] `cd web && npm run build && npm run start`, then in another shell `npm run perf` (locally), or `LH_URL=https://<production-domain> npm run perf` (production; the URL comes from `LH_URL`, not from an argument): mobile performance is at least 90 on `/`, `/work` and one project, and `/contact` accessibility is 100. `LH_PROJECT_SLUG` (default `pagal`) picks the project.
+- [ ] `cd web && npm run build` prerenders every route. The route table shows `○` for `/`, `/work`, `/frames`, `/about`, `/contact`; `●` for `/work/<slug>` (`generateStaticParams`, the five seeded slugs); `ƒ` for the API routes.
+- [ ] `cd web && npm run e2e` builds and serves the current code on `localhost:3000` (needs `web/.env.local` with real values) and compares screenshots at 1440 / 1024 / 390. The baselines are already committed (macOS; they carry the `-darwin` suffix). Run `npx playwright install chromium` once first, and stop anything already serving port 3000 (the run starts its own server, never reuses an existing one, and fails if the port is taken). Judge any header diff at 390 against the prototype; do not regenerate baselines to make it pass.
+- [ ] `cd web && npm run build && npm run start`, then in another shell `npm run perf` (locally), or `LH_URL=https://<production-domain> npm run perf` (production; the URL comes from `LH_URL`, not from an argument): mobile performance is at least 90 on `/`, `/work` and one project, and `/contact` accessibility is 100. `LH_PROJECT_SLUG` (default `pagal`) picks the project. `npm run perf` downloads Lighthouse through `npx --yes` on first use and needs a local Chrome.
 
 Browser smoke (production, also on a phone):
 
@@ -184,6 +186,7 @@ Browser smoke (production, also on a phone):
 - [ ] Contact: submit a test inquiry, see it in the Studio under **Inquiries** with the "● name" unread dot, then delete it there. A submission with the honeypot filled returns 200 and creates nothing.
 - [ ] Presentation: clicking text or a photo opens the right field; edits preview as a draft; Publish updates the site.
 - [ ] `/nope` shows the styled 404.
+- [ ] `/work/<credit-only-slug>` (e.g. a project with "Credit only" on) returns HTTP 404 with the styled page. This is the real `notFound()` path; `/nope` alone only covers unknown URLs.
 - [ ] `/sitemap.xml` lists production-origin URLs and `/robots.txt` points at that sitemap; the page source has the production canonical URL. The Vercel logs do not show `[env] NEXT_PUBLIC_SITE_URL is not set`.
 
 ## Editing the site (for Vazeer)

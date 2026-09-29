@@ -535,7 +535,7 @@ Derived at render, always over the ordered list of projects with `creditOnly=fal
 
 | Item | Value |
 |---|---|
-| Vercel project | root directory `web`, framework Next.js, Node 20 |
+| Vercel project | root directory `web`, framework Next.js, Node 22 |
 | Studio hosting | Sanity (`vazeerart.sanity.studio`) |
 | Sanity CORS origins | `http://localhost:3000`, `https://<prod-domain>`, Vercel preview wildcard as needed (credentials allowed for Live API) |
 | Sanity tokens | `SANITY_API_READ_TOKEN` (Viewer, drafts for Presentation) · `SANITY_API_WRITE_TOKEN` (Editor, inquiries only) |
