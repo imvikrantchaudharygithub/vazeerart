@@ -35,10 +35,10 @@ export function Leader({left, right, skip}: Props) {
   if (done) return null
 
   return (
-    <div className={styles.overlay} data-leader-overlay="" data-out={out ? 'true' : 'false'} data-testid="leader" aria-hidden="true">
-      <div className={styles.hline} />
-      <div className={styles.vline} />
-      <div className={styles.ring}>
+    <div className={styles.overlay} data-leader-overlay="" data-out={out ? 'true' : 'false'} data-testid="leader">
+      <div className={styles.hline} aria-hidden="true" />
+      <div className={styles.vline} aria-hidden="true" />
+      <div className={styles.ring} aria-hidden="true">
         <div className={styles.spinner} />
         <div className={styles.innerRing} />
         <span className={styles.number}>{step}</span>

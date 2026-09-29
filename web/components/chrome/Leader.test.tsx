@@ -33,7 +33,8 @@ describe('Leader', () => {
 
   it('skip ends it immediately', () => {
     render(<Leader left="a" right="b" skip="Skip →" />)
-    act(() => screen.getByRole('button', {name: 'Skip →', hidden: true}).click())
+    expect(screen.getByTestId('leader')).not.toHaveAttribute('aria-hidden')
+    act(() => screen.getByRole('button', {name: 'Skip →'}).click())
     expect(screen.queryByTestId('leader')).toBeNull()
     expect(sessionStorage.getItem('vazeer-leader')).toBe('1')
   })
