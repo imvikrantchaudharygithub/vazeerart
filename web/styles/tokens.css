@@ -1,0 +1,15 @@
+/* web/styles/tokens.css — spec §3.4 */
+:root {
+  --bg: #0f0d0b;
+  --cream: #efe7da;
+  --amber: #e8a24a;
+  --rust: #a4501a;
+  --card: #1c1916;
+  --ink: #14110e;
+  --muted: #b9b0a2;
+  --muted-2: #5e564c;
+  --body-dark: #3d372f;
+  --cream-2: #d9d0c1;
+  --rec: #e5382b;
+  --ease-out: cubic-bezier(.2,.8,.2,1);
+}

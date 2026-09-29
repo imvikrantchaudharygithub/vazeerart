@@ -1,0 +1,7 @@
+/* web/styles/hover.css — the prototype's style-hover attributes (spec §5.2) */
+/* Links that were <button> in the prototype must not pick up the global a:hover colour. Keep this rule first. */
+.asButton:hover { color: inherit; }
+.hoverAmber:hover { color: #e8a24a; }
+.hoverRust:hover { color: #a4501a; }
+.hoverLift:hover { transform: translateY(-8px); }
+.hoverBgRust:hover { background: #a4501a; }
