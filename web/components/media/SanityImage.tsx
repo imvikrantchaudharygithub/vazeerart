@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import {imageSrc, objectPositionFor, sanityImageLoader} from '@/lib/sanity/image'
+import {imageSrc, objectPositionFor} from '@/lib/sanity/image'
 import type {ImageVM} from '@/lib/viewmodel/types'
 
 type Props = {image: ImageVM; sizes: string; priority?: boolean; className?: string}
@@ -10,7 +10,6 @@ export function SanityImage({image, sizes, priority = false, className}: Props) 
   return (
     <Image
       src={isGif ? image.url : imageSrc(image)}
-      loader={isGif ? undefined : sanityImageLoader}
       unoptimized={isGif}
       alt={image.alt}
       fill

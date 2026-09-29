@@ -10,12 +10,13 @@ const jpg: ImageVM = {
 }
 
 describe('SanityImage', () => {
-  it('renders a cover image positioned by the hotspot, through the Sanity loader', () => {
+  it('renders a cover image positioned by the hotspot', () => {
     render(<SanityImage image={jpg} sizes="100vw" />)
     const img = screen.getByRole('img', {name: 'A frame'}) as HTMLImageElement
     expect(img.style.objectFit).toBe('cover')
     expect(img.style.objectPosition).toBe('20.00% 40.00%')
-    expect(img.getAttribute('src')).toContain('auto=format')
+    // The URL is shaped by the global loader in next.config.ts (not active under Vitest); the asset must still be the source.
+    expect(img.getAttribute('src')).toContain('abc123-1400x900.jpg')
   })
   it('serves GIFs untransformed', () => {
     const gif = {...jpg, extension: 'gif', url: 'https://cdn.sanity.io/images/iq6do512/production/abc123-400x300.gif', assetId: 'image-abc123-400x300-gif'}
