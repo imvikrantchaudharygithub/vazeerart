@@ -10,7 +10,7 @@ export function WorkFilters({labels}: {labels: Record<WorkFilter, string>}) {
   return (
     <div className={styles.filters}>
       {WORK_FILTERS.map((f) => (
-        <Link key={f} href={`/work?filter=${f}`} scroll={false} className={styles.chip} data-active={f === active ? 'true' : 'false'}>
+        <Link key={f} href={`/work?filter=${f}`} scroll={false} className={`${styles.chip} asButton`} data-active={f === active ? 'true' : 'false'} aria-current={f === active ? 'page' : undefined}>
           {labels[f]}
         </Link>
       ))}

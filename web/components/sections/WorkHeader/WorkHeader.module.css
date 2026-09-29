@@ -7,3 +7,4 @@
 .filters{display:flex;gap:10px 22px;flex-wrap:wrap;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#b9b0a2}
 .chip{all:unset;cursor:pointer;padding-bottom:4px;color:#b9b0a2;border-bottom:2px solid transparent}
 .chip[data-active="true"]{color:#efe7da;border-bottom:2px solid #e8a24a}
+.chip[data-active="true"]:hover{color:#efe7da}

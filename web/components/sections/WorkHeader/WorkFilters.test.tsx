@@ -16,6 +16,13 @@ describe('WorkFilters', () => {
     expect(links.map((l) => l.getAttribute('href'))).toEqual(['/work?filter=all', '/work?filter=cinematography', '/work?filter=editing'])
     expect(links.map((l) => l.getAttribute('data-active'))).toEqual(['false', 'false', 'true'])
   })
+  it('gives every chip the asButton class and marks only the active chip aria-current=page', () => {
+    query = 'filter=editing'
+    render(<WorkFilters labels={labels} />)
+    const links = screen.getAllByRole('link')
+    links.forEach((a) => expect(a).toHaveClass('asButton'))
+    expect(links.map((l) => l.getAttribute('aria-current'))).toEqual([null, null, 'page'])
+  })
   it('treats an unknown filter as all', () => {
     query = 'filter=bogus'
     render(<WorkFilters labels={labels} />)
