@@ -70,3 +70,5 @@ export const CONTACT_QUERY = defineQuery(`*[_type == "contactPage" && _id == "co
 export const PROJECTS_QUERY = defineQuery(`*[_type == "project"] | order(orderRank) ${PROJECT_FIELDS}`)
 
 export const PROJECT_SLUGS_QUERY = defineQuery(`*[_type == "project" && creditOnly != true && defined(slug.current)]{ "slug": slug.current }`)
+
+export const CONTACT_TYPES_QUERY = defineQuery(`*[_type == "contactPage" && _id == "contactPage"][0].form.types`)

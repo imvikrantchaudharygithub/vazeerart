@@ -1079,6 +1079,11 @@ export type PROJECT_SLUGS_QUERY_RESULT = Array<{
   slug: string;
 }>;
 
+// Source: ../web/lib/sanity/queries.ts
+// Variable: CONTACT_TYPES_QUERY
+// Query: *[_type == "contactPage" && _id == "contactPage"][0].form.types
+export type CONTACT_TYPES_QUERY_RESULT = Array<string> | null;
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
@@ -1091,6 +1096,7 @@ declare global {
     '*[_type == "contactPage" && _id == "contactPage"][0]{\n  script, heading, intro, photo {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n},\n  form{ heading, typeQuestion, types, nameLabel, contactLabel, datesLabel, briefLabel, submitLabel },\n  success{ script, body, resetLabel },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': CONTACT_QUERY_RESULT;
     '*[_type == "project"] | order(orderRank) {\n  _id, title, "slug": slug.current, format, year, role, category,\n  cover {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, frameGrabs[] {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, videoUrl, showOnHome, creditOnly, seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': PROJECTS_QUERY_RESULT;
     '*[_type == "project" && creditOnly != true && defined(slug.current)]{ "slug": slug.current }': PROJECT_SLUGS_QUERY_RESULT;
+    '*[_type == "contactPage" && _id == "contactPage"][0].form.types': CONTACT_TYPES_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too
