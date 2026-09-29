@@ -2,13 +2,13 @@
 import {z} from 'zod'
 
 export const inquiryInput = z.object({
-  type: z.string().trim().min(1, 'Choose what we are making').max(40),
+  type: z.string().trim().min(1, 'Choose what we are making'),
   name: z.string().trim().min(1, 'Please add your name').max(120, 'Name is too long'),
   contact: z.string().trim().min(3, 'Add an email or phone').max(200, 'Contact is too long'),
   dates: z.string().trim().max(200, 'Keep dates under 200 characters').optional().default(''),
   brief: z.string().trim().max(4000, 'Keep the brief under 4000 characters').optional().default(''),
   /** Honeypot: humans never see it, bots fill it. */
-  website: z.string().max(200).optional().default(''),
+  website: z.string().optional().default(''),
 })
 
 export type InquiryInput = z.infer<typeof inquiryInput>

@@ -1,7 +1,7 @@
 // web/components/sections/BriefForm/BriefForm.tsx
 'use client'
 
-import {useId, useState, type FormEvent} from 'react'
+import {useEffect, useId, useRef, useState, type FormEvent} from 'react'
 import type {InquiryErrors} from '@/lib/inquiry/schema'
 import type {ContactVM} from '@/lib/viewmodel/pagesContent'
 import styles from './BriefForm.module.css'
@@ -11,10 +11,16 @@ type Status = 'idle' | 'sending' | 'sent' | 'failed'
 
 export function BriefForm({form, success}: Props) {
   const ids = {name: useId(), contact: useId(), dates: useId(), brief: useId()}
+  const typeId = useId()
+  const resetRef = useRef<HTMLButtonElement>(null)
   const [type, setType] = useState(form.types[0] ?? '')
   const [values, setValues] = useState({name: '', contact: '', dates: '', brief: '', website: ''})
   const [errors, setErrors] = useState<InquiryErrors>({})
   const [status, setStatus] = useState<Status>('idle')
+
+  useEffect(() => {
+    if (status === 'sent') resetRef.current?.focus()
+  }, [status])
 
   const set = (key: keyof typeof values) => (e: {target: {value: string}}) => setValues((v) => ({...v, [key]: e.target.value}))
 
@@ -38,10 +44,10 @@ export function BriefForm({form, success}: Props) {
 
   if (status === 'sent') {
     return (
-      <div className={styles.sent}>
+      <div className={styles.sent} role="status">
         <span className={styles.sentScript}>{success.script}</span>
         <p className={styles.sentBody}>{success.body}</p>
-        <button type="button" className={styles.reset} onClick={() => { setValues({name: '', contact: '', dates: '', brief: '', website: ''}); setStatus('idle') }}>
+        <button ref={resetRef} type="button" className={styles.reset} onClick={() => { setValues({name: '', contact: '', dates: '', brief: '', website: ''}); setStatus('idle') }}>
           {success.resetLabel}
         </button>
       </div>
@@ -52,34 +58,34 @@ export function BriefForm({form, success}: Props) {
     <form className={styles.form} onSubmit={submit} noValidate>
       <span className={styles.heading}>{form.heading}</span>
       <div className={styles.group}>
-        <span className={styles.fieldLabel}>{form.typeQuestion}</span>
-        <div className={styles.chips}>
+        <span id={typeId} className={styles.fieldLabel}>{form.typeQuestion}</span>
+        <div className={styles.chips} role="group" aria-labelledby={typeId}>
           {form.types.map((t) => (
-            <button key={t} type="button" className={styles.chip} data-active={t === type ? 'true' : 'false'} onClick={() => setType(t)}>{t}</button>
+            <button key={t} type="button" className={styles.chip} data-active={t === type ? 'true' : 'false'} aria-pressed={t === type} onClick={() => setType(t)}>{t}</button>
           ))}
         </div>
         {errors.type && <span className={styles.error} role="alert">{errors.type}</span>}
       </div>
       <label className={styles.label} htmlFor={ids.name}>
         <span className={styles.fieldLabel}>{form.nameLabel}</span>
-        <input id={ids.name} className={styles.input} required value={values.name} onChange={set('name')} autoComplete="name" />
-        {errors.name && <span className={styles.error} role="alert">{errors.name}</span>}
+        <input id={ids.name} aria-invalid={errors.name ? true : undefined} aria-describedby={errors.name ? `${ids.name}-error` : undefined} className={styles.input} required value={values.name} onChange={set('name')} autoComplete="name" />
       </label>
+      {errors.name && <span id={`${ids.name}-error`} className={styles.error} role="alert">{errors.name}</span>}
       <label className={styles.label} htmlFor={ids.contact}>
         <span className={styles.fieldLabel}>{form.contactLabel}</span>
-        <input id={ids.contact} className={styles.input} required value={values.contact} onChange={set('contact')} autoComplete="email" />
-        {errors.contact && <span className={styles.error} role="alert">{errors.contact}</span>}
+        <input id={ids.contact} aria-invalid={errors.contact ? true : undefined} aria-describedby={errors.contact ? `${ids.contact}-error` : undefined} className={styles.input} required value={values.contact} onChange={set('contact')} autoComplete="email" />
       </label>
+      {errors.contact && <span id={`${ids.contact}-error`} className={styles.error} role="alert">{errors.contact}</span>}
       <label className={styles.label} htmlFor={ids.dates}>
         <span className={styles.fieldLabel}>{form.datesLabel}</span>
-        <input id={ids.dates} className={styles.input} value={values.dates} onChange={set('dates')} />
-        {errors.dates && <span className={styles.error} role="alert">{errors.dates}</span>}
+        <input id={ids.dates} aria-invalid={errors.dates ? true : undefined} aria-describedby={errors.dates ? `${ids.dates}-error` : undefined} className={styles.input} value={values.dates} onChange={set('dates')} />
       </label>
+      {errors.dates && <span id={`${ids.dates}-error`} className={styles.error} role="alert">{errors.dates}</span>}
       <label className={styles.label} htmlFor={ids.brief}>
         <span className={styles.fieldLabel}>{form.briefLabel}</span>
-        <textarea id={ids.brief} className={styles.textarea} rows={4} value={values.brief} onChange={set('brief')} />
-        {errors.brief && <span className={styles.error} role="alert">{errors.brief}</span>}
+        <textarea id={ids.brief} aria-invalid={errors.brief ? true : undefined} aria-describedby={errors.brief ? `${ids.brief}-error` : undefined} className={styles.textarea} rows={4} value={values.brief} onChange={set('brief')} />
       </label>
+      {errors.brief && <span id={`${ids.brief}-error`} className={styles.error} role="alert">{errors.brief}</span>}
       <label className={styles.honeypot} aria-hidden="true">
         website <input tabIndex={-1} autoComplete="off" value={values.website} onChange={set('website')} />
       </label>

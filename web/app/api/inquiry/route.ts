@@ -17,12 +17,13 @@ export async function POST(request: Request) {
   // Clean stega from the submitted strings: in Presentation/draft mode the form's type chips render stega-encoded text (this route's own types fetch below is not a draft fetch, so it needs no cleaning).
   const clean = Object.fromEntries(Object.entries((body ?? {}) as Record<string, unknown>).map(([k, v]) => [k, typeof v === 'string' ? stegaClean(v) : v]))
 
-  const types = ((await client.fetch(CONTACT_TYPES_QUERY)) ?? []).filter((t): t is string => typeof t === 'string')
+  // Honeypot filled → pretend success, store nothing — checked before any fetch/validation so bots cost nothing.
+  if (typeof clean.website === 'string' && clean.website) return NextResponse.json({ok: true})
+
+  // Bypass the CDN so a newly published type chip is accepted at once.
+  const types = ((await client.withConfig({useCdn: false}).fetch(CONTACT_TYPES_QUERY)) ?? []).filter((t): t is string => typeof t === 'string')
   const result = validateInquiry(clean, types)
   if (!result.ok) return NextResponse.json({ok: false, errors: result.errors}, {status: 400})
-
-  // Honeypot filled → pretend success, store nothing.
-  if (result.value.website) return NextResponse.json({ok: true})
 
   const {type, name, contact, dates, brief} = result.value
   await writeClient.create({_type: 'inquiry', type, name, contact, dates, brief, receivedAt: new Date().toISOString(), read: false})
