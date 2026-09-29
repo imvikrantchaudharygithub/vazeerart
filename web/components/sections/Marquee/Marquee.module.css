@@ -1,0 +1,5 @@
+.band{background:#e8a24a;color:#14110e;overflow:hidden;padding:14px 0;border-top:1px solid #14110e;border-bottom:1px solid #14110e}
+.track{display:flex;width:max-content;animation:marquee 28s linear infinite;font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:28px;letter-spacing:.04em;white-space:nowrap}
+.item{display:flex;align-items:center;gap:28px;padding-right:28px}
+.amp{font-family:var(--font-delafield),cursive;font-size:44px;text-transform:none;line-height:.6}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
