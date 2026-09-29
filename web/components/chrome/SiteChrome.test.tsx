@@ -103,6 +103,7 @@ describe('SiteChrome', () => {
     render(<SiteChrome settings={settings} />)
     fireEvent.click(screen.getByRole('button', {name: 'Open menu'}))
     const dialog = screen.getByRole('dialog')
+    dialog.addEventListener('click', (e) => e.preventDefault())
     fireEvent.click(within(dialog).getByRole('link', {name: /Frames/}))
     expect(screen.queryByRole('dialog')).toBeNull()
   })
