@@ -13,6 +13,9 @@ import {workPage} from './documents/workPage'
 import {framesPage} from './documents/framesPage'
 import {aboutPage} from './documents/aboutPage'
 import {contactPage} from './documents/contactPage'
+import {project} from './documents/project'
+import {frame} from './documents/frame'
+import {inquiry} from './documents/inquiry'
 
 export const objectTypes: SchemaTypeDefinition[] = [
   imageWithAlt,
@@ -32,6 +35,9 @@ export const documentTypes: SchemaTypeDefinition[] = [
   framesPage,
   aboutPage,
   contactPage,
+  project,
+  frame,
+  inquiry,
 ]
 
 export const schemaTypes: SchemaTypeDefinition[] = [...objectTypes, ...documentTypes]
