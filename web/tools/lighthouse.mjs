@@ -2,7 +2,8 @@
 //   / , /work , /work/<slug>  -> mobile performance >= 90 each
 //   /contact                  -> accessibility = 100
 // Env: LH_URL (default http://localhost:3000), LH_PROJECT_SLUG (default pagal),
-//      LH_CHROME_FLAGS (default --headless=new; add --no-sandbox in containers).
+//      LH_CHROME_FLAGS (default --headless=new; add --no-sandbox in containers),
+//      LH_THROTTLING (simulate = PageSpeed Insights model, default; devtools = applied throttling).
 import {execFileSync} from 'node:child_process'
 import {readFileSync, rmSync} from 'node:fs'
 import {fileURLToPath} from 'node:url'
@@ -13,6 +14,8 @@ const A11Y_MIN = 100
 const base = (process.env.LH_URL || 'http://localhost:3000').replace(/\/+$/, '')
 const slug = process.env.LH_PROJECT_SLUG || 'pagal'
 const chromeFlags = process.env.LH_CHROME_FLAGS || '--headless=new'
+// simulate = PageSpeed Insights' Lantern model (default); devtools = applied throttling, closer to a real device.
+const throttling = process.env.LH_THROTTLING === 'devtools' ? 'devtools' : 'simulate'
 const outPath = fileURLToPath(new URL('../lighthouse.json', import.meta.url))
 
 const targets = [
@@ -32,6 +35,7 @@ Env:
   LH_URL           base URL            (default http://localhost:3000)
   LH_PROJECT_SLUG  project for /work/<slug>  (default pagal)
   LH_CHROME_FLAGS  Chrome flags        (default --headless=new)
+  LH_THROTTLING    simulate | devtools (default simulate; devtools applies real throttling)
 
 Audits (mobile form factor, simulated throttling), base ${base}:`)
   for (const t of targets) {
@@ -53,7 +57,7 @@ function audit({path, category}) {
       `--only-categories=${category}`,
       '--form-factor=mobile',
       '--screenEmulation.mobile',
-      '--throttling-method=simulate',
+      `--throttling-method=${throttling}`,
       '--output=json',
       `--output-path=${outPath}`,
       `--chrome-flags=${chromeFlags}`,
