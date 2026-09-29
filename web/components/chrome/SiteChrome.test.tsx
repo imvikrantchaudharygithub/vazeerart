@@ -54,4 +54,31 @@ describe('SiteChrome', () => {
     rerender(<SiteChrome settings={settings} />)
     expect(screen.queryByRole('dialog')).toBeNull()
   })
+
+  it('moves focus into the dialog on open and back to the burger on close', () => {
+    render(<SiteChrome settings={settings} />)
+    const burger = screen.getByRole('button', {name: 'Open menu'})
+    fireEvent.click(burger)
+    expect(document.activeElement).toBe(screen.getByRole('button', {name: settings.menuClose}))
+    expect(burger.getAttribute('aria-expanded')).toBe('true')
+    fireEvent.click(screen.getByRole('button', {name: settings.menuClose}))
+    expect(screen.queryByRole('dialog')).toBeNull()
+    expect(document.activeElement).toBe(burger)
+    expect(burger.getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('keeps Tab inside the dialog', () => {
+    render(<SiteChrome settings={settings} />)
+    fireEvent.click(screen.getByRole('button', {name: 'Open menu'}))
+    const dialog = screen.getByRole('dialog')
+    const closeButton = screen.getByRole('button', {name: settings.menuClose})
+    const socialLinks = dialog.querySelectorAll<HTMLElement>('a[href]')
+    const last = socialLinks[socialLinks.length - 1]
+    last.focus()
+    expect(document.activeElement).toBe(last)
+    fireEvent.keyDown(window, {key: 'Tab'})
+    expect(document.activeElement).toBe(closeButton)
+    fireEvent.keyDown(window, {key: 'Tab', shiftKey: true})
+    expect(document.activeElement).toBe(last)
+  })
 })

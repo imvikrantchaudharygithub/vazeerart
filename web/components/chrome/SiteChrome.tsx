@@ -3,7 +3,7 @@
 
 import Link from 'next/link'
 import {usePathname} from 'next/navigation'
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {SanityImage} from '@/components/media/SanityImage'
 import {navEntries} from '@/lib/viewmodel/pages'
 import type {SiteSettingsVM} from '@/lib/viewmodel/site'
@@ -13,14 +13,27 @@ import menu from './MenuOverlay.module.css'
 export function SiteChrome({settings}: {settings: SiteSettingsVM}) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const burgerRef = useRef<HTMLButtonElement>(null)
+  const closeRef = useRef<HTMLButtonElement>(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { setOpen(false) }, [pathname])
 
   useEffect(() => {
     if (!open) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    closeRef.current?.focus()
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { setOpen(false); return }
+      if (e.key !== 'Tab' || !dialogRef.current) return
+      const focusables = dialogRef.current.querySelectorAll<HTMLElement>('a[href],button:not([disabled])')
+      if (!focusables.length) return
+      const first = focusables[0]
+      const last = focusables[focusables.length - 1]
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+    }
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    return () => { window.removeEventListener('keydown', onKey); burgerRef.current?.focus() }
   }, [open])
 
   const nav = navEntries(settings.pages, pathname)
@@ -36,12 +49,12 @@ export function SiteChrome({settings}: {settings: SiteSettingsVM}) {
           <nav className={header.nav}>
             <div className={header.links}>
               {nav.map((n) => (
-                <Link key={n.key} href={n.href} className={`${header.link} hoverAmber`} data-active={n.active ? 'true' : 'false'}>
+                <Link key={n.key} href={n.href} className={`${header.link} hoverAmber asButton`} data-active={n.active ? 'true' : 'false'}>
                   {n.navLabel}
                 </Link>
               ))}
             </div>
-            <button type="button" className={header.burger} aria-label="Open menu" onClick={() => setOpen(true)}>
+            <button type="button" ref={burgerRef} className={header.burger} aria-label="Open menu" aria-expanded={open} aria-controls="site-menu" onClick={() => setOpen(true)}>
               <span className={header.bar1} />
               <span className={header.bar2} />
             </button>
@@ -50,10 +63,10 @@ export function SiteChrome({settings}: {settings: SiteSettingsVM}) {
       </header>
 
       {open && (
-        <div className={menu.overlay} role="dialog" aria-modal="true" aria-label="Menu">
+        <div ref={dialogRef} id="site-menu" className={menu.overlay} role="dialog" aria-modal="true" aria-label="Menu">
           <div className={menu.top}>
             <span className={menu.script}>{settings.menuScript}</span>
-            <button type="button" className={menu.close} onClick={() => setOpen(false)}>{settings.menuClose}</button>
+            <button type="button" ref={closeRef} className={menu.close} onClick={() => setOpen(false)}>{settings.menuClose}</button>
           </div>
           <div className={menu.grid}>
             <div className={menu.list}>
