@@ -197,7 +197,7 @@ Browser smoke (production, also on a phone):
    - **Projects** and **Frames** are lists. Use "+" to add and drag the handle to reorder.
    - **Inquiries** collects messages from the Contact form.
 3. Click **Presentation** (top bar) to see the live site and click any text or photo to jump to its field.
-4. Every change is a draft until you press **Publish**. Published changes show on the site within a few seconds; if you do not see one after a minute, reload the page and tell the developer.
+4. Every change is a draft until you press **Publish**. Published changes show on the site on the next page load, usually within seconds. A tab you already have open picks the change up when you reload it or move to another page. If a change is still missing a minute after publishing, tell the developer.
 5. **Projects**: each has a cover, frame grabs, format, year, role and a category (this drives the filter on the Work page).
    - **YouTube or Vimeo URL**: paste the link and the play button appears automatically. Unlisted videos work. Leave it empty if there is no video yet. The showreel link is set the same way on the Work & Reels page.
    - **Show in the home "Selected reels" rail**: controls whether the project appears on the home page.
