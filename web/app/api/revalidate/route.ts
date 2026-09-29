@@ -16,6 +16,8 @@ export async function POST(request: NextRequest) {
     revalidatePath('/', 'layout')
     return NextResponse.json({revalidated: true, type: body?._type ?? null, now: Date.now()})
   } catch (err) {
-    return new NextResponse((err as Error).message, {status: 500})
+    // Never echo err.message: for unsigned requests it can quote the sender's body.
+    console.error('[revalidate]', err)
+    return new NextResponse('Internal error', {status: 500})
   }
 }

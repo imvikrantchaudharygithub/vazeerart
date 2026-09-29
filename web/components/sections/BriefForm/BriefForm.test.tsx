@@ -80,7 +80,8 @@ describe('BriefForm', () => {
     fireEvent.click(screen.getByRole('button', {name: 'Send it →'}))
     const status = await screen.findByRole('status')
     expect(status).toHaveTextContent(success.body)
-    expect(document.activeElement).toBe(screen.getByRole('button', {name: success.resetLabel}))
+    // Focus moves in a passive effect after the commit that renders the status, so wait for it.
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole('button', {name: success.resetLabel})))
   })
 
   it('exposes the selected chip', () => {

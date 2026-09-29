@@ -4,7 +4,7 @@
 // Env: LH_URL (default http://localhost:3000), LH_PROJECT_SLUG (default pagal),
 //      LH_CHROME_FLAGS (default --headless=new; add --no-sandbox in containers).
 import {execFileSync} from 'node:child_process'
-import {readFileSync} from 'node:fs'
+import {readFileSync, rmSync} from 'node:fs'
 import {fileURLToPath} from 'node:url'
 
 const PERF_MIN = 90
@@ -37,16 +37,18 @@ Audits (mobile form factor, simulated throttling), base ${base}:`)
   for (const t of targets) {
     console.log(`  ${t.path.padEnd(16)} ${t.category.padEnd(14)} ${t.category === 'accessibility' ? '=' : '>='} ${t.min}`)
   }
-  console.log('\nExits non-zero if any audit misses its threshold (failing audit ids are printed for accessibility).')
+  console.log('\nExits non-zero if any audit misses its threshold (failing and errored audit ids are printed for accessibility).')
   process.exit(0)
 }
 
 function audit({path, category}) {
+  // A CLI that exits 0 without writing must not let us read the previous run's report.
+  rmSync(outPath, {force: true})
   execFileSync(
     'npx',
     [
       '--yes',
-      'lighthouse',
+      'lighthouse@12',
       `${base}${path}`,
       `--only-categories=${category}`,
       '--form-factor=mobile',
@@ -66,11 +68,12 @@ function failingAuditIds(report, category) {
   const cat = report.categories[category]
   return cat.auditRefs
     .filter((ref) => ref.weight > 0)
-    .filter((ref) => {
-      const s = report.audits[ref.id].score
-      return s !== null && s < 1
+    .flatMap((ref) => {
+      const a = report.audits[ref.id]
+      // An errored audit has score null and scoreDisplayMode "error"; other null scores (notApplicable, manual) are not failures.
+      if (a.scoreDisplayMode === 'error') return [`${ref.id} (errored)`]
+      return a.score !== null && a.score < 1 ? [ref.id] : []
     })
-    .map((ref) => ref.id)
 }
 
 let failed = false
@@ -88,7 +91,7 @@ for (const target of targets) {
   const score = raw === null ? null : Math.round(raw * 100)
   const detail =
     target.category === 'performance'
-      ? ` · LCP ${report.audits['largest-contentful-paint'].displayValue} · CLS ${report.audits['cumulative-layout-shift'].displayValue}`
+      ? ` · LCP ${report.audits['largest-contentful-paint'].displayValue ?? 'n/a'} · CLS ${report.audits['cumulative-layout-shift'].displayValue ?? 'n/a'}`
       : ''
   const ok = score !== null && score >= target.min
   console.log(`${ok ? '✓' : '✗'} ${label}: ${target.category} ${score}${detail} (need ${target.category === 'accessibility' ? '=' : '>='} ${target.min})`)

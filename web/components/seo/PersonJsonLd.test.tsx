@@ -12,6 +12,8 @@ describe('PersonJsonLd', () => {
     expect(html).toContain('type="application/ld+json"')
     const json = /<script[^>]*>([\s\S]*)<\/script>/.exec(html)![1]
     expect(JSON.parse(json)).toMatchObject({'@type': 'Person', name: 'Vazeer Art', jobTitle: 'Cinematographer', sameAs: ['https://instagram.com/vazeer']})
+    // Nothing in the CMS supplies an address, so none may be asserted.
+    expect(JSON.parse(json)).not.toHaveProperty('address')
   })
   it('escapes "<" so a CMS string cannot end the script element', () => {
     const html = renderToStaticMarkup(<PersonJsonLd settings={settings} name="x</script><b>" jobTitle="DOP" />)

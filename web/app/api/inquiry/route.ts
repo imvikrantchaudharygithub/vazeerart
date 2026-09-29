@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   const origin = request.headers.get('origin')
   if (origin !== null && !isSameOrigin(origin)) return NextResponse.json({ok: false, errors: {name: 'Forbidden'}}, {status: 403})
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
-  if (!allow(ip)) return NextResponse.json({ok: false, errors: {name: 'Too many requests — please try again in a minute.'}}, {status: 429})
+  if (!allow(ip)) return NextResponse.json({ok: false, errors: {name: 'Too many requests — please try again in a minute.'}}, {status: 429, headers: {'Retry-After': '60'}})
 
   let body: unknown
   try {

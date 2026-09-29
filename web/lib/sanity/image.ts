@@ -16,6 +16,22 @@ export function imageSrc(image: ImageVM): string {
     .url()
 }
 
+/** CDN url cropped to an exact box; the builder turns the editor's hotspot into a `rect` only when both dimensions are set. */
+export function croppedImageSrc(image: ImageVM, width: number, height: number): string {
+  return builder
+    .image({
+      _type: 'image',
+      asset: {_type: 'reference', _ref: image.assetId},
+      crop: image.crop ?? undefined,
+      hotspot: image.hotspot ?? undefined,
+    })
+    .width(width)
+    .height(height)
+    .fit('crop')
+    .auto('format')
+    .url()
+}
+
 /** next/image loader: Sanity CDN does the resizing, Vercel's optimizer is never used (spec §8). */
 export function sanityImageLoader({src, width, quality}: {src: string; width: number; quality?: number}): string {
   const url = new URL(src)

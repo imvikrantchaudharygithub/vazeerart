@@ -109,6 +109,7 @@ describe('POST /api/inquiry', () => {
       fetchTypes.mockClear()
       const res = await post(good, ip)
       expect(res.status).toBe(429)
+      expect(res.headers.get('Retry-After')).toBe('60')
       expect(await res.json()).toEqual({ok: false, errors: {name: 'Too many requests \u2014 please try again in a minute.'}})
       expect(fetchTypes).not.toHaveBeenCalled()
       expect(create).not.toHaveBeenCalled()

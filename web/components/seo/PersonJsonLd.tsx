@@ -8,7 +8,6 @@ export function PersonJsonLd({settings, name, jobTitle}: {settings: SiteSettings
     '@type': 'Person',
     name,
     jobTitle,
-    address: {'@type': 'PostalAddress', addressLocality: 'New Delhi', addressCountry: 'IN'},
     sameAs: settings.socials.map((s) => s.url),
   }
   // Draft / Presentation mode stega-encodes CMS strings; the JSON-LD must carry none of it.

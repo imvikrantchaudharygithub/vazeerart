@@ -1,5 +1,7 @@
 import {stegaEncodeSourceMap, type ContentSourceMap} from '@sanity/client/stega'
 import {describe, expect, it} from 'vitest'
+import {imageSrc} from '@/lib/sanity/image'
+import type {ImageVM} from '@/lib/viewmodel/types'
 import {buildMetadata, ogImageUrl} from './seo'
 
 const img = {assetId: 'image-abc-1400x900-jpg', url: 'https://cdn.sanity.io/images/iq6do512/production/abc-1400x900.jpg', width: 1400, height: 900, extension: 'jpg', lqip: null, alt: 'Cover', hotspot: null, crop: null}
@@ -11,6 +13,29 @@ describe('ogImageUrl', () => {
     expect(u.searchParams.get('w')).toBe('1200')
     expect(u.searchParams.get('h')).toBe('630')
     expect(u.searchParams.get('fit')).toBe('crop')
+    expect(u.searchParams.get('auto')).toBe('format')
+  })
+  const rectOf = (image: ImageVM) => new URL(ogImageUrl(image)).searchParams.get('rect')
+  it('lets the editor hotspot steer the crop: the rect moves with the hotspot', () => {
+    const off = rectOf({...img, hotspot: {x: 0.8, y: 0.3, width: 0.4, height: 0.4}})
+    const centred = rectOf({...img, hotspot: {x: 0.5, y: 0.5, width: 1, height: 1}})
+    expect(off).toMatch(/^\d+,\d+,\d+,\d+$/)
+    expect(centred).toMatch(/^\d+,\d+,\d+,\d+$/)
+    expect(off).not.toBe(centred)
+    // A hotspot above centre pulls the 1200:630 window up the 1400x900 image.
+    expect(Number(off!.split(',')[1])).toBeLessThan(Number(centred!.split(',')[1]))
+  })
+  it('centre-crops when the image has neither hotspot nor crop', () => {
+    expect(rectOf(img)).toBe(rectOf({...img, hotspot: {x: 0.5, y: 0.5, width: 1, height: 1}}))
+  })
+})
+
+describe('imageSrc', () => {
+  it('carries no size params and no rect (the next/image loader adds the size)', () => {
+    const u = new URL(imageSrc({...img, hotspot: {x: 0.8, y: 0.3, width: 0.4, height: 0.4}}))
+    expect(u.searchParams.has('rect')).toBe(false)
+    expect(u.searchParams.has('w')).toBe(false)
+    expect(u.searchParams.has('h')).toBe(false)
   })
 })
 

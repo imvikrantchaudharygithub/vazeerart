@@ -1,16 +1,11 @@
 // web/lib/seo.ts
 import type {Metadata} from 'next'
 import {stegaClean} from 'next-sanity'
-import {imageSrc} from '@/lib/sanity/image'
+import {croppedImageSrc} from '@/lib/sanity/image'
 import type {ImageVM, SeoVM} from '@/lib/viewmodel/types'
 
 export function ogImageUrl(image: ImageVM): string {
-  const url = new URL(imageSrc(image))
-  url.searchParams.set('w', '1200')
-  url.searchParams.set('h', '630')
-  url.searchParams.set('fit', 'crop')
-  url.searchParams.set('auto', 'format')
-  return url.toString()
+  return croppedImageSrc(image, 1200, 630)
 }
 
 type Input = {seo: SeoVM; fallback: SeoVM; path: string; siteUrl: string; title?: string; imageFallback?: ImageVM | null}

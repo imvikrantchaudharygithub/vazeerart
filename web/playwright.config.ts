@@ -9,6 +9,6 @@ export default defineConfig({
   // The prototype baselines are captured without a running site.
   webServer:
     process.env.VISUAL_SOURCE === 'site'
-      ? {command: 'npm run build && npm run start', url: 'http://localhost:3000', reuseExistingServer: true, timeout: 180_000}
+      ? {command: 'npm run build && npm run start', url: 'http://localhost:3000', reuseExistingServer: false, timeout: 180_000}
       : undefined,
 })

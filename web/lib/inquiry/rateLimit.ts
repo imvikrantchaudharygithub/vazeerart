@@ -5,8 +5,8 @@ const buckets = new Map<string, {tokens: number; at: number}>()
 
 export function allow(ip: string, now = Date.now()): boolean {
   const b = buckets.get(ip) ?? {tokens: BUCKET.capacity, at: now}
-  b.tokens = Math.min(BUCKET.capacity, b.tokens + (now - b.at) * BUCKET.refillPerMs)
-  b.at = now
+  b.tokens = Math.min(BUCKET.capacity, b.tokens + Math.max(0, now - b.at) * BUCKET.refillPerMs)
+  b.at = Math.max(b.at, now) // a clock step-back neither drains the bucket now nor refills it when the clock recovers
   if (b.tokens < 1) { buckets.set(ip, b); return false }
   b.tokens -= 1
   buckets.set(ip, b)
