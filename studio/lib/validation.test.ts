@@ -9,6 +9,8 @@ describe('isVideoUrl', () => {
     'https://www.youtube.com/embed/dQw4w9WgXcQ',
     'https://vimeo.com/123456789',
     'https://player.vimeo.com/video/123456789',
+    'https://vimeo.com/123456789/abcdef1234',
+    'https://m.youtube.com/watch?v=dQw4w9WgXcQ',
   ])('accepts %s', (url) => {
     expect(isVideoUrl(url)).toBe(true)
   })

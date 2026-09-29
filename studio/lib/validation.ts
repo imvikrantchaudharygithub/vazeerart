@@ -1,11 +1,11 @@
 /** Same rules as web/lib/video.ts — keep in sync. */
 const VIDEO_URL_PATTERNS = [
-  /^https?:\/\/(www\.)?youtube\.com\/watch\?(.*&)?v=[\w-]{6,}/i,
+  /^https?:\/\/(www\.|m\.)?youtube\.com\/watch\?(.*&)?v=[\w-]{6,}/i,
   /^https?:\/\/youtu\.be\/[\w-]{6,}/i,
-  /^https?:\/\/(www\.)?youtube\.com\/shorts\/[\w-]{6,}/i,
-  /^https?:\/\/(www\.)?youtube(-nocookie)?\.com\/embed\/[\w-]{6,}/i,
-  /^https?:\/\/(www\.)?vimeo\.com\/\d{6,}/i,
-  /^https?:\/\/player\.vimeo\.com\/video\/\d{6,}/i,
+  /^https?:\/\/(www\.|m\.)?youtube\.com\/shorts\/[\w-]{6,}/i,
+  /^https?:\/\/(www\.|m\.)?youtube(-nocookie)?\.com\/embed\/[\w-]{6,}/i,
+  /^https?:\/\/(www\.)?vimeo\.com\/\d{6,}(\/[0-9a-z]+)?/i,
+  /^https?:\/\/player\.vimeo\.com\/video\/\d{6,}(\?([^#]*&)?h=[0-9a-z]+)?/i,
 ]
 
 export function isVideoUrl(url: string | undefined | null): boolean {
