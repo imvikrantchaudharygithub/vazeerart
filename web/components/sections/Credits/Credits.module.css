@@ -1,0 +1,12 @@
+.section{max-width:1480px;margin:0 auto;padding:clamp(72px,9vw,130px) clamp(16px,4vw,48px)}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.headText{display:flex;flex-direction:column}
+.script{font-family:var(--font-delafield),cursive;font-size:72px;line-height:.6;color:#e8a24a}
+.heading{margin:12px 0 0;font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:clamp(52px,6vw,96px);line-height:.9}
+.imdb{font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:2px solid #e8a24a;padding-bottom:6px}
+.list{border-top:1px solid rgba(239,231,218,.18)}
+.row{all:unset;cursor:pointer;display:grid;grid-template-columns:80px minmax(0,1fr) auto;gap:8px 24px;align-items:baseline;width:100%;padding:20px 0;border-bottom:1px solid rgba(239,231,218,.18)}
+.rowStatic{cursor:default}
+.year{font-family:var(--font-bodoni),serif;font-style:italic;font-size:20px;color:#b9b0a2}
+.title{font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:clamp(28px,3.2vw,44px);line-height:1}
+.meta{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#b9b0a2}

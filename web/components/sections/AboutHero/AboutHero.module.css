@@ -1,0 +1,9 @@
+.section{max-width:1480px;margin:0 auto;padding:clamp(56px,8vw,110px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:56px clamp(40px,7vw,120px);align-items:center}
+.collage{position:relative;width:100%;max-width:660px;aspect-ratio:1/1.1}
+.portrait{position:absolute;right:0;top:0;width:72%;aspect-ratio:4/5;background:#1c1916}
+.polaroid{position:absolute;left:0;bottom:0;width:46%;aspect-ratio:3/4;border:7px solid #efe7da;transform:rotate(-5deg);box-shadow:0 20px 50px rgba(0,0,0,.5);background:#1c1916}
+.text{display:flex;flex-direction:column;gap:20px}
+.script{font-family:var(--font-delafield),cursive;font-size:clamp(64px,7vw,104px);line-height:.6;color:#e8a24a}
+.heading{margin:0;font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:clamp(64px,8vw,128px);line-height:.88}
+.body{margin:0;font-size:19px;max-width:520px;text-wrap:pretty}
+.cta{all:unset;cursor:pointer;align-self:flex-start;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:2px solid #e8a24a;padding-bottom:6px}

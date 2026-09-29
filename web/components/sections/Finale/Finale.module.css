@@ -1,0 +1,7 @@
+.section{position:relative;min-height:clamp(480px,70vh,780px);background:#1c1916;display:flex;align-items:center;justify-content:center;text-align:center}
+.bg{position:absolute;inset:0;overflow:hidden}
+.kenburns{position:absolute;inset:0;animation:kenburns 22s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.14) translate(-2%,-2%)}}
+.text{position:relative;z-index:2;pointer-events:none;display:flex;flex-direction:column;align-items:center;padding:24px;text-shadow:0 4px 30px rgba(0,0,0,.6)}
+.script{font-family:var(--font-delafield),cursive;font-size:clamp(80px,10vw,160px);line-height:.7;color:#e8a24a}
+.sub{margin-top:8px;font-family:var(--font-bodoni),serif;font-style:italic;font-size:22px}

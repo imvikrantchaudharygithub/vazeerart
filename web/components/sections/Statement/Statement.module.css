@@ -1,0 +1,7 @@
+.section{background:#efe7da;color:#14110e;--focus:var(--rust)}
+.inner{max-width:1480px;margin:0 auto;padding:clamp(72px,9vw,130px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:40px clamp(40px,7vw,120px)}
+.heading{margin:0;font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:clamp(40px,4.4vw,68px);line-height:.95;text-wrap:pretty}
+.accent{color:#a4501a}
+.paragraphs{display:flex;flex-direction:column;gap:20px;font-size:18px;color:#3d372f}
+.p{margin:0;text-wrap:pretty}
+.aside{font-family:var(--font-bodoni),serif;font-style:italic;font-size:22px;color:#14110e}
