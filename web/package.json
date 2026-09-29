@@ -10,6 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "verify:styles": "node tools/verify-styles.mjs",
+    "perf": "node tools/lighthouse.mjs",
     "e2e:baseline": "VISUAL_SOURCE=original playwright test tests/e2e/visual.spec.ts --update-snapshots",
     "e2e": "VISUAL_SOURCE=site playwright test"
   },

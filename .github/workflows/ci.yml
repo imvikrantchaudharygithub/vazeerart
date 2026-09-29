@@ -1,0 +1,38 @@
+# .github/workflows/ci.yml
+name: ci
+on: [push, pull_request]
+
+jobs:
+  studio:
+    runs-on: ubuntu-latest
+    defaults: {run: {working-directory: studio}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version-file: .nvmrc, cache: npm, cache-dependency-path: studio/package-lock.json}
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck
+      - run: npm run schema:validate
+      # Schema drift: the committed schema.json must match the schema definitions.
+      - run: npm run schema:extract && git diff --exit-code -- schema.json
+      # Typegen drift (spec §10): the committed web/lib/sanity/types.ts must match schema.json.
+      - run: npx sanity typegen generate && git diff --exit-code -- ../web/lib/sanity/types.ts
+
+  web:
+    runs-on: ubuntu-latest
+    defaults: {run: {working-directory: web}}
+    env:
+      NEXT_PUBLIC_SANITY_PROJECT_ID: iq6do512
+      NEXT_PUBLIC_SANITY_DATASET: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version-file: .nvmrc, cache: npm, cache-dependency-path: web/package-lock.json}
+      - run: npm ci
+      # next-env.d.ts is gitignored; generate it (and route types) without a full build.
+      - run: npx next typegen
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run verify:styles
+      # No `next build` here: it needs seeded content. Vercel builds after the seed.

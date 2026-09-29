@@ -1,0 +1,107 @@
+// web/tools/lighthouse.mjs — Lighthouse mobile gate. Run against `npm run start` (a production build).
+//   / , /work , /work/<slug>  -> mobile performance >= 90 each
+//   /contact                  -> accessibility = 100
+// Env: LH_URL (default http://localhost:3000), LH_PROJECT_SLUG (default pagal),
+//      LH_CHROME_FLAGS (default --headless=new; add --no-sandbox in containers).
+import {execFileSync} from 'node:child_process'
+import {readFileSync} from 'node:fs'
+import {fileURLToPath} from 'node:url'
+
+const PERF_MIN = 90
+const A11Y_MIN = 100
+
+const base = (process.env.LH_URL || 'http://localhost:3000').replace(/\/+$/, '')
+const slug = process.env.LH_PROJECT_SLUG || 'pagal'
+const chromeFlags = process.env.LH_CHROME_FLAGS || '--headless=new'
+const outPath = fileURLToPath(new URL('../lighthouse.json', import.meta.url))
+
+const targets = [
+  {path: '/', category: 'performance', min: PERF_MIN},
+  {path: '/work', category: 'performance', min: PERF_MIN},
+  {path: `/work/${encodeURIComponent(slug)}`, category: 'performance', min: PERF_MIN},
+  {path: '/contact', category: 'accessibility', min: A11Y_MIN},
+]
+
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
+  console.log(`Lighthouse mobile gate (web/tools/lighthouse.mjs)
+
+Usage: npm run perf [-- --help]
+Run against a production server (npm run build && npm run start).
+
+Env:
+  LH_URL           base URL            (default http://localhost:3000)
+  LH_PROJECT_SLUG  project for /work/<slug>  (default pagal)
+  LH_CHROME_FLAGS  Chrome flags        (default --headless=new)
+
+Audits (mobile form factor, simulated throttling), base ${base}:`)
+  for (const t of targets) {
+    console.log(`  ${t.path.padEnd(16)} ${t.category.padEnd(14)} ${t.category === 'accessibility' ? '=' : '>='} ${t.min}`)
+  }
+  console.log('\nExits non-zero if any audit misses its threshold (failing audit ids are printed for accessibility).')
+  process.exit(0)
+}
+
+function audit({path, category}) {
+  execFileSync(
+    'npx',
+    [
+      '--yes',
+      'lighthouse',
+      `${base}${path}`,
+      `--only-categories=${category}`,
+      '--form-factor=mobile',
+      '--screenEmulation.mobile',
+      '--throttling-method=simulate',
+      '--output=json',
+      `--output-path=${outPath}`,
+      `--chrome-flags=${chromeFlags}`,
+      '--quiet',
+    ],
+    {stdio: 'inherit'},
+  )
+  return JSON.parse(readFileSync(outPath, 'utf8'))
+}
+
+function failingAuditIds(report, category) {
+  const cat = report.categories[category]
+  return cat.auditRefs
+    .filter((ref) => ref.weight > 0)
+    .filter((ref) => {
+      const s = report.audits[ref.id].score
+      return s !== null && s < 1
+    })
+    .map((ref) => ref.id)
+}
+
+let failed = false
+for (const target of targets) {
+  const label = `${target.path} (${target.category})`
+  let report
+  try {
+    report = audit(target)
+  } catch (err) {
+    console.error(`✗ ${label}: Lighthouse run failed: ${err.message}`)
+    failed = true
+    continue
+  }
+  const raw = report.categories[target.category].score
+  const score = raw === null ? null : Math.round(raw * 100)
+  const detail =
+    target.category === 'performance'
+      ? ` · LCP ${report.audits['largest-contentful-paint'].displayValue} · CLS ${report.audits['cumulative-layout-shift'].displayValue}`
+      : ''
+  const ok = score !== null && score >= target.min
+  console.log(`${ok ? '✓' : '✗'} ${label}: ${target.category} ${score}${detail} (need ${target.category === 'accessibility' ? '=' : '>='} ${target.min})`)
+  if (!ok) {
+    failed = true
+    if (target.category === 'accessibility') {
+      console.error(`  failing audits: ${failingAuditIds(report, 'accessibility').join(', ') || '(none listed)'}`)
+    }
+  }
+}
+
+if (failed) {
+  console.error('✗ Lighthouse gate failed')
+  process.exit(1)
+}
+console.log('✓ Lighthouse gate passed')
