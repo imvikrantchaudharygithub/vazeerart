@@ -7,6 +7,7 @@ export default defineCliConfig({
   },
   studioHost: 'vazeerart',
   deployment: {
+    appId: 'svlu7v3vn2k3yahhmf4cniap',
     autoUpdates: true,
   },
 })
