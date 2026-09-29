@@ -8,7 +8,7 @@
     "build": "sanity build",
     "deploy": "sanity deploy",
     "schema:validate": "sanity schema validate",
-    "schema:extract": "sanity schema extract --enforce-required-fields --path=./schema.json",
+    "schema:extract": "sanity schema extract --enforce-required-fields --force --path=./schema.json",
     "typegen": "npm run schema:extract && sanity typegen generate",
     "seed": "sanity exec scripts/seed.ts --with-user-token",
     "test": "vitest run",
