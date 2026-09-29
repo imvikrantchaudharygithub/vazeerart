@@ -14,7 +14,7 @@ export function Explore({explore}: {explore: HomeVM['explore']}) {
         {explore.cards.map((c, i) => (
           <Link key={`${c.href}-${i}`} href={c.href} data-reveal="1" className={`${styles.card} hoverLift asButton`}>
             <div className={styles.cardImage}>
-              {c.image && <SanityImage image={c.image} sizes="(max-width: 700px) 100vw, (max-width: 1500px) 33vw, 460px" />}
+              {c.image && <SanityImage image={c.image} sizes="(max-width: 700px) 100vw, (max-width: 1040px) 50vw, (max-width: 1500px) 33vw, 460px" />}
             </div>
             <div className={styles.cardMeta}>
               <span className={styles.cardLabel}>{c.label}</span>
