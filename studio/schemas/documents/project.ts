@@ -1,5 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
-import {VideoIcon} from '@sanity/icons'
+import {VideoIcon} from '@sanity/icons/Video'
 import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list'
 import {PROJECT_CATEGORIES} from '../../lib/constants'
 import {isVideoUrl} from '../../lib/validation'

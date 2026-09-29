@@ -1,5 +1,5 @@
 import {defineField, defineType} from 'sanity'
-import {ImageIcon} from '@sanity/icons'
+import {ImageIcon} from '@sanity/icons/Image'
 import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list'
 import {FRAME_RATIOS} from '../../lib/constants'
 

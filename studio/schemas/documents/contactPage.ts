@@ -1,5 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
-import {EnvelopeIcon} from '@sanity/icons'
+import {EnvelopeIcon} from '@sanity/icons/Envelope'
 
 export const contactPage = defineType({
   name: 'contactPage',

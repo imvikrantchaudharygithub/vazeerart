@@ -1,5 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
-import {UserIcon} from '@sanity/icons'
+import {UserIcon} from '@sanity/icons/User'
 
 export const aboutPage = defineType({
   name: 'aboutPage',
