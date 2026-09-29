@@ -29,3 +29,6 @@ html:not([data-leader="on"]):not([data-leader="out"]) [data-leader-overlay]{disp
 /* Keyboard focus ring: the prototype's all:unset buttons drop it */
 :root{--focus:var(--amber)}
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* Visually hidden, still read by assistive tech (Home has no visible <h1>) */
+.srOnly{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

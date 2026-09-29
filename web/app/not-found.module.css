@@ -1,0 +1,7 @@
+/* web/app/not-found.module.css */
+.main{animation:pagein .8s cubic-bezier(.2,.8,.2,1) both;max-width:1480px;margin:0 auto;padding:clamp(56px,8vw,110px) clamp(16px,4vw,48px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px}
+.script{font-family:var(--font-delafield),cursive;font-size:clamp(64px,7vw,110px);line-height:.6;color:#e8a24a}
+.heading{margin:0;font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:clamp(96px,15vw,240px);line-height:.8}
+.sub{margin:0;font-family:var(--font-bodoni),serif;font-style:italic;font-size:22px;color:#b9b0a2}
+.cta{all:unset;cursor:pointer;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:2px solid #e8a24a;padding-bottom:6px}
+@keyframes pagein{from{opacity:0;translate:0 24px}to{opacity:1;translate:0 0}}

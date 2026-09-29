@@ -4,12 +4,22 @@ import {FrameGrabs} from '@/components/sections/FrameGrabs/FrameGrabs'
 import {ProjectHero} from '@/components/sections/ProjectHero/ProjectHero'
 import {UpNext} from '@/components/sections/UpNext/UpNext'
 import {getProjectSlugs, getProjects, getSiteSettings, getWork} from '@/lib/data'
+import {env} from '@/lib/env'
+import {buildMetadata} from '@/lib/seo'
 import {nextProject, pageProjects} from '@/lib/viewmodel/projects'
 
 type Props = {params: Promise<{slug: string}>}
 
 export async function generateStaticParams() {
   return getProjectSlugs()
+}
+
+export async function generateMetadata({params}: Props) {
+  const {slug} = await params
+  const [projects, settings] = await Promise.all([getProjects(), getSiteSettings()])
+  const project = pageProjects(projects).find((p) => p.slug === slug)
+  if (!project) return {title: 'Not found'}
+  return buildMetadata({seo: project.seo, fallback: settings.seo, path: `/work/${slug}`, siteUrl: env.siteUrl, title: `${project.title} — ${project.format}, ${project.year}`, imageFallback: project.cover})
 }
 
 export default async function ProjectPage({params}: Props) {

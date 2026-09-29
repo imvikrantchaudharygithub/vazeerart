@@ -4,8 +4,15 @@ import {ProjectListFromSearch} from '@/components/sections/ProjectList/ProjectLi
 import {Showreel} from '@/components/sections/Showreel/Showreel'
 import {Skills} from '@/components/sections/Skills/Skills'
 import {WorkHeader} from '@/components/sections/WorkHeader/WorkHeader'
-import {getProjects, getWork} from '@/lib/data'
+import {getProjects, getSiteSettings, getWork} from '@/lib/data'
+import {env} from '@/lib/env'
+import {buildMetadata} from '@/lib/seo'
 import {pageProjects, showreelOrderNote, toProjectCard} from '@/lib/viewmodel/projects'
+
+export async function generateMetadata() {
+  const [work, settings] = await Promise.all([getWork(), getSiteSettings()])
+  return buildMetadata({seo: work.seo, fallback: settings.seo, path: '/work', siteUrl: env.siteUrl, title: `${work.title} ${work.script}`, imageFallback: work.showreel.poster})
+}
 
 export default async function WorkPage() {
   const [work, projects] = await Promise.all([getWork(), getProjects()])

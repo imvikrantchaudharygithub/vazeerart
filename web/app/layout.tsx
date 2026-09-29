@@ -1,4 +1,5 @@
 // web/app/layout.tsx
+import type {Metadata} from 'next'
 import {draftMode} from 'next/headers'
 import {VisualEditing} from 'next-sanity/visual-editing'
 import type {ReactNode} from 'react'
@@ -13,9 +14,16 @@ import {ParallaxLoop} from '@/components/motion/ParallaxLoop'
 import {RevealObserver} from '@/components/motion/RevealObserver'
 import {Timecode} from '@/components/motion/Timecode'
 import {getSiteSettings} from '@/lib/data'
+import {env} from '@/lib/env'
 import {fontVariables} from '@/lib/fonts'
 import {SanityLive} from '@/lib/sanity/live'
+import {buildMetadata} from '@/lib/seo'
 import '@/styles/globals.css'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings()
+  return {metadataBase: new URL(env.siteUrl), ...buildMetadata({seo: settings.seo, fallback: settings.seo, path: '/', siteUrl: env.siteUrl})}
+}
 
 export default async function RootLayout({children}: {children: ReactNode}) {
   const settings = await getSiteSettings()
