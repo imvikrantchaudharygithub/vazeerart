@@ -1,0 +1,14 @@
+.section{background:#000;padding:clamp(64px,8vw,120px) 0}
+.head{max-width:1480px;margin:0 auto;padding:0 clamp(16px,4vw,48px) 36px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.headText{display:flex;flex-direction:column}
+.script{font-family:var(--font-delafield),cursive;font-size:clamp(56px,6vw,88px);line-height:.6;color:#e8a24a}
+.heading{margin:12px 0 0;font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:clamp(48px,6vw,96px);line-height:.9}
+.cta{all:unset;cursor:pointer;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:2px solid #e8a24a;padding-bottom:6px}
+.sprocketTop{height:16px;background:repeating-linear-gradient(90deg,transparent 0 10px,#efe7da 10px 24px,transparent 24px 34px);opacity:.85;margin:0 0 14px}
+.rail{display:flex;gap:14px;overflow-x:auto;padding:0 clamp(16px,4vw,48px);scrollbar-width:none}
+.card{all:unset;cursor:pointer;flex:0 0 clamp(280px,40vw,600px);display:flex;flex-direction:column;gap:14px}
+.cardImage{position:relative;aspect-ratio:16/9;background:#1c1916}
+.cardMeta{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.cardTitle{font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:32px;line-height:1}
+.cardSub{font-family:var(--font-bodoni),serif;font-style:italic;font-size:17px;color:#b9b0a2}
+.sprocketBottom{height:16px;background:repeating-linear-gradient(90deg,transparent 0 10px,#efe7da 10px 24px,transparent 24px 34px);opacity:.85;margin:18px 0 0}
