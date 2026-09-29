@@ -1,0 +1,567 @@
+
+
+
+<div style="min-height:100vh;background:#0f0d0b;color:#efe7da;font-family:'Instrument Sans',sans-serif;font-size:17px;line-height:1.6;overflow-x:hidden">
+
+<sc-if value="{{ showLeader }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:200;background:#0f0d0b;display:flex;align-items:center;justify-content:center;overflow:hidden;opacity:{{ leaderOpacity }};transition:opacity .6s ease">
+    <div style="position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(239,231,218,.25)">
+</div>
+    <div style="position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(239,231,218,.25)">
+</div>
+    <div style="position:relative;width:min(56vmin,480px);aspect-ratio:1;border-radius:50%;border:2px solid rgba(239,231,218,.5);display:flex;align-items:center;justify-content:center;overflow:hidden">
+      <div style="position:absolute;inset:-2px;border-radius:50%;background:conic-gradient(from 0deg,rgba(232,162,74,.45),rgba(232,162,74,0) 30%);animation:spin .7s linear infinite">
+</div>
+      <div style="position:absolute;inset:10%;border-radius:50%;border:1px solid rgba(239,231,218,.3)">
+</div>
+      <span style="position:relative;font-family:'Anton',sans-serif;font-size:min(34vmin,300px);line-height:1;color:#efe7da">{{ leaderNum }}</span>
+    </div>
+    <div style="position:absolute;bottom:32px;left:0;right:0;display:flex;justify-content:center;gap:24px;font-size:12px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#b9b0a2">
+<span>Vazeer Art</span>
+<span style="color:#e8a24a">●</span>
+<span>Showreel 2026</span>
+</div>
+    <button sc-camel-on-click="{{ skipLeader }}" style="all:unset;cursor:pointer;position:absolute;top:24px;right:28px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#b9b0a2">Skip →</button>
+  </div>
+</sc-if>
+
+<header style="position:sticky;top:0;z-index:60;background:rgba(15,13,11,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(239,231,218,.12)">
+  <div style="max-width:1480px;margin:0 auto;padding:0 clamp(16px,4vw,48px);height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+    <button sc-camel-on-click="{{ goHome }}" style="all:unset;cursor:pointer;display:flex;align-items:baseline;gap:2px;line-height:1">
+      <span style="font-family:'Anton',sans-serif;font-size:28px;letter-spacing:.02em;text-transform:uppercase">Vazeer</span>
+      <span style="font-family:'Mrs Saint Delafield',cursive;font-size:44px;color:#e8a24a;margin-left:4px;line-height:.5">art.</span>
+    </button>
+    <nav style="display:flex;align-items:center;gap:clamp(16px,2.6vw,40px)">
+      <div style="display:flex;gap:clamp(16px,2.6vw,40px);flex-wrap:wrap;justify-content:flex-end">
+        <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="4">
+          <button sc-camel-on-click="{{ n.go }}" style="all:unset;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:{{ n.color }}" style-hover="color:#e8a24a">{{ n.label }}</button>
+        </sc-for>
+      </div>
+      <button sc-camel-on-click="{{ openMenu }}" aria-label="Open menu" style="all:unset;cursor:pointer;display:flex;flex-direction:column;gap:6px;padding:10px 0 10px 8px">
+        <span style="display:block;width:28px;height:2px;background:#efe7da">
+</span>
+        <span style="display:block;width:20px;height:2px;background:#e8a24a;margin-left:8px">
+</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:90;background:#efe7da;color:#14110e;display:flex;flex-direction:column;padding:24px clamp(16px,4vw,48px) 40px;overflow:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;height:48px">
+      <span style="font-family:'Mrs Saint Delafield',cursive;font-size:48px;color:#a4501a;line-height:1">menu</span>
+      <button sc-camel-on-click="{{ closeMenu }}" style="all:unset;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid #14110e;padding-bottom:4px">Close ✕</button>
+    </div>
+    <div style="flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px;align-items:center;margin-top:24px">
+      <div style="display:flex;flex-direction:column">
+        <sc-for list="{{ menuItems }}" as="m" hint-placeholder-count="5">
+          <button sc-camel-on-click="{{ m.go }}" style="all:unset;cursor:pointer;display:flex;align-items:baseline;gap:18px;border-bottom:1px solid rgba(20,17,14,.15);padding:6px 0" style-hover="color:#a4501a">
+            <span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:18px;color:#5e564c;width:32px">{{ m.n }}</span>
+            <span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(48px,7vw,104px);line-height:1.02">{{ m.label }}</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px;max-width:420px">
+        <div style="position:relative;aspect-ratio:4/5;width:min(100%,320px);border:8px solid #fff;box-shadow:0 20px 50px rgba(0,0,0,.18);transform:rotate(3deg)">
+          <image-slot id="menu-photo" src="{{ res.u1576280314550_773c50583407 }}" credit="Photo by Kyle Loftus on Unsplash" credit-href="https://unsplash.com/@kyleloftusstudios" shape="rect" placeholder="Drop a BTS photo">
+</image-slot>
+        </div>
+        <span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:22px">follow on socials /</span>
+        <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase">
+          <a href="https://www.instagram.com/vazeerart/" target="_blank">Instagram</a>
+          <a href="https://www.facebook.com/vazeerart/" target="_blank">Facebook</a>
+          <a href="https://www.imdb.com/name/nm11732285/" target="_blank">IMDb</a>
+          <a href="https://www.tiktok.com/@vazeerart" target="_blank">TikTok</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<main data-screen-label="01 Home" style="animation:pagein .8s cubic-bezier(.2,.8,.2,1) both">
+  <section style="position:relative;height:max(680px,calc(100vh - 72px));overflow:hidden;background:#0f0d0b">
+    <div data-depth="0.2" data-scroll="0.1" style="position:absolute;inset:0;pointer-events:none;z-index:0">
+<div style="position:absolute;left:50%;top:50%;width:min(90vw,1100px);aspect-ratio:1;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(232,162,74,.30) 0%,rgba(164,80,26,.12) 35%,rgba(15,13,11,0) 65%);animation:glow 6s ease-in-out infinite">
+</div>
+</div>
+<div data-depth="0.4" data-scroll="0.35" style="position:absolute;inset:0;pointer-events:none;z-index:1;will-change:transform">
+<div style="position:absolute;left:0;right:0;top:50%;transform:translateY(-58%);text-align:center;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(110px,25vw,400px);line-height:.8;letter-spacing:-.01em;color:#efe7da;z-index:1;white-space:nowrap;animation:rise 1.3s cubic-bezier(.2,.8,.2,1) both .15s">Vazeer</div>
+</div>
+<div data-depth="1" data-scroll="-0.12" style="position:absolute;inset:0;pointer-events:none;z-index:2;will-change:transform">    <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(94vw,max(min(76vw,1180px,calc((max(680px,100vh - 72px) - 180px) * 16 / 9)),calc(clamp(110px,25vw,400px) * 2.8)));aspect-ratio:16/9;z-index:2;outline:1px solid rgba(239,231,218,.25);outline-offset:10px;pointer-events:auto;background:#1c1916;box-shadow:0 30px 80px rgba(0,0,0,.6);overflow:hidden;animation:popin 1.2s cubic-bezier(.2,.8,.2,1) both .45s">
+      <div style="position:absolute;inset:0;animation:kenburns 16s ease-in-out infinite alternate">
+<image-slot id="hero-main" src="{{ res.u1625690303837_654c9666d2d0 }}" credit="Photo by Jakob Owens on Unsplash" credit-href="https://unsplash.com/@jakobowens1" shape="rect" placeholder="Drop a wide 16:9 hero frame">
+</image-slot>
+</div>
+    </div>
+</div>
+<div data-depth="0.4" data-scroll="0.35" style="position:absolute;inset:0;pointer-events:none;z-index:4;will-change:transform">    <div aria-hidden="true" style="position:absolute;left:0;right:0;top:50%;transform:translateY(-58%);text-align:center;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(110px,25vw,400px);line-height:.8;letter-spacing:-.01em;color:rgba(239,231,218,.14);-webkit-text-stroke:2px #efe7da;text-shadow:0 6px 40px rgba(0,0,0,.35);z-index:2;white-space:nowrap;pointer-events:none;animation:rise 1.3s cubic-bezier(.2,.8,.2,1) both .15s">
+<span style="position:relative;display:inline-block">Vazeer<span style="position:absolute;right:-0.06em;bottom:-0.5em;font-family:'Mrs Saint Delafield',cursive;font-size:.62em;line-height:1;text-transform:none;letter-spacing:0;color:#e8a24a;-webkit-text-stroke:0;text-shadow:0 4px 24px rgba(0,0,0,.5);transform:rotate(-8deg);animation:popin 1s cubic-bezier(.2,.8,.2,1) both 1.2s">art</span>
+</span>
+</div>
+</div>
+<div data-depth="2" data-scroll="-0.45" style="position:absolute;inset:0;pointer-events:none;z-index:3;will-change:transform">    <div style="position:absolute;left:clamp(12px,6vw,96px);top:9%;width:clamp(120px,15vw,230px);aspect-ratio:3/4;z-index:3;pointer-events:auto;border:7px solid #efe7da;transform:rotate(-6deg);box-shadow:0 18px 40px rgba(0,0,0,.5);background:#1c1916;animation:dropin 1s cubic-bezier(.2,.8,.2,1) both .8s, float 7s ease-in-out 2s infinite">
+      <image-slot id="hero-gif" src="{{ res.u1587050265310_1a2d98ccce5f }}" credit="Photo by Kyle Loftus on Unsplash" credit-href="https://unsplash.com/@kyleloftusstudios" shape="rect" placeholder="BTS GIF">
+</image-slot>
+    </div>
+</div>
+<div data-depth="1.6" data-scroll="-0.25" style="position:absolute;inset:0;pointer-events:none;z-index:3;will-change:transform">    <div style="position:absolute;right:clamp(12px,6vw,96px);bottom:12%;width:clamp(150px,19vw,290px);aspect-ratio:16/10;z-index:3;pointer-events:auto;border:7px solid #efe7da;transform:rotate(4deg);box-shadow:0 18px 40px rgba(0,0,0,.5);background:#1c1916;animation:dropin 1s cubic-bezier(.2,.8,.2,1) both 1s, float 8s ease-in-out 2.4s infinite">
+      <image-slot id="hero-still" src="{{ res.u1568876694728_451bbf694b83 }}" credit="Photo by Jason Dent on Unsplash" credit-href="https://unsplash.com/@jdent" shape="rect" placeholder="Film still">
+</image-slot>
+    </div>
+</div>
+  </section>
+
+  <sc-if value="{{ showMarquee }}" hint-placeholder-val="{{ true }}">
+    <div style="background:#e8a24a;color:#14110e;overflow:hidden;padding:14px 0;border-top:1px solid #14110e;border-bottom:1px solid #14110e">
+      <div style="display:flex;width:max-content;animation:marquee 28s linear infinite;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:28px;letter-spacing:.04em;white-space:nowrap">
+        <sc-for list="{{ marquee }}" as="w" hint-placeholder-count="8">
+          <span style="display:flex;align-items:center;gap:28px;padding-right:28px">{{ w.t }}<span style="font-family:'Mrs Saint Delafield',cursive;font-size:44px;text-transform:none;line-height:.6">&amp;</span>
+</span>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <section style="background:#efe7da;color:#14110e">
+    <div style="max-width:1480px;margin:0 auto;padding:clamp(80px,10vw,150px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:64px clamp(40px,7vw,120px);align-items:center">
+      <div data-reveal="1" style="position:relative;width:100%;max-width:640px;aspect-ratio:1/1.1">
+        <div style="position:absolute;left:0;top:0;width:68%;aspect-ratio:4/5;background:#d9d0c1">
+          <image-slot id="intro-a" src="{{ res.u1603126004251_d01882b9bfd3 }}" credit="Photo by Kyle Loftus on Unsplash" credit-href="https://unsplash.com/@kyleloftusstudios" shape="rect" placeholder="Portrait on set">
+</image-slot>
+        </div>
+        <div style="position:absolute;right:0;bottom:0;width:50%;aspect-ratio:4/5;border:8px solid #fff;transform:rotate(4deg);box-shadow:0 20px 50px rgba(0,0,0,.18);background:#d9d0c1">
+          <image-slot id="intro-b" src="{{ res.u1518930259200_3e5b29f42096 }}" credit="Photo by Chris Murray on Unsplash" credit-href="https://unsplash.com/@seemurray" shape="rect" placeholder="Camera / rig close-up">
+</image-slot>
+        </div>
+      </div>
+      <div data-reveal="1" style="display:flex;flex-direction:column;gap:20px">
+        <span style="font-family:'Mrs Saint Delafield',cursive;font-size:clamp(64px,7vw,104px);line-height:.6;color:#a4501a;margin-bottom:8px">hey, i'm</span>
+        <h2 style="margin:0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(64px,8vw,128px);line-height:.88">Vazeer Art</h2>
+        <span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:22px;color:#5e564c">(Shakir Ali, if we’re being formal)</span>
+        <p style="margin:0;font-size:19px;max-width:520px;text-wrap:pretty">I’m a Delhi-based director of photography and video editor who can’t sit still behind the camera. Give me a gimbal, a moody location and a track on loop, and I’ll bring back frames that feel like cinema — graded, cut and ready to drop.</p>
+        <button sc-camel-on-click="{{ goAbout }}" style="all:unset;cursor:pointer;align-self:flex-start;margin-top:8px;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:2px solid #a4501a;padding-bottom:6px" style-hover="color:#a4501a">More about me →</button>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#000;padding:clamp(64px,8vw,120px) 0">
+    <div style="max-width:1480px;margin:0 auto;padding:0 clamp(16px,4vw,48px) 36px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column">
+        <span style="font-family:'Mrs Saint Delafield',cursive;font-size:clamp(56px,6vw,88px);line-height:.6;color:#e8a24a">now showing</span>
+        <h2 style="margin:12px 0 0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(48px,6vw,96px);line-height:.9">Selected reels</h2>
+      </div>
+      <button sc-camel-on-click="{{ goWork }}" style="all:unset;cursor:pointer;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:2px solid #e8a24a;padding-bottom:6px" style-hover="color:#e8a24a">All work &amp; reels →</button>
+    </div>
+    <div style="height:16px;background:repeating-linear-gradient(90deg,transparent 0 10px,#efe7da 10px 24px,transparent 24px 34px);opacity:.85;margin:0 0 14px">
+</div>
+    <div style="display:flex;gap:14px;overflow-x:auto;padding:0 clamp(16px,4vw,48px);scrollbar-width:none">
+      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="4">
+        <button data-reveal="1" sc-camel-on-click="{{ p.open }}" style="all:unset;cursor:pointer;flex:0 0 clamp(280px,40vw,600px);display:flex;flex-direction:column;gap:14px">
+          <div style="position:relative;aspect-ratio:16/9;background:#1c1916">
+            <image-slot id="cover-{{ p.slug }}" src="{{ p.src }}" credit="{{ p.credit }}" credit-href="{{ p.href }}" shape="rect" placeholder="Frame from {{ p.title }}">
+</image-slot>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+            <span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:32px;line-height:1" style-hover="color:#e8a24a">{{ p.title }}</span>
+            <span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:17px;color:#b9b0a2">({{ p.formatLower }}, {{ p.year }})</span>
+          </div>
+        </button>
+      </sc-for>
+    </div>
+    <div style="height:16px;background:repeating-linear-gradient(90deg,transparent 0 10px,#efe7da 10px 24px,transparent 24px 34px);opacity:.85;margin:18px 0 0">
+</div>
+  </section>
+
+  <section style="max-width:1480px;margin:0 auto;padding:clamp(80px,10vw,150px) clamp(16px,4vw,48px)">
+    <div data-reveal="1" style="display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:56px">
+      <span style="font-family:'Mrs Saint Delafield',cursive;font-size:clamp(64px,7vw,104px);line-height:.6;color:#e8a24a">explore</span>
+      <h2 style="margin:14px 0 0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(56px,7vw,112px);line-height:.9">The work</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(20px,3vw,40px)">
+      <sc-for list="{{ explore }}" as="e" hint-placeholder-count="3">
+        <button data-reveal="1" sc-camel-on-click="{{ e.go }}" style="all:unset;cursor:pointer;display:flex;flex-direction:column;gap:18px;transition:transform .3s" style-hover="transform:translateY(-8px)">
+          <div style="position:relative;aspect-ratio:3/4;background:#1c1916">
+            <image-slot id="{{ e.id }}" src="{{ e.src }}" credit="{{ e.credit }}" credit-href="{{ e.href }}" shape="rect" placeholder="{{ e.ph }}">
+</image-slot>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(239,231,218,.2);padding-top:14px">
+            <span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:34px;line-height:1">{{ e.label }}</span>
+            <span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:18px;color:#e8a24a">{{ e.sub }} →</span>
+          </div>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="position:relative;min-height:clamp(560px,80vh,860px);background:#1c1916;display:flex;align-items:center;justify-content:flex-end;padding:clamp(24px,5vw,80px)">
+    <div style="position:absolute;inset:0;overflow:hidden">
+<div style="position:absolute;inset:0;animation:kenburns 20s ease-in-out infinite alternate">
+<image-slot id="currently-bg" src="{{ res.u1617195737496_bc30194e3a19 }}" credit="Photo by Ouael Ben Salah on Unsplash" credit-href="https://unsplash.com/@benwksi" shape="rect" placeholder="Drop a full-bleed wide frame">
+</image-slot>
+</div>
+</div>
+    <div data-reveal="1" style="position:relative;z-index:2;background:#efe7da;color:#14110e;max-width:520px;padding:clamp(28px,4vw,52px);display:flex;flex-direction:column;gap:16px;box-shadow:0 30px 80px rgba(0,0,0,.4)">
+      <span style="font-family:'Mrs Saint Delafield',cursive;font-size:76px;line-height:.6;color:#a4501a">currently</span>
+      <h3 style="margin:10px 0 0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(34px,3.4vw,48px);line-height:.98">Booking films, commercials &amp; music videos</h3>
+      <p style="margin:0;font-size:17px;color:#3d372f;text-wrap:pretty">Available to shoot, edit and grade — the whole look, in one set of hands. Bookings handled with my management team at @prachar.it.</p>
+      <button sc-camel-on-click="{{ goContact }}" style="all:unset;cursor:pointer;align-self:flex-start;margin-top:6px;background:#14110e;color:#efe7da;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:16px 22px" style-hover="background:#a4501a">Start a project →</button>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isWork }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="02 Work &amp; Reels" style="animation:pagein .8s cubic-bezier(.2,.8,.2,1) both">
+  <section style="max-width:1480px;margin:0 auto;padding:clamp(56px,8vw,110px) clamp(16px,4vw,48px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:40px;align-items:center">
+    <div style="position:relative">
+      <h1 style="margin:0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(96px,15vw,240px);line-height:.8">Work</h1>
+      <span style="position:absolute;left:clamp(90px,14vw,230px);top:62%;font-family:'Mrs Saint Delafield',cursive;font-size:clamp(80px,10vw,160px);line-height:1;color:#e8a24a;transform:rotate(-6deg)">&amp; reels</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px;max-width:520px">
+      <p style="margin:0;font-family:'Bodoni Moda',serif;font-style:italic;font-size:24px;line-height:1.35">Music videos, series and shorts — shot, cut and graded by Vazeer.</p>
+      <div style="display:flex;gap:10px 22px;flex-wrap:wrap;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#b9b0a2">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+          <button sc-camel-on-click="{{ f.pick }}" style="all:unset;cursor:pointer;color:{{ f.color }};border-bottom:2px solid {{ f.line }};padding-bottom:4px">{{ f.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1480px;margin:0 auto;padding:0 clamp(16px,4vw,48px) clamp(64px,8vw,110px)">
+    <div style="position:relative;aspect-ratio:16/9;background:#1c1916">
+      <div style="position:absolute;inset:0;overflow:hidden">
+<div style="position:absolute;inset:0;animation:kenburns 22s ease-in-out infinite alternate">
+<image-slot id="showreel" src="{{ res.u1632187989763_c9c620420b4d }}" credit="Photo by Jakob Owens on Unsplash" credit-href="https://unsplash.com/@jakobowens1" shape="rect" placeholder="Drop the showreel poster frame">
+</image-slot>
+</div>
+</div>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
+        <div style="width:clamp(84px,9vw,132px);aspect-ratio:1;border-radius:50%;background:rgba(239,231,218,.92);animation:pulse 2.4s ease-in-out infinite;display:flex;align-items:center;justify-content:center">
+          <span style="width:0;height:0;border-left:26px solid #14110e;border-top:16px solid transparent;border-bottom:16px solid transparent;margin-left:8px">
+</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding-top:16px">
+      <span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:40px;line-height:1">Showreel</span>
+      <span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:18px;color:#b9b0a2">(in order of appearance: {{ reelOrder }})</span>
+    </div>
+  </section>
+
+  <section style="background:#efe7da;color:#14110e">
+    <div style="max-width:1480px;margin:0 auto;padding:clamp(64px,8vw,120px) clamp(16px,4vw,48px);display:flex;flex-direction:column;gap:clamp(64px,8vw,120px)">
+      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
+        <sc-if value="{{ p.visible }}" hint-placeholder-val="{{ true }}">
+          <article data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:28px clamp(32px,5vw,80px);align-items:center">
+            <button sc-camel-on-click="{{ p.open }}" style="all:unset;cursor:pointer;order:{{ p.order }};position:relative;display:block;aspect-ratio:16/9;background:#d9d0c1;box-shadow:0 20px 50px rgba(0,0,0,.15)">
+              <image-slot id="cover-{{ p.slug }}" src="{{ p.src }}" credit="{{ p.credit }}" credit-href="{{ p.href }}" shape="rect" placeholder="Frame from {{ p.title }}">
+</image-slot>
+            </button>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <span style="font-family:'Mrs Saint Delafield',cursive;font-size:64px;line-height:.6;color:#a4501a">no. {{ p.n }}</span>
+              <h3 style="margin:10px 0 0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(56px,6.5vw,104px);line-height:.88">{{ p.title }}</h3>
+              <span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:22px;color:#5e564c">({{ p.formatLower }}, {{ p.year }})</span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase">{{ p.role }}</span>
+              <button sc-camel-on-click="{{ p.open }}" style="all:unset;cursor:pointer;align-self:flex-start;margin-top:6px;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:2px solid #a4501a;padding-bottom:6px" style-hover="color:#a4501a">Watch &amp; view frames →</button>
+            </div>
+          </article>
+        </sc-if>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width:1480px;margin:0 auto;padding:clamp(72px,9vw,130px) clamp(16px,4vw,48px)">
+    <div data-reveal="1" style="display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:48px">
+      <span style="font-family:'Mrs Saint Delafield',cursive;font-size:clamp(60px,6vw,92px);line-height:.6;color:#e8a24a">on set</span>
+      <h2 style="margin:14px 0 0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(52px,6.5vw,104px);line-height:.9">Special skills</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:20px">
+      <sc-for list="{{ skills }}" as="s" hint-placeholder-count="4">
+        <div data-reveal="1" style="display:flex;flex-direction:column;align-items:center;gap:10px">
+          <div style="position:relative;width:100%;aspect-ratio:1;background:#1c1916;border:6px solid #efe7da;transform:rotate({{ s.rot }})">
+            <image-slot id="{{ s.id }}" src="{{ s.src }}" credit="{{ s.credit }}" credit-href="{{ s.href }}" shape="rect" placeholder="GIF: {{ s.label }}">
+</image-slot>
+          </div>
+          <span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:24px">{{ s.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<sc-for list="{{ projects }}" as="p" hint-placeholder-count="0">
+  <sc-if value="{{ p.isOpen }}" hint-placeholder-val="{{ false }}">
+  <main data-screen-label="03 Project" style="animation:pagein .8s cubic-bezier(.2,.8,.2,1) both">
+    <section style="max-width:1480px;margin:0 auto;padding:clamp(36px,5vw,64px) clamp(16px,4vw,48px) 32px">
+      <button sc-camel-on-click="{{ goWork }}" style="all:unset;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#b9b0a2" style-hover="color:#e8a24a">← Work &amp; reels</button>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-top:36px">
+        <div style="display:flex;flex-direction:column">
+          <span style="font-family:'Mrs Saint Delafield',cursive;font-size:72px;line-height:.6;color:#e8a24a">reel no. {{ p.n }}</span>
+          <h1 style="margin:16px 0 0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(76px,12vw,190px);line-height:.84">{{ p.title }}</h1>
+        </div>
+        <span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:26px;color:#b9b0a2">({{ p.formatLower }}, {{ p.year }})</span>
+      </div>
+    </section>
+    <section style="max-width:1480px;margin:0 auto;padding:0 clamp(16px,4vw,48px)">
+      <div style="position:relative;aspect-ratio:2.39/1;background:#000">
+        <div style="position:absolute;inset:0;overflow:hidden">
+<div style="position:absolute;inset:0;animation:kenburns 18s ease-in-out infinite alternate">
+<image-slot id="cover-{{ p.slug }}" src="{{ p.src }}" credit="{{ p.credit }}" credit-href="{{ p.href }}" shape="rect" placeholder="Key frame from {{ p.title }}">
+</image-slot>
+</div>
+</div>
+        <div style="position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;pointer-events:none;font-size:12px;font-weight:600;letter-spacing:.2em;font-variant-numeric:tabular-nums">
+          <span style="display:flex;align-items:center;gap:8px">
+<span style="width:8px;height:8px;border-radius:50%;background:#e5382b;animation:recblink 1s steps(1) infinite">
+</span>
+<span data-tc="1">00:00:00:00</span>
+</span>
+          <span>2.39 : 1</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));border-bottom:1px solid rgba(239,231,218,.14)">
+        <div style="padding:22px 0;display:flex;flex-direction:column;gap:4px">
+<span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:16px;color:#b9b0a2">role</span>
+<span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:24px">{{ p.role }}</span>
+</div>
+        <div style="padding:22px 0;display:flex;flex-direction:column;gap:4px">
+<span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:16px;color:#b9b0a2">format</span>
+<span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:24px">{{ p.format }}</span>
+</div>
+        <div style="padding:22px 0;display:flex;flex-direction:column;gap:4px">
+<span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:16px;color:#b9b0a2">year</span>
+<span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:24px">{{ p.year }}</span>
+</div>
+      </div>
+    </section>
+    <section style="background:#efe7da;color:#14110e;margin-top:clamp(56px,7vw,100px)">
+      <div style="max-width:1480px;margin:0 auto;padding:clamp(56px,7vw,100px) clamp(16px,4vw,48px)">
+        <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:40px">
+          <span style="font-family:'Mrs Saint Delafield',cursive;font-size:72px;line-height:.6;color:#a4501a">frame</span>
+          <h2 style="margin:12px 0 0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(48px,6vw,88px);line-height:.9">Grabs</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px">
+          <div data-reveal="1" style="position:relative;aspect-ratio:16/9;background:#d9d0c1">
+<image-slot id="{{ p.slug }}-f1" src="{{ p.g1.src }}" credit="{{ p.g1.credit }}" credit-href="{{ p.g1.href }}" shape="rect" placeholder="Frame grab 01">
+</image-slot>
+</div>
+          <div data-reveal="1" style="position:relative;aspect-ratio:16/9;background:#d9d0c1">
+<image-slot id="{{ p.slug }}-f2" src="{{ p.g2.src }}" credit="{{ p.g2.credit }}" credit-href="{{ p.g2.href }}" shape="rect" placeholder="Frame grab 02">
+</image-slot>
+</div>
+          <div data-reveal="1" style="position:relative;aspect-ratio:16/9;background:#d9d0c1">
+<image-slot id="{{ p.slug }}-f3" src="{{ p.g3.src }}" credit="{{ p.g3.credit }}" credit-href="{{ p.g3.href }}" shape="rect" placeholder="Frame grab 03">
+</image-slot>
+</div>
+          <div data-reveal="1" style="position:relative;aspect-ratio:16/9;background:#d9d0c1">
+<image-slot id="{{ p.slug }}-f4" src="{{ p.g4.src }}" credit="{{ p.g4.credit }}" credit-href="{{ p.g4.href }}" shape="rect" placeholder="Frame grab 04">
+</image-slot>
+</div>
+        </div>
+      </div>
+    </section>
+    <section style="max-width:1480px;margin:0 auto;padding:clamp(56px,7vw,100px) clamp(16px,4vw,48px) 0">
+      <button sc-camel-on-click="{{ p.next }}" style="all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;width:100%;text-align:center" style-hover="color:#e8a24a">
+        <span style="font-family:'Mrs Saint Delafield',cursive;font-size:64px;line-height:.6;color:#e8a24a">up next</span>
+        <span style="margin-top:16px;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(60px,10vw,160px);line-height:.85">{{ p.nextTitle }} →</span>
+      </button>
+    </section>
+  </main>
+  </sc-if>
+</sc-for>
+
+<sc-if value="{{ isFrames }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="04 Frames" style="animation:pagein .8s cubic-bezier(.2,.8,.2,1) both;max-width:1480px;margin:0 auto;padding:clamp(56px,8vw,110px) clamp(16px,4vw,48px) 0">
+  <div data-reveal="1" style="display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:56px">
+    <span style="font-family:'Mrs Saint Delafield',cursive;font-size:clamp(64px,7vw,110px);line-height:.6;color:#e8a24a">straight from the grid</span>
+    <h1 style="margin:18px 0 12px;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(96px,15vw,240px);line-height:.8">Frames</h1>
+    <a href="https://www.instagram.com/vazeerart/" target="_blank" style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:22px;border-bottom:1px solid #e8a24a">(follow along @vazeerart ↗)</a>
+  </div>
+  <div style="column-width:280px;column-gap:14px">
+    <sc-for list="{{ frames }}" as="f" hint-placeholder-count="9">
+      <div data-reveal="1" style="break-inside:avoid;margin-bottom:14px;position:relative;aspect-ratio:{{ f.ratio }};background:#1c1916">
+        <image-slot id="{{ f.id }}" src="{{ f.src }}" credit="{{ f.credit }}" credit-href="{{ f.href }}" shape="rect" placeholder="{{ f.label }}">
+</image-slot>
+      </div>
+    </sc-for>
+  </div>
+</main>
+</sc-if>
+
+<sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="05 About" style="animation:pagein .8s cubic-bezier(.2,.8,.2,1) both">
+  <section style="max-width:1480px;margin:0 auto;padding:clamp(56px,8vw,110px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:56px clamp(40px,7vw,120px);align-items:center">
+    <div data-reveal="1" style="position:relative;width:100%;max-width:660px;aspect-ratio:1/1.1">
+      <div style="position:absolute;right:0;top:0;width:72%;aspect-ratio:4/5;background:#1c1916">
+        <image-slot id="about-a" src="{{ res.u1576280314591_b115fb8f4f79 }}" credit="Photo by Kyle Loftus on Unsplash" credit-href="https://unsplash.com/@kyleloftusstudios" shape="rect" placeholder="Portrait of Shakir">
+</image-slot>
+      </div>
+      <div style="position:absolute;left:0;bottom:0;width:46%;aspect-ratio:3/4;border:7px solid #efe7da;transform:rotate(-5deg);box-shadow:0 20px 50px rgba(0,0,0,.5);background:#1c1916">
+        <image-slot id="about-gif" src="{{ res.u1576280314550_773c50583407 }}" credit="Photo by Kyle Loftus on Unsplash" credit-href="https://unsplash.com/@kyleloftusstudios" shape="rect" placeholder="BTS GIF">
+</image-slot>
+      </div>
+    </div>
+    <div data-reveal="1" style="display:flex;flex-direction:column;gap:20px">
+      <span style="font-family:'Mrs Saint Delafield',cursive;font-size:clamp(64px,7vw,104px);line-height:.6;color:#e8a24a">hey, i'm</span>
+      <h1 style="margin:0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(64px,8vw,128px);line-height:.88">Vazeer Art</h1>
+      <p style="margin:0;font-size:19px;max-width:520px;text-wrap:pretty">Cinematographer, editor and full-time frame hunter. I shoot the way I cut — always thinking about the next shot, the beat it lands on and the colour it lives in. Let’s make something people rewatch.</p>
+      <button sc-camel-on-click="{{ goContact }}" style="all:unset;cursor:pointer;align-self:flex-start;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:2px solid #e8a24a;padding-bottom:6px" style-hover="color:#e8a24a">Get in touch →</button>
+    </div>
+  </section>
+
+  <section style="background:#efe7da;color:#14110e">
+    <div style="max-width:1480px;margin:0 auto;padding:clamp(72px,9vw,130px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:40px clamp(40px,7vw,120px)">
+      <h2 style="margin:0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(40px,4.4vw,68px);line-height:.95;text-wrap:pretty">University of Delhi grad and gimbal lover turned <span style="color:#a4501a">DOP &amp; editor</span>
+</h2>
+      <div style="display:flex;flex-direction:column;gap:20px;font-size:18px;color:#3d372f">
+        <p style="margin:0;text-wrap:pretty">I started out editing — cutting other people’s footage and learning exactly which shots make a sequence sing. That pulled me behind the camera, and I’ve been chasing movement ever since.</p>
+        <p style="margin:0;text-wrap:pretty">Today I work across music videos, short films, series and commercials as a director of photography, and I still edit and grade much of what I shoot. One set of eyes from first frame to final export.</p>
+        <p style="margin:0;text-wrap:pretty">When I’m not on set, I’m posting frames to the grid, testing new rigs and rewatching the scenes that made me want to do this in the first place.</p>
+        <span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:22px;color:#14110e">(yes, the gimbal comes everywhere)</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1480px;margin:0 auto;padding:clamp(72px,9vw,130px) clamp(16px,4vw,48px)">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:28px">
+      <div style="display:flex;flex-direction:column">
+        <span style="font-family:'Mrs Saint Delafield',cursive;font-size:72px;line-height:.6;color:#e8a24a">the</span>
+        <h2 style="margin:12px 0 0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(52px,6vw,96px);line-height:.9">Credits</h2>
+      </div>
+      <a href="https://www.imdb.com/name/nm11732285/" target="_blank" style="font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:2px solid #e8a24a;padding-bottom:6px">Full list on IMDb ↗</a>
+    </div>
+    <div style="border-top:1px solid rgba(239,231,218,.18)">
+      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="5">
+        <button data-reveal="1" sc-camel-on-click="{{ p.open }}" style="all:unset;cursor:pointer;display:grid;grid-template-columns:80px minmax(0,1fr) auto;gap:8px 24px;align-items:baseline;width:100%;padding:20px 0;border-bottom:1px solid rgba(239,231,218,.18)" style-hover="color:#e8a24a">
+          <span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:20px;color:#b9b0a2">{{ p.year }}</span>
+          <span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(28px,3.2vw,44px);line-height:1">{{ p.title }}</span>
+          <span style="font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#b9b0a2">{{ p.formatLower }} · {{ p.roleShort }}</span>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="position:relative;min-height:clamp(480px,70vh,780px);background:#1c1916;display:flex;align-items:center;justify-content:center;text-align:center">
+    <div style="position:absolute;inset:0;overflow:hidden">
+<div style="position:absolute;inset:0;animation:kenburns 22s ease-in-out infinite alternate">
+<image-slot id="about-wide" src="{{ res.u1506434304575_afbb92660c28 }}" credit="Photo by KOBU Agency on Unsplash" credit-href="https://unsplash.com/@kobuagency" shape="rect" placeholder="Drop a full-bleed wide frame">
+</image-slot>
+</div>
+</div>
+    <div style="position:relative;z-index:2;pointer-events:none;display:flex;flex-direction:column;align-items:center;padding:24px;text-shadow:0 4px 30px rgba(0,0,0,.6)">
+      <span style="font-family:'Mrs Saint Delafield',cursive;font-size:clamp(80px,10vw,160px);line-height:.7;color:#e8a24a">find the frame</span>
+      <span style="margin-top:8px;font-family:'Bodoni Moda',serif;font-style:italic;font-size:22px">(no one else is looking for)</span>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="06 Contact" style="animation:pagein .8s cubic-bezier(.2,.8,.2,1) both;max-width:1480px;margin:0 auto;padding:clamp(56px,8vw,110px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:56px clamp(40px,7vw,120px);align-items:start">
+  <div style="display:flex;flex-direction:column;gap:24px">
+    <div style="position:relative">
+      <span style="font-family:'Mrs Saint Delafield',cursive;font-size:clamp(80px,9vw,140px);line-height:.6;color:#e8a24a">get in</span>
+      <h1 style="margin:20px 0 0;font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(96px,13vw,210px);line-height:.8">Touch</h1>
+    </div>
+    <p style="margin:0;font-family:'Bodoni Moda',serif;font-style:italic;font-size:24px;line-height:1.4;max-width:460px">Films, commercials, music videos — tell me what you’re making and when.</p>
+    <div style="position:relative;width:min(100%,300px);aspect-ratio:4/5;border:7px solid #efe7da;transform:rotate(-3deg);box-shadow:0 20px 50px rgba(0,0,0,.5);background:#1c1916;margin:12px 0 12px 8px">
+      <image-slot id="contact-photo" src="{{ res.u1603126004251_d01882b9bfd3 }}" credit="Photo by Kyle Loftus on Unsplash" credit-href="https://unsplash.com/@kyleloftusstudios" shape="rect" placeholder="Photo behind the camera">
+</image-slot>
+    </div>
+    <div style="display:flex;flex-direction:column;border-top:1px solid rgba(239,231,218,.18)">
+      <a href="https://www.instagram.com/prachar.it/" target="_blank" style="display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid rgba(239,231,218,.18)">
+<span style="font-family:'Bodoni Moda',serif;font-style:italic;color:#b9b0a2">management</span>
+<span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:22px">@prachar.it ↗</span>
+</a>
+      <a href="https://www.instagram.com/vazeerart/" target="_blank" style="display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid rgba(239,231,218,.18)">
+<span style="font-family:'Bodoni Moda',serif;font-style:italic;color:#b9b0a2">dm me</span>
+<span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:22px">@vazeerart ↗</span>
+</a>
+    </div>
+  </div>
+
+  <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+  <form sc-camel-on-submit="{{ submit }}" style="background:#efe7da;color:#14110e;padding:clamp(28px,4vw,56px);display:flex;flex-direction:column;gap:26px;box-shadow:0 30px 80px rgba(0,0,0,.4)">
+    <span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:36px;line-height:1">The brief</span>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:17px;color:#5e564c">what are we making?</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <sc-for list="{{ types }}" as="t" hint-placeholder-count="4">
+          <button type="button" sc-camel-on-click="{{ t.pick }}" style="all:unset;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:10px 14px;border:1px solid #14110e;background:{{ t.bg }};color:{{ t.color }}">{{ t.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+    <label style="display:flex;flex-direction:column;gap:6px">
+<span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:17px;color:#5e564c">your name</span>
+<input required="" style="all:unset;font-size:19px;padding:8px 0;border-bottom:1px solid #14110e">
+</label>
+    <label style="display:flex;flex-direction:column;gap:6px">
+<span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:17px;color:#5e564c">email or phone</span>
+<input required="" style="all:unset;font-size:19px;padding:8px 0;border-bottom:1px solid #14110e">
+</label>
+    <label style="display:flex;flex-direction:column;gap:6px">
+<span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:17px;color:#5e564c">dates &amp; location</span>
+<input style="all:unset;font-size:19px;padding:8px 0;border-bottom:1px solid #14110e">
+</label>
+    <label style="display:flex;flex-direction:column;gap:6px">
+<span style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:17px;color:#5e564c">the idea, references, budget</span>
+<textarea rows="4" style="all:unset;font-size:19px;padding:8px 0;border-bottom:1px solid #14110e;white-space:pre-wrap">
+</textarea>
+</label>
+    <button type="submit" style="all:unset;cursor:pointer;text-align:center;background:#14110e;color:#efe7da;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:18px" style-hover="background:#a4501a">Send it →</button>
+  </form>
+  </sc-if>
+  <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+    <div style="background:#efe7da;color:#14110e;padding:clamp(28px,4vw,56px);display:flex;flex-direction:column;gap:14px">
+      <span style="font-family:'Mrs Saint Delafield',cursive;font-size:80px;line-height:.7;color:#a4501a">that’s a wrap</span>
+      <p style="margin:0;font-size:18px">Thanks — we’ll get back to you within two working days.</p>
+      <button sc-camel-on-click="{{ resetForm }}" style="all:unset;cursor:pointer;align-self:flex-start;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:2px solid #a4501a;padding-bottom:4px">Send another</button>
+    </div>
+  </sc-if>
+</main>
+</sc-if>
+
+<section style="background:#efe7da;color:#14110e;margin-top:clamp(64px,8vw,120px)">
+  <div style="max-width:1480px;margin:0 auto;padding:clamp(48px,6vw,80px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:32px">
+    <sc-for list="{{ preFooter }}" as="c" hint-placeholder-count="3">
+      <button data-reveal="1" sc-camel-on-click="{{ c.go }}" style="all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px" style-hover="color:#a4501a">
+        <span style="font-family:'Mrs Saint Delafield',cursive;font-size:56px;line-height:.7;color:#a4501a">{{ c.sub }}</span>
+        <span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(40px,4.4vw,64px);line-height:1">{{ c.label }}</span>
+      </button>
+    </sc-for>
+  </div>
+</section>
+
+<footer style="background:#0f0d0b">
+  <div style="max-width:1480px;margin:0 auto;padding:56px clamp(16px,4vw,48px) 28px;display:flex;flex-direction:column;gap:40px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap">
+      <button sc-camel-on-click="{{ goHome }}" style="all:unset;cursor:pointer;display:flex;align-items:baseline;line-height:.85">
+        <span style="font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(64px,10vw,150px)">Vazeer</span>
+        <span style="font-family:'Mrs Saint Delafield',cursive;font-size:clamp(80px,12vw,180px);color:#e8a24a;margin-left:8px;line-height:.4">art.</span>
+      </button>
+      <div style="display:flex;gap:10px 28px;flex-wrap:wrap;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase">
+        <sc-for list="{{ menuItems }}" as="m" hint-placeholder-count="5">
+          <button sc-camel-on-click="{{ m.go }}" style="all:unset;cursor:pointer" style-hover="color:#e8a24a">{{ m.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(239,231,218,.14);padding-top:22px;font-size:13px;color:#b9b0a2">
+      <div style="display:flex;gap:22px;flex-wrap:wrap">
+        <a href="https://www.instagram.com/vazeerart/" target="_blank">Instagram</a>
+        <a href="https://www.facebook.com/vazeerart/" target="_blank">Facebook</a>
+        <a href="https://www.imdb.com/name/nm11732285/" target="_blank">IMDb</a>
+        <a href="https://www.tiktok.com/@vazeerart" target="_blank">TikTok</a>
+      </div>
+      <span>© Vazeer Art, 2026 · New Delhi</span>
+    </div>
+  </div>
+</footer>
+
+<sc-if value="{{ grain }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.07;background-image:{{ grainBg }};animation:grainshift .5s steps(4) infinite">
+</div>
+</sc-if>
+</div>

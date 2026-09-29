@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+dist/
+.sanity/
+.env
+.env.*
+!.env.example
+.DS_Store
+.claude/settings.local.json
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
