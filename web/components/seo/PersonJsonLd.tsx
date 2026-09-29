@@ -12,5 +12,6 @@ export function PersonJsonLd({settings, name, jobTitle}: {settings: SiteSettings
     sameAs: settings.socials.map((s) => s.url),
   }
   // Draft / Presentation mode stega-encodes CMS strings; the JSON-LD must carry none of it.
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(stegaClean<unknown>(data))}} />
+  // `<` is escaped so a CMS string containing `</script>` cannot end the script element.
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(stegaClean<unknown>(data)).replace(/</g, '\\u003c')}} />
 }

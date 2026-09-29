@@ -6,6 +6,9 @@ export function readEnv(source: Source) {
   const dataset = source.NEXT_PUBLIC_SANITY_DATASET
   if (!projectId) throw new Error('Missing NEXT_PUBLIC_SANITY_PROJECT_ID')
   if (!dataset) throw new Error('Missing NEXT_PUBLIC_SANITY_DATASET')
+  if (!source.NEXT_PUBLIC_SITE_URL && source.NODE_ENV === 'production') {
+    console.warn('[env] NEXT_PUBLIC_SITE_URL is not set — canonical/OG/sitemap URLs will point at http://localhost:3000')
+  }
   return {
     projectId,
     dataset,
@@ -22,4 +25,5 @@ export const env = readEnv({
   NEXT_PUBLIC_SANITY_API_VERSION: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
   NEXT_PUBLIC_SANITY_STUDIO_URL: process.env.NEXT_PUBLIC_SANITY_STUDIO_URL,
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+  NODE_ENV: process.env.NODE_ENV,
 })
