@@ -25,3 +25,6 @@ html:not([data-leader="on"]):not([data-leader="out"]) [data-leader-overlay]{disp
   [data-hero-anim], [data-reveal] { animation: none !important; opacity: 1 !important; translate: none !important; }
   [data-motion="loop"] { animation: none !important; }
 }
+
+/* Keyboard focus ring: the prototype's all:unset buttons drop it */
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}

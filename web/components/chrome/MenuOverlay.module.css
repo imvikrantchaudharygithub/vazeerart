@@ -1,0 +1,14 @@
+/* web/components/chrome/MenuOverlay.module.css */
+.overlay{position:fixed;inset:0;z-index:90;background:#efe7da;color:#14110e;display:flex;flex-direction:column;padding:24px clamp(16px,4vw,48px) 40px;overflow:auto}
+.top{display:flex;justify-content:space-between;align-items:center;height:48px}
+.script{font-family:var(--font-delafield),cursive;font-size:48px;color:#a4501a;line-height:1}
+.close{all:unset;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid #14110e;padding-bottom:4px}
+.grid{flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px;align-items:center;margin-top:24px}
+.list{display:flex;flex-direction:column}
+.item{all:unset;cursor:pointer;display:flex;align-items:baseline;gap:18px;border-bottom:1px solid rgba(20,17,14,.15);padding:6px 0}
+.itemNum{font-family:var(--font-bodoni),serif;font-style:italic;font-size:18px;color:#5e564c;width:32px}
+.itemLabel{font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:clamp(48px,7vw,104px);line-height:1.02}
+.aside{display:flex;flex-direction:column;gap:24px;max-width:420px}
+.photo{position:relative;aspect-ratio:4/5;width:min(100%,320px);border:8px solid #fff;box-shadow:0 20px 50px rgba(0,0,0,.18);transform:rotate(3deg)}
+.socialsLabel{font-family:var(--font-bodoni),serif;font-style:italic;font-size:22px}
+.socials{display:flex;gap:20px;flex-wrap:wrap;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase}

@@ -1,0 +1,11 @@
+/* web/components/chrome/Footer.module.css — markup.html <footer> */
+.footer{background:#0f0d0b}
+.inner{max-width:1480px;margin:0 auto;padding:56px clamp(16px,4vw,48px) 28px;display:flex;flex-direction:column;gap:40px}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.brand{all:unset;cursor:pointer;display:flex;align-items:baseline;line-height:.85}
+.brandWord{font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:clamp(64px,10vw,150px)}
+.brandScript{font-family:var(--font-delafield),cursive;font-size:clamp(80px,12vw,180px);color:#e8a24a;margin-left:8px;line-height:.4}
+.nav{display:flex;gap:10px 28px;flex-wrap:wrap;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase}
+.navItem{all:unset;cursor:pointer}
+.bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(239,231,218,.14);padding-top:22px;font-size:13px;color:#b9b0a2}
+.socials{display:flex;gap:22px;flex-wrap:wrap}
