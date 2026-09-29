@@ -1,12 +1,29 @@
 // web/app/api/inquiry/route.ts
 import {stegaClean} from 'next-sanity'
 import {NextResponse} from 'next/server'
+import {env} from '@/lib/env'
+import {allow} from '@/lib/inquiry/rateLimit'
 import {validateInquiry} from '@/lib/inquiry/schema'
 import {client} from '@/lib/sanity/client'
 import {CONTACT_TYPES_QUERY} from '@/lib/sanity/queries'
 import {writeClient} from '@/lib/sanity/writeClient'
 
+/** A present Origin must match the site's own origin; an unparsable one (e.g. the opaque "null") never does. A missing Origin is allowed by the caller. */
+function isSameOrigin(origin: string): boolean {
+  try {
+    return new URL(origin).origin === new URL(env.siteUrl).origin
+  } catch {
+    return false
+  }
+}
+
 export async function POST(request: Request) {
+  // Abuse controls come first, before the body is read: same-origin only (a missing Origin is allowed — older same-origin fetches omit it), then a per-IP token bucket.
+  const origin = request.headers.get('origin')
+  if (origin !== null && !isSameOrigin(origin)) return NextResponse.json({ok: false, errors: {name: 'Forbidden'}}, {status: 403})
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+  if (!allow(ip)) return NextResponse.json({ok: false, errors: {name: 'Too many requests — please try again in a minute.'}}, {status: 429})
+
   let body: unknown
   try {
     body = await request.json()
