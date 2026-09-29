@@ -42,7 +42,9 @@ running cost is ₹0.
 | Topic | Decision | Reason |
 |---|---|---|
 | Stack | Next.js 16 App Router + Sanity (Content Lake + Studio) + Vercel | Fastest static site, zero servers, best editor UX, roomiest free tiers |
-| Admin | Sanity Studio v4 in its own package, deployed to `*.sanity.studio` | Genuinely separate admin, free hosting |
+| Admin | Sanity Studio v6 (6.16 at time of writing) in its own package, deployed to `*.sanity.studio` | Genuinely separate admin, free hosting |
+| Toolchain | Node 22 LTS via nvm (`.nvmrc` = `22`); Studio v6 requires Node ≥ 22.12, next-sanity 13 requires ≥ 20.19 or ≥ 22.12 | Machine has nvm with v22.14.0 installed |
+| Library versions | next 16.3.x · next-sanity 13.3.x · sanity 6.16.x · @sanity/image-url 2.1.x (named export `createImageUrlBuilder`) · @sanity/orderable-document-list 2.0.x | Verified against npm registry 2026-09-29; pin in lockfiles |
 | Motion libraries | None. CSS keyframes + 3 small hooks | Prototype uses no GSAP/Lenis; adding them changes the feel |
 | Video | YouTube / Vimeo URL per project and for showreel; in-page lightbox | ₹0 bandwidth, real player |
 | Contact form | Stored as `inquiry` documents in Sanity, no email | User decision |
@@ -267,10 +269,11 @@ the root layout subscribes to content events and triggers revalidation of the
 affected sync tags. In draft mode (Presentation tool), `sanityFetch` returns
 drafts with stega encoding for click-to-edit overlays via `<VisualEditing />`.
 
-Fallback if the Live Content API is unavailable on the Free plan or unstable:
-GROQ-powered webhook on publish → `POST /api/revalidate?secret=…` →
-`revalidateTag('sanity')`. The route ships from day one; the webhook is only
-created if needed.
+The Live Content API is included on all Sanity plans including Free. Fallback
+if it proves unstable: GROQ-powered webhook on publish → `POST /api/revalidate`
+(signature checked with `parseBody` from `next-sanity/webhook`) →
+`revalidatePath('/', 'layout')`, which refreshes every route. The route ships
+from day one; the webhook is only created if needed.
 
 ---
 
@@ -283,7 +286,7 @@ created if needed.
 | `/` | homePage, siteSettings, projects(showOnHome) | hero animations held during leader (§5.4) |
 | `/work` | workPage, projects(all with page) | `?filter=all\|cinematography\|editing`; default `all`. The page itself stays static: it never reads `searchParams` on the server. A client `<ProjectList>` (wrapped in `<Suspense>`) reads `useSearchParams()` and filters the full list it received as props. Chips are `<Link href="/work?filter=…" scroll={false}>` so the state is shareable and survives back-navigation |
 | `/work/[slug]` | project, next project by order (wraps) | `generateStaticParams` from all slugs; `notFound()` for unknown |
-| `/frames` | frames ordered | |
+| `/frames` | framesPage, frames ordered | |
 | `/about` | aboutPage, projects (credits, includes credit-only) | |
 | `/contact` | contactPage, siteSettings | form is a client component |
 
@@ -440,8 +443,12 @@ an inline accent are split into `*Plain` + `*Accent`. All fields have a
 
 **`workPage`**
 `title` ("Work") · `script` ("& reels") · `intro` (italic line) · `filterAll`, `filterDop`, `filterEditor` labels ·
-`showreel: { poster: image, videoUrl: url, label ("Showreel"), orderNoteOverride?: string }` ·
-`projectCta` ("Watch & view frames →") · `skills: headingBlock ("on set"/"Special skills") + items: skill[]` · `seo`.
+`showreel: { poster: image, videoUrl: url, label ("Showreel"), orderNotePrefix ("in order of appearance:"), orderNoteOverride?: string }` ·
+`numberPrefix` ("no.") · `projectCta` ("Watch & view frames →") · `skills: headingBlock ("on set"/"Special skills") + items: skill[]` ·
+`projectPage: { backLabel ("← Work & reels"), reelPrefix ("reel no."), roleLabel ("role"), formatLabel ("format"), yearLabel ("year"), aspectLabel ("2.39 : 1"), grabsScript ("frame"), grabsHeading ("Grabs"), upNextScript ("up next") }` · `seo`.
+
+**`framesPage`**
+`script` ("straight from the grid") · `heading` ("Frames") · `linkLabel` ("(follow along @vazeerart ↗)") · `linkUrl` · `reelLabel` ("Reel cover") · `postLabel` ("Instagram post") · `seo`.
 
 **`aboutPage`**
 `hero: { script, heading, body: text, ctaLabel, portrait: image, polaroid: mediaSlot }` ·
@@ -481,9 +488,10 @@ Derived at render, always over the ordered list of projects with `creditOnly=fal
 
 ## 7. Studio
 
-- **Structure:** Site settings · Home · Work · About · Contact (singletons, each
-  `S.document().documentId(...)`) · divider · Projects (orderable list) · Frames
-  (orderable list) · Inquiries (newest first, unread badge via title preview).
+- **Structure:** Site settings · Home · Work · Frames page · About · Contact
+  (singletons, each `S.document().documentId(...)`) · divider · Projects
+  (orderable list) · Frames (orderable list) · Inquiries (newest first, unread
+  badge via title preview).
 - **Singleton enforcement:** `document.newDocumentOptions` filters singleton
   types out of "Create"; `document.actions` removes delete/duplicate/unpublish
   for singleton types; `inquiry` has no create action in the UI.
@@ -515,8 +523,9 @@ Derived at render, always over the ordered list of projects with `creditOnly=fal
 - `<MediaSlot>`: `kind='video'` renders `<video autoplay muted loop playsinline>`
   with the file URL; `kind='image'` with `asset->extension == 'gif'` renders a
   plain `<img>` with `asset->url` (no transforms, keeps animation); otherwise
-  `<SanityImage>`. Verify during implementation whether Sanity's CDN preserves
-  GIF animation under transforms; if it does, the special case can be dropped.
+  `<SanityImage>`. Sanity's CDN does preserve GIF animation under transforms
+  (up to 256 megapixel-frames, per its 2024 changelog), but `auto=format` may
+  re-encode; serving the original keeps behaviour predictable and costs nothing.
 - Full-bleed Ken Burns images render `fill` with `object-fit: cover` inside the
   prototype's wrapper.
 
