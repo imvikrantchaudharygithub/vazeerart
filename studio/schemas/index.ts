@@ -7,6 +7,12 @@ import {mediaSlot} from './objects/mediaSlot'
 import {exploreCard} from './objects/exploreCard'
 import {skill} from './objects/skill'
 import {pageEntry} from './objects/pageEntry'
+import {siteSettings} from './documents/siteSettings'
+import {homePage} from './documents/homePage'
+import {workPage} from './documents/workPage'
+import {framesPage} from './documents/framesPage'
+import {aboutPage} from './documents/aboutPage'
+import {contactPage} from './documents/contactPage'
 
 export const objectTypes: SchemaTypeDefinition[] = [
   imageWithAlt,
@@ -19,6 +25,13 @@ export const objectTypes: SchemaTypeDefinition[] = [
   pageEntry,
 ]
 
-export const documentTypes: SchemaTypeDefinition[] = []
+export const documentTypes: SchemaTypeDefinition[] = [
+  siteSettings,
+  homePage,
+  workPage,
+  framesPage,
+  aboutPage,
+  contactPage,
+]
 
 export const schemaTypes: SchemaTypeDefinition[] = [...objectTypes, ...documentTypes]
