@@ -6,6 +6,11 @@ export const FREEZE_CSS = `
   *, *::before, *::after { animation: none !important; transition: none !important; }
   [data-reveal] { opacity: 1 !important; translate: none !important; }
   img, video, image-slot { visibility: hidden !important; }
+  /* The prototype's <image-slot> sits in normal flow, so its 3:2 placeholder photo stretches the
+     16/9 reel-card box to 3:2 (60 px taller at 1440). The design declares 16/9 and the site pins it
+     (next/image fill), so pin the prototype's slot to its box too. The runtime serialises the inline
+     style with spaces ("aspect-ratio: 16 / 9"); the selector is inline-style only, so the site is untouched. */
+  [style*="aspect-ratio: 16 / 9"] > *, [style*="aspect-ratio:16/9"] > * { position: absolute !important; inset: 0 !important; }
 `
 
 export async function skipLeaderAndFreeze(page: Page, route: {page: string; slug?: string}) {

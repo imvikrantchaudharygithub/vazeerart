@@ -6,7 +6,7 @@ import {settle, skipLeaderAndFreeze} from './freeze'
 
 const SOURCE = process.env.VISUAL_SOURCE === 'original' ? 'original' : 'site'
 const ORIGINAL = pathToFileURL(resolve(__dirname, '../../../design-reference/original.html')).href
-const SITE = 'http://localhost:3000'
+const SITE = `http://localhost:${process.env.E2E_PORT ?? '3000'}`
 
 const SCREENS: {name: string; proto: {page: string; slug?: string}; path: string}[] = [
   {name: 'home', proto: {page: 'home'}, path: '/'},
