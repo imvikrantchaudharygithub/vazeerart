@@ -1,0 +1,4 @@
+.section{max-width:1480px;margin:0 auto;padding:clamp(56px,7vw,100px) clamp(16px,4vw,48px) 0}
+.link{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;width:100%;text-align:center}
+.script{font-family:var(--font-delafield),cursive;font-size:64px;line-height:.6;color:#e8a24a}
+.title{margin-top:16px;font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:clamp(60px,10vw,160px);line-height:.85}
