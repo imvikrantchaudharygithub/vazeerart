@@ -12,3 +12,7 @@ coverage/
 playwright-report/
 test-results/
 *.tsbuildinfo
+
+# git worktrees (superpowers)
+.worktrees/
+.superpowers/
