@@ -45,7 +45,7 @@ export function Leader({left, right, skip}: Props) {
       </div>
       <div className={styles.captions}>
         <span>{left}</span>
-        <span className={styles.dot}>●</span>
+        <span className={styles.dot} aria-hidden="true">●</span>
         <span>{right}</span>
       </div>
       <button type="button" className={styles.skip} onClick={end}>{skip}</button>

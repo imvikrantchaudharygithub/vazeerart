@@ -10,3 +10,4 @@
 .captions{position:absolute;bottom:32px;left:0;right:0;display:flex;justify-content:center;gap:24px;font-size:12px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#b9b0a2}
 .dot{color:#e8a24a}
 .skip{all:unset;cursor:pointer;position:absolute;top:24px;right:28px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#b9b0a2}
+@keyframes spin{to{transform:rotate(360deg)}}

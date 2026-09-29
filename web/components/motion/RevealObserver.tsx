@@ -1,15 +1,12 @@
 // web/components/motion/RevealObserver.tsx
 'use client'
 
-import {usePathname} from 'next/navigation'
 import {useEffect} from 'react'
 import {REVEAL} from '@/lib/motion/constants'
 import {revealTransition, shouldSkipReveal} from '@/lib/motion/reveal'
 
-/** Prototype scanReveal(): runs after mount, after each route change, and after DOM mutations (filters). */
+/** Prototype scanReveal(): one observer for the component's lifetime; rescans after mount and after DOM mutations (route changes, filters). */
 export function RevealObserver() {
-  const pathname = usePathname()
-
   useEffect(() => {
     const io = new IntersectionObserver(
       (entries) => {
@@ -49,7 +46,7 @@ export function RevealObserver() {
       mo.disconnect()
       io.disconnect()
     }
-  }, [pathname])
+  }, [])
 
   return null
 }

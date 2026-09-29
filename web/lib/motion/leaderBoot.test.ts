@@ -27,4 +27,9 @@ describe('leaderBootSource', () => {
     new Function('document', 'sessionStorage', 'matchMedia', leaderBootSource(false))({documentElement: html}, {getItem: () => null}, () => ({matches: false}))
     expect(html.dataset.leader).toBeUndefined()
   })
+  it('does nothing under prefers-reduced-motion', () => {
+    const html = {dataset: {} as Record<string, string>}
+    new Function('document', 'sessionStorage', 'matchMedia', leaderBootSource(true))({documentElement: html}, {getItem: () => null}, () => ({matches: true}))
+    expect(html.dataset.leader).toBeUndefined()
+  })
 })
