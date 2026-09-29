@@ -29,6 +29,7 @@ export function SiteChrome({settings}: {settings: SiteSettingsVM}) {
       if (!focusables.length) return
       const first = focusables[0]
       const last = focusables[focusables.length - 1]
+      if (!dialogRef.current.contains(document.activeElement)) { e.preventDefault(); (e.shiftKey ? last : first).focus(); return }
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
     }
@@ -78,9 +79,11 @@ export function SiteChrome({settings}: {settings: SiteSettingsVM}) {
               ))}
             </div>
             <div className={menu.aside}>
-              <div className={menu.photo}>
-                {settings.menuPhoto && <SanityImage image={settings.menuPhoto} sizes="320px" />}
-              </div>
+              {settings.menuPhoto && (
+                <div className={menu.photo}>
+                  <SanityImage image={settings.menuPhoto} sizes="320px" />
+                </div>
+              )}
               <span className={menu.socialsLabel}>{settings.menuSocialsLabel}</span>
               <div className={menu.socials}>
                 {settings.socials.map((s) => (

@@ -1,5 +1,5 @@
 /* web/components/chrome/MenuOverlay.module.css */
-.overlay{position:fixed;inset:0;z-index:90;background:#efe7da;color:#14110e;display:flex;flex-direction:column;padding:24px clamp(16px,4vw,48px) 40px;overflow:auto}
+.overlay{position:fixed;inset:0;z-index:90;background:#efe7da;color:#14110e;display:flex;flex-direction:column;padding:24px clamp(16px,4vw,48px) 40px;overflow:auto;--focus:var(--rust);overscroll-behavior:contain}
 .top{display:flex;justify-content:space-between;align-items:center;height:48px}
 .script{font-family:var(--font-delafield),cursive;font-size:48px;color:#a4501a;line-height:1}
 .close{all:unset;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid #14110e;padding-bottom:4px}

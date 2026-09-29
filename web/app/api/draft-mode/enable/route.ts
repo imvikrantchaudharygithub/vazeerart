@@ -2,6 +2,8 @@
 import {defineEnableDraftMode} from 'next-sanity/draft-mode'
 import {client} from '@/lib/sanity/client'
 
-export const {GET} = defineEnableDraftMode({
-  client: client.withConfig({token: process.env.SANITY_API_READ_TOKEN}),
-})
+const token = process.env.SANITY_API_READ_TOKEN
+
+export const GET = token
+  ? defineEnableDraftMode({client: client.withConfig({token})}).GET
+  : async () => new Response('SANITY_API_READ_TOKEN is not set', {status: 503})

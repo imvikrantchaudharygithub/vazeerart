@@ -1,7 +1,7 @@
 .section{position:relative;min-height:clamp(560px,80vh,860px);background:#1c1916;display:flex;align-items:center;justify-content:flex-end;padding:clamp(24px,5vw,80px)}
 .bg{position:absolute;inset:0;overflow:hidden}
 .kenburns{position:absolute;inset:0;animation:kenburns 20s ease-in-out infinite alternate}
-.card{position:relative;z-index:2;background:#efe7da;color:#14110e;max-width:520px;padding:clamp(28px,4vw,52px);display:flex;flex-direction:column;gap:16px;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.card{position:relative;z-index:2;background:#efe7da;color:#14110e;max-width:520px;padding:clamp(28px,4vw,52px);display:flex;flex-direction:column;gap:16px;box-shadow:0 30px 80px rgba(0,0,0,.4);--focus:var(--rust)}
 .script{font-family:var(--font-delafield),cursive;font-size:76px;line-height:.6;color:#a4501a}
 .heading{margin:10px 0 0;font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:clamp(34px,3.4vw,48px);line-height:.98}
 .body{margin:0;font-size:17px;color:#3d372f;text-wrap:pretty}

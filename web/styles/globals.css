@@ -11,7 +11,7 @@ a:hover{color:#e8a24a}
 ::selection{background:#e8a24a;color:#0f0d0b}
 
 /* Prototype page wrapper */
-.site{min-height:100vh;background:#0f0d0b;color:#efe7da;font-family:var(--font-instrument),sans-serif;font-size:17px;line-height:1.6;overflow-x:hidden}
+.site{min-height:100vh;background:#0f0d0b;color:#efe7da;font-family:var(--font-instrument),sans-serif;font-size:17px;line-height:1.6;overflow-x:hidden;overflow-x:clip}
 
 /* Every screen's <main> */
 .pagein{animation:pagein .8s cubic-bezier(.2,.8,.2,1) both}
@@ -27,4 +27,5 @@ html:not([data-leader="on"]):not([data-leader="out"]) [data-leader-overlay]{disp
 }
 
 /* Keyboard focus ring: the prototype's all:unset buttons drop it */
-a:focus-visible,button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+:root{--focus:var(--amber)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}

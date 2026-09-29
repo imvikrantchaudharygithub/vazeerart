@@ -1,4 +1,4 @@
-.section{background:#efe7da;color:#14110e}
+.section{background:#efe7da;color:#14110e;--focus:var(--rust)}
 .inner{max-width:1480px;margin:0 auto;padding:clamp(80px,10vw,150px) clamp(16px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:64px clamp(40px,7vw,120px);align-items:center}
 .collage{position:relative;width:100%;max-width:640px;aspect-ratio:1/1.1}
 .imageA{position:absolute;left:0;top:0;width:68%;aspect-ratio:4/5;background:#d9d0c1}

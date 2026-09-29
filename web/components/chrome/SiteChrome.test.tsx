@@ -1,4 +1,4 @@
-import {fireEvent, render, screen} from '@testing-library/react'
+import {fireEvent, render, screen, within} from '@testing-library/react'
 import {beforeEach, describe, expect, it, vi} from 'vitest'
 import type {SiteSettingsVM} from '@/lib/viewmodel/site'
 import {SiteChrome} from './SiteChrome'
@@ -80,5 +80,39 @@ describe('SiteChrome', () => {
     expect(document.activeElement).toBe(closeButton)
     fireEvent.keyDown(window, {key: 'Tab', shiftKey: true})
     expect(document.activeElement).toBe(last)
+  })
+
+  it('refocuses the dialog when focus has left it', () => {
+    render(<SiteChrome settings={settings} />)
+    fireEvent.click(screen.getByRole('button', {name: 'Open menu'}))
+    const dialog = screen.getByRole('dialog')
+    const closeButton = screen.getByRole('button', {name: settings.menuClose})
+    const socialLinks = dialog.querySelectorAll<HTMLElement>('a[href]')
+    const last = socialLinks[socialLinks.length - 1]
+    ;(document.activeElement as HTMLElement).blur()
+    expect(document.activeElement).toBe(document.body)
+    fireEvent.keyDown(window, {key: 'Tab'})
+    expect(document.activeElement).toBe(closeButton)
+    ;(document.activeElement as HTMLElement).blur()
+    expect(document.activeElement).toBe(document.body)
+    fireEvent.keyDown(window, {key: 'Tab', shiftKey: true})
+    expect(document.activeElement).toBe(last)
+  })
+
+  it('closes the menu when a menu link is clicked', () => {
+    render(<SiteChrome settings={settings} />)
+    fireEvent.click(screen.getByRole('button', {name: 'Open menu'}))
+    const dialog = screen.getByRole('dialog')
+    fireEvent.click(within(dialog).getByRole('link', {name: /Frames/}))
+    expect(screen.queryByRole('dialog')).toBeNull()
+  })
+
+  it('renders no photo frame when menuPhoto is null', () => {
+    render(<SiteChrome settings={settings} />)
+    fireEvent.click(screen.getByRole('button', {name: 'Open menu'}))
+    const dialog = screen.getByRole('dialog')
+    expect(document.querySelector('[class*="photo"]')).toBeNull()
+    expect(dialog).toHaveTextContent(settings.menuSocialsLabel)
+    expect(within(dialog).getByRole('link', {name: 'Instagram'})).toBeInTheDocument()
   })
 })
