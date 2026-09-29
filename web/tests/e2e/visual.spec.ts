@@ -7,6 +7,9 @@ import {settle, skipLeaderAndFreeze} from './freeze'
 const SOURCE = process.env.VISUAL_SOURCE === 'original' ? 'original' : 'site'
 const ORIGINAL = pathToFileURL(resolve(__dirname, '../../../design-reference/original.html')).href
 const SITE = `http://localhost:${process.env.E2E_PORT ?? '3000'}`
+// Baselines: 1440 and 1024 are captured from original.html (`npm run e2e:baseline`); 390 is captured from the
+// site (`npm run e2e:baseline:mobile`) because the site deliberately departs from the prototype on narrow and
+// portrait screens — header links hidden below 768px, portrait home hero (spec section 3.4).
 
 const SCREENS: {name: string; proto: {page: string; slug?: string}; path: string}[] = [
   {name: 'home', proto: {page: 'home'}, path: '/'},

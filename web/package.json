@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "verify:styles": "node tools/verify-styles.mjs",
     "perf": "node tools/lighthouse.mjs",
-    "e2e:baseline": "VISUAL_SOURCE=original playwright test tests/e2e/visual.spec.ts --update-snapshots",
+    "e2e:baseline": "VISUAL_SOURCE=original playwright test tests/e2e/visual.spec.ts --grep-invert '@ 390' --update-snapshots",
+    "e2e:baseline:mobile": "VISUAL_SOURCE=site playwright test tests/e2e/visual.spec.ts --grep '@ 390' --update-snapshots=all",
     "e2e": "VISUAL_SOURCE=site playwright test"
   },
   "dependencies": {

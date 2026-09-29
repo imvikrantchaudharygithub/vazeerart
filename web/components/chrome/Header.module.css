@@ -11,3 +11,7 @@
 .burger{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:6px;padding:10px 0 10px 8px}
 .bar1{display:block;width:28px;height:2px;background:#efe7da}
 .bar2{display:block;width:20px;height:2px;background:#e8a24a;margin-left:8px}
+/* Mobile (deliberate deviation from the prototype, which has no media queries): the four
+   inline links wrap into three rows and overflow the 72px bar below ~640px. The burger menu
+   lists every page, so the inline links are dropped on narrow screens. */
+@media (max-width:767px){.links{display:none}}

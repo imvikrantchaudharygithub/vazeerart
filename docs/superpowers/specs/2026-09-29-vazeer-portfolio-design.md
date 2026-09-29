@@ -143,7 +143,18 @@ This timing must be preserved (§5.4).
 
 The prototype has **no media queries**. All responsiveness is via `clamp()`,
 `min()`, `max()`, `aspect-ratio`, `repeat(auto-fit, minmax(min(100%,Npx),1fr))`
-and `column-width`. The port keeps this approach; it does not add breakpoints.
+and `column-width`. The port keeps this approach with two deliberate exceptions, added on
+2026-09-30 after the prototype's mobile rendering was judged unusable:
+
+- **Header, `max-width: 767px`:** the four inline nav links are hidden (they wrap into three
+  rows and overflow the 72 px bar below ~640 px). The burger menu lists every page.
+- **Home hero, `orientation: portrait`:** the frame becomes a 3/4 portrait poster sized by
+  the viewport width and height (`min(88vw, (section − 160px) × 3/4)`), the word scales as
+  `clamp(96px, 28vw, 400px)`, and the polaroids sit in the frame's corners. Landscape
+  viewports, including 1024 × 768, keep the prototype layout untouched.
+
+Because of these, the 390 px visual baselines are captured from the site, not from
+`original.html` (see §8).
 
 ### 3.5 Content inventory
 
