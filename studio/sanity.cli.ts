@@ -1,4 +1,3 @@
-// studio/sanity.cli.ts
 import {defineCliConfig} from 'sanity/cli'
 
 export default defineCliConfig({
@@ -7,5 +6,7 @@ export default defineCliConfig({
     dataset: 'production',
   },
   studioHost: 'vazeerart',
-  autoUpdates: true,
+  deployment: {
+    autoUpdates: true,
+  },
 })
