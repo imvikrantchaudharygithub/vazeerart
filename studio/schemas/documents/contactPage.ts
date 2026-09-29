@@ -39,7 +39,7 @@ export const contactPage = defineType({
       type: 'object',
       group: 'success',
       fields: [
-        defineField({name: 'script', title: 'Script line', type: 'string', initialValue: "that's a wrap", validation: (r) => r.required().max(30)}),
+        defineField({name: 'script', title: 'Script line', type: 'string', initialValue: 'that’s a wrap', validation: (r) => r.required().max(30)}),
         defineField({name: 'body', title: 'Message', type: 'string', validation: (r) => r.required().max(160)}),
         defineField({name: 'resetLabel', title: 'Reset label', type: 'string', initialValue: 'Send another', validation: (r) => r.required().max(20)}),
       ],
