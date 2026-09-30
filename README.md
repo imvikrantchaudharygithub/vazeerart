@@ -80,11 +80,11 @@ Result: https://vazeerart.sanity.studio. Step 7 redeploys it with the production
 
 ### 4. Push the repository
 
-Create an empty GitHub repository (in Vazeer's account or yours), then from the repo root. The local branch is `master`; use it as is, or rename it (`git branch -M main`) and push `main` instead, but keep the Vercel production branch in step 5 in sync.
+Done: the repository is https://github.com/imvikrantchaudharygithub/vazeerart and the production branch is `main`. For a fresh clone elsewhere:
 
 ```bash
-git remote add origin git@github.com:<owner>/vazeer-web.git
-git push -u origin master
+git remote add origin git@github.com:imvikrantchaudharygithub/vazeerart.git
+git push -u origin main
 ```
 
 ### 5. Create the Vercel project *(browser)*
@@ -92,8 +92,8 @@ git push -u origin master
 vercel.com → Add New → Project → import the repository, then:
 
 1. **Root Directory: `web`**. Framework preset: Next.js (detected).
-2. Settings → General → Node.js Version: **22.x**.
-3. Settings → Git → Production Branch: the branch you pushed in step 4 (`master` unless you renamed it).
+2. Node.js version: nothing to set. `web/package.json` pins `"engines": {"node": "22.x"}`, which Vercel uses over the project setting.
+3. Settings → Git → Production Branch: `main` (the Vercel default).
 4. Environment Variables: add every `web` variable from the table above to **both Production and Preview**. Mark the two tokens and the secret as Sensitive. Values:
 
    | Name | Value |
