@@ -114,6 +114,7 @@ grain overlay, 3-2-1 leader intro once per session.
 | Hover | `style-hover` | `color:#e8a24a` (18×) · `color:#a4501a` (5×) · `transform:translateY(-8px)` (explore cards, `transition: transform .3s`) · `background:#a4501a` (2 CTAs) |
 | Explore/menu/card hovers | as above | |
 | Scroll to top on navigation | `window.scrollTo(0,0)` in `go()` | Next.js default behaviour |
+| Mobile hero morph (phones only, added 2026-09-30) | Export `design-reference/mobile-hero/` variant 3a `apply(t)`, played lens → split: sticky stage, progress = scroll over the first 40svh of a 50svh runway (smoothed, τ 120 ms); a part-way stop glides to the end in the last direction with t linear in time; transforms / opacity / colour only | 12 `seg(a,b)` windows, easeInOutCubic, full leg 2.6 s; fit rows 96–780 du; split name scaled to 84 % of the width; `kb 14s ease-in-out infinite alternate` (origin 50% 25%) on the lens photo; entrance `rise` (backwards fill) / `popin`; `lib/motion/lensSplit.ts` |
 
 Leader ↔ hero interaction: the prototype does **not** render Home while the
 leader is showing (`isHome = page==='home' && !(leaderOn && !leaderOut)`), so
@@ -143,7 +144,7 @@ This timing must be preserved (§5.4).
 
 The prototype has **no media queries**. All responsiveness is via `clamp()`,
 `min()`, `max()`, `aspect-ratio`, `repeat(auto-fit, minmax(min(100%,Npx),1fr))`
-and `column-width`. The port keeps this approach with two deliberate exceptions, added on
+and `column-width`. The port keeps this approach with three deliberate exceptions, added on
 2026-09-30 after the prototype's mobile rendering was judged unusable:
 
 - **Header, `max-width: 767px`:** the four inline nav links are hidden (they wrap into three
@@ -151,10 +152,18 @@ and `column-width`. The port keeps this approach with two deliberate exceptions,
 - **Home hero, `orientation: portrait`:** the frame becomes a 3/4 portrait poster sized by
   the viewport width and height (`min(88vw, (section − 160px) × 3/4)`), the word scales as
   `clamp(96px, 28vw, 400px)`, and the polaroids sit in the frame's corners. Landscape
-  viewports, including 1024 × 768, keep the prototype layout untouched.
+  viewports, including 1024 × 768, keep the prototype layout untouched. Since the phone rule
+  below, this applies to portrait tablets only.
+- **Phones, `(max-width: 743px) and (orientation: portrait)`:** the home hero is replaced by the
+  mobile hero from the second export (`design-reference/mobile-hero/`, variant 3a), first screen
+  the lens, morphing to the amber split on a small scroll (§3.3 "Mobile hero morph"). The
+  390 × 844 artboard is fitted to `100svh − 73px` under the header; the pinned stage is
+  `100lvh − 73px`. The desktop hero stays in the HTML (hidden on phones); its photo preload is
+  limited to non-phones and the mobile photo's preload to phones. One literal,
+  `MOBILE_HERO.QUERY` in `web/lib/motion/constants.ts`, is unit-tested against both CSS files.
 
 Because of these, the 390 px visual baselines are captured from the site, not from
-`original.html` (see §8).
+`original.html` (see §10).
 
 ### 3.5 Content inventory
 

@@ -104,3 +104,36 @@ for (const {w, h} of WIDTHS) {
     await expect(page).toHaveScreenshot(`contact-sent-${w}.png`, {fullPage: true})
   })
 }
+
+// Phones: the mobile hero (variant 3a of design-reference/mobile-hero) morphs lens → split on scroll.
+// Site-only states: the main prototype has no mobile hero.
+const heroState = (page: Page, state: string) =>
+  page.waitForFunction((s) => document.querySelector('[data-lens-root]')?.getAttribute('data-hero-state') === s, state)
+
+test('home-split @ 390', async ({page}) => {
+  test.skip(SOURCE === 'original', 'site-only state')
+  await open(page, screenNamed('home'), 390, 844)
+  await heroState(page, 'lens')
+  // Into the hold after the morph (morph 40 %, hold 40–50 % of the viewport height), so no glide starts.
+  await page.evaluate(() => window.scrollTo(0, window.innerHeight * 0.45))
+  await heroState(page, 'split')
+  await page.waitForTimeout(400)
+  await expect(page).toHaveScreenshot('home-split-390.png')
+})
+
+test('mobile hero morph has no layout shift @ 390', async ({page}) => {
+  test.skip(SOURCE === 'original', 'site-only state')
+  await page.addInitScript(() => {
+    const w = window as unknown as {__cls: number}
+    w.__cls = 0
+    new PerformanceObserver((list) => {
+      for (const e of list.getEntries() as unknown as {value: number}[]) w.__cls += e.value
+    }).observe({type: 'layout-shift', buffered: true})
+  })
+  await open(page, screenNamed('home'), 390, 844)
+  await heroState(page, 'lens')
+  await page.mouse.move(195, 420)
+  for (let i = 0; i < 12; i++) { await page.mouse.wheel(0, 40); await page.waitForTimeout(40) }
+  await heroState(page, 'split')
+  expect(await page.evaluate(() => (window as unknown as {__cls: number}).__cls)).toBe(0)
+})

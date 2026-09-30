@@ -1,0 +1,3 @@
+/* web/app/page.module.css */
+/* Phones get the mobile hero instead (MOBILE_HERO.QUERY in lib/motion/constants.ts). */
+@media (max-width: 743px) and (orientation: portrait){.desktopHero{display:none}}

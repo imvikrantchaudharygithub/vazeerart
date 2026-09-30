@@ -1,0 +1,35 @@
+/* web/components/sections/MobileHero/MobileHero.module.css */
+/* Phones only (MOBILE_HERO.QUERY): the export's variant 3a. The lens state is drawn here in CSS; LensSplitController
+   morphs it to the split state on scroll with transforms only. Lengths are design units (du, the export's 390 × 844
+   artboard px) times --u; a design row y sits at (y - 96) du below the safe-box top, plus --offy. */
+.root{display:none}
+@media (max-width: 743px) and (orientation: portrait){
+  .root{display:block;position:relative;height:calc(100lvh - 73px + 50svh)}
+}
+.stage{position:sticky;top:73px;height:calc(100lvh - 73px);overflow:hidden;background:#0f0d0b;isolation:isolate}
+.stage[data-amber-bottom]{background:#e8a24a}
+.safe{position:absolute;top:0;left:0;right:0;height:calc(100svh - 73px);container-type:size}
+.du{position:absolute;inset:0;--u:min(calc(100cqw / 390), calc(100cqh / 684));--offy:max(0px, calc((100cqh - 684 * var(--u)) / 2))}
+.amber{position:absolute;left:0;right:0;top:calc(var(--offy) + 384 * var(--u));height:calc(100lvh - 71px - var(--offy) - 384 * var(--u));background:#e8a24a;transform:translateY(100%)}
+.row{position:absolute;left:0;right:0;top:calc(var(--offy) + (34 + 200 * var(--row)) * var(--u));text-align:center;font-family:var(--font-anton),sans-serif;font-size:calc(250 * var(--fit, 1) * var(--u));line-height:.8;text-transform:uppercase;white-space:nowrap;animation:rise 1.3s cubic-bezier(.2,.8,.2,1) .15s backwards}
+.piece{display:inline-block;vertical-align:top;transform-origin:0 0;color:#efe7da}
+.outline{color:transparent;-webkit-text-stroke:max(1px, calc(1.5 * var(--u))) #efe7da;pointer-events:none}
+.lensWrap{position:absolute;inset:0;transform-origin:50cqw calc(var(--offy) + 312 * var(--u));animation:popin 1.2s cubic-bezier(.2,.8,.2,1) both .45s}
+.ring{position:absolute;left:calc((100cqw - 316 * var(--u)) / 2);top:calc(var(--offy) + 154 * var(--u));width:calc(316 * var(--u));height:calc(316 * var(--u));border-radius:50%;transform-origin:0 0;box-shadow:0 0 0 calc(10 * var(--u)) #0f0d0b, 0 0 0 calc(10 * var(--u) + max(1px, var(--u))) rgba(239,231,218,.35), 0 calc(30 * var(--u)) calc(70 * var(--u)) rgba(0,0,0,.6)}
+.photo{position:absolute;left:calc((100cqw - 390 * var(--u)) / 2);top:calc(var(--offy) - 96 * var(--u));width:calc(390 * var(--u));height:calc(480 * var(--u));overflow:hidden;border-radius:50%;background:#1c1916;transform-origin:0 0;transform:translate(calc(37 * var(--u)), calc(250 * var(--u))) scale(.8102564, .6583333)}
+.cover{position:absolute}
+.thumbVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.stage[data-moving] [data-lens]{will-change:transform}
+.kb{animation:kb 14s ease-in-out infinite alternate;transform-origin:50% 25%}
+.grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,13,11,.55) 0%,rgba(15,13,11,0) 25%);opacity:0}
+.thumb{position:absolute;left:calc(22 * var(--u));top:calc(var(--offy) + 314 * var(--u));width:calc(120 * var(--u));height:calc(150 * var(--u));box-sizing:border-box;border:max(2px, calc(4 * var(--u))) solid #efe7da;box-shadow:0 calc(16 * var(--u)) calc(36 * var(--u)) rgba(0,0,0,.45);overflow:hidden;background:#1c1916;opacity:0;transform:translate(calc(50cqw - 82 * var(--u)), calc(-77 * var(--u))) rotate(10deg) scale(.3)}
+.artWrap{position:absolute;left:calc(50cqw + 79 * var(--u));top:calc(var(--offy) + 580 * var(--u));animation:popin 1s cubic-bezier(.2,.8,.2,1) both 1.2s}
+.art{display:block;transform-origin:0 0;transform:rotate(-10deg);font-family:var(--font-delafield),cursive;font-size:calc(124 * var(--u));line-height:1;white-space:nowrap;color:#e8a24a}
+@media (prefers-reduced-motion: reduce){
+  .root{height:auto}
+  .stage{position:relative;height:calc(100svh - 73px)}
+  .kb{animation:none}
+}
+@keyframes rise{from{opacity:0;translate:0 60px;clip-path:inset(-80% -30% 100% -30%)}to{opacity:1;translate:0 0;clip-path:inset(-80% -30% -80% -30%)}}
+@keyframes popin{from{opacity:0;scale:.86}to{opacity:1;scale:1}}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.15) translate(-2%,-2%)}}

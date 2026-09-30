@@ -1,5 +1,6 @@
 import {MediaSlot} from '@/components/media/MediaSlot'
 import {SanityImage} from '@/components/media/SanityImage'
+import {DESKTOP_HERO_MEDIA} from '@/lib/motion/constants'
 import type {HomeVM} from '@/lib/viewmodel/pagesContent'
 import styles from './Hero.module.css'
 
@@ -15,7 +16,7 @@ export function Hero({hero}: {hero: HomeVM['hero']}) {
       <div data-depth="1" data-scroll="-0.12" className={styles.layerFrame}>
         <div className={styles.frame} data-hero-anim="">
           <div className={styles.kenburns} data-motion="loop">
-            {hero.mainImage && <SanityImage image={hero.mainImage} sizes="(max-width: 1255px) 94vw, 1180px" priority />}
+            {hero.mainImage && <SanityImage image={hero.mainImage} sizes="(max-width: 1255px) 94vw, 1180px" preloadMedia={DESKTOP_HERO_MEDIA} />}
           </div>
         </div>
       </div>

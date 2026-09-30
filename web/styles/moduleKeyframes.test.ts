@@ -4,7 +4,9 @@ import {join} from 'node:path'
 import {describe, expect, it} from 'vitest'
 
 const WEB = join(__dirname, '..')
-const REFERENCE = readFileSync(join(WEB, '..', 'design-reference', 'keyframes.css'), 'utf8').split('\n').map((l) => l.trim())
+const readLines = (...path: string[]) => readFileSync(join(WEB, '..', 'design-reference', ...path), 'utf8').split('\n').map((l) => l.trim())
+// The main prototype's keyframes, plus the mobile hero export's own (variant 3a uses `kb`).
+const REFERENCE = [...readLines('keyframes.css'), ...readLines('mobile-hero', 'keyframes.css')]
 const KEYWORDS = new Set(['none', 'infinite', 'linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out', 'step-start', 'step-end', 'alternate', 'alternate-reverse', 'normal', 'both', 'forwards', 'backwards', 'reverse', 'paused', 'running', 'initial', 'inherit', 'unset'])
 
 function moduleFiles(dir: string): string[] {
@@ -38,7 +40,7 @@ describe('CSS Modules define every keyframe they animate (CSS Modules localize a
     if (!used.length && !defined.length) continue
     it(`${file.slice(WEB.length + 1)} defines ${used.join(', ') || '(none used)'}`, () => {
       for (const name of used) expect(defined, `missing @keyframes ${name}`).toContain(name)
-      for (const line of keyframeLines) expect(REFERENCE, `not verbatim from design-reference/keyframes.css: ${line}`).toContain(line)
+      for (const line of keyframeLines) expect(REFERENCE, `not verbatim from design-reference/keyframes.css or mobile-hero/keyframes.css: ${line}`).toContain(line)
     })
   }
 })
