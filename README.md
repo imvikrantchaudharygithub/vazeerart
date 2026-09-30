@@ -206,6 +206,7 @@ Browser smoke (production, also on a phone):
 7. **Every image needs alt text** (a short description of the picture); the Studio will not let you publish without it.
 8. **Inquiries** arrive with a "●" dot in front of the name while unread. Open one, read it, and tick **Read** when handled. Delete an inquiry from the "..." menu once it is dealt with.
 9. Under Site settings → Toggles you can switch the intro countdown, the marquee band, the film grain and the REC overlay on or off.
-10. The pictures now in the Studio are stand-ins. Replace them with your own work (drag a new image onto the field).
+10. **Home → Phone hero** is the banner phones see first: the round lens photo over the stacked name, which turns into the amber split on a small scroll. It has its own word, cursive word, lens photo and small photo. Leave a field empty to reuse the Home → Hero value; fill it to show something different on phones only.
+11. The pictures now in the Studio are stand-ins. Replace them with your own work (drag a new image onto the field).
 
 **Please do not change:** API tokens, CORS or webhook settings, or anything in the project settings at sanity.io/manage, and anything in Vercel. If the site or the Studio looks broken, contact the developer instead.

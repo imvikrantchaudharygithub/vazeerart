@@ -21,6 +21,27 @@ describe('toHomeVM', () => {
   })
 })
 
+describe('toHomeVM phone hero', () => {
+  const heroRaw = {word: 'Vazeer', script: 'art', mainImage: img('main'), polaroidLeft: {kind: 'image', image: img('left'), videoUrl: null}, polaroidRight: null}
+  const raw = (mobileHero: unknown) => ({hero: heroRaw, mobileHero, intro: null, reels: null, explore: null, currently: null, seo: null}) as never
+  it('falls back to the desktop hero for every empty field', () => {
+    const m = toHomeVM(raw(null)).mobileHero
+    expect(m.word).toBe('Vazeer'); expect(m.script).toBe('art'); expect(m.wordPath).toBe('hero.word')
+    expect(m.image?.alt).toBe('main'); expect(m.thumb?.kind === 'image' && m.thumb.image.alt).toBe('left')
+  })
+  it('treats a blank word as empty', () => {
+    expect(toHomeVM(raw({word: '   ', script: ' ', image: null, thumb: null})).mobileHero.word).toBe('Vazeer')
+  })
+  it('uses the phone fields when they are filled, and opens the phone word for click-to-edit', () => {
+    const m = toHomeVM(raw({word: 'Shakir', script: 'films', image: img('phone'), thumb: {kind: 'video', image: null, videoUrl: 'https://cdn.sanity.io/files/x/y/loop.mp4'}})).mobileHero
+    expect(m.word).toBe('Shakir'); expect(m.script).toBe('films'); expect(m.wordPath).toBe('mobileHero.word')
+    expect(m.image?.alt).toBe('phone'); expect(m.thumb).toEqual({kind: 'video', url: 'https://cdn.sanity.io/files/x/y/loop.mp4'})
+  })
+  it('keeps the desktop photo when the phone image has no asset yet', () => {
+    expect(toHomeVM(raw({word: null, script: null, image: {alt: 'x', hotspot: null, crop: null, asset: null}, thumb: {kind: 'image', image: null, videoUrl: null}})).mobileHero.image?.alt).toBe('main')
+  })
+})
+
 describe('toWorkVM', () => {
   it('throws ContentMissingError naming the document when the page is not published', () => {
     expect(() => toWorkVM(null as never)).toThrow(ContentMissingError)

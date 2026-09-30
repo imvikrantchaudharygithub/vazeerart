@@ -24,7 +24,7 @@ export default async function HomePage() {
       <div className={styles.desktopHero}>
         <Hero hero={home.hero} />
       </div>
-      <MobileHero hero={home.hero} />
+      <MobileHero hero={home.mobileHero} />
       {settings.showMarquee && <Marquee words={settings.marqueeWords} />}
       <Intro intro={home.intro} />
       <ReelsRail reels={home.reels} projects={homeProjects(projects)} />

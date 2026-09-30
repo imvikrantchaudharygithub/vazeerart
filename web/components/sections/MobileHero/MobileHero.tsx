@@ -7,7 +7,7 @@ import {env} from '@/lib/env'
 import {MOBILE_HERO} from '@/lib/motion/constants'
 import {chunkWord, coverRect, lensFontScale} from '@/lib/motion/lensSplit'
 import type {ImageVM} from '@/lib/viewmodel/types'
-import type {HomeVM} from '@/lib/viewmodel/pagesContent'
+import type {MobileHeroVM} from '@/lib/viewmodel/pagesContent'
 import {LensSplitController} from './LensSplitController'
 import styles from './MobileHero.module.css'
 
@@ -22,10 +22,10 @@ export function effectiveAspect(image: ImageVM): number {
 const rowStyle = (i: number, fit: number) => ({'--row': i, '--fit': fit}) as CSSProperties
 
 /** Phone-only home hero: the export's variant 3a, lens first, morphing to the split layout on scroll. */
-export function MobileHero({hero}: {hero: HomeVM['hero']}) {
+export function MobileHero({hero}: {hero: MobileHeroVM}) {
   const pieces = chunkWord(stegaClean(hero.word))
   const fit = lensFontScale(pieces)
-  const image = hero.mainImage
+  const image = hero.image
   const aspect = image ? effectiveAspect(image) : 1.5
   const focus = image?.hotspot ? {x: image.hotspot.x, y: image.hotspot.y} : {x: 0.5, y: 0.5}
   // The photo cover is laid out for the export's 390 × 480 split box and scaled down into the 316 lens.
@@ -39,7 +39,7 @@ export function MobileHero({hero}: {hero: HomeVM['hero']}) {
   }
   const wordAttr = createDataAttribute({
     baseUrl: env.studioUrl, projectId: env.projectId, dataset: env.dataset,
-    id: 'homePage', type: 'homePage', path: 'hero.word',
+    id: 'homePage', type: 'homePage', path: hero.wordPath,
   }).toString()
 
   return (
@@ -65,10 +65,10 @@ export function MobileHero({hero}: {hero: HomeVM['hero']}) {
               </div>
             </div>
             <div className={styles.thumb} data-lens="thumb">
-              {hero.polaroidLeft?.kind === 'video'
+              {hero.thumb?.kind === 'video'
                 // Not autoplay: a hidden autoplay video still downloads on desktop. The controller plays it on phones.
-                ? <video className={styles.thumbVideo} src={hero.polaroidLeft.url} muted loop playsInline preload="none" aria-hidden="true" data-lens="thumbVideo" />
-                : <MediaSlot media={hero.polaroidLeft} sizes="(max-width: 800px) 120px, 15vw" />}
+                ? <video className={styles.thumbVideo} src={hero.thumb.url} muted loop playsInline preload="none" aria-hidden="true" data-lens="thumbVideo" />
+                : <MediaSlot media={hero.thumb} sizes="(max-width: 800px) 120px, 15vw" />}
             </div>
             <div aria-hidden="true">
               {pieces.map((piece, i) => (

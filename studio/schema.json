@@ -1407,6 +1407,45 @@
         },
         "optional": true
       },
+      "mobileHero": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "word": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "script": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "image": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "imageWithAlt"
+              },
+              "optional": true
+            },
+            "thumb": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "mediaSlot"
+              },
+              "optional": true
+            }
+          }
+        },
+        "optional": true
+      },
       "intro": {
         "type": "objectAttribute",
         "value": {

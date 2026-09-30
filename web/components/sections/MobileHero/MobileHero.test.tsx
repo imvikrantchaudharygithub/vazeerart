@@ -9,7 +9,7 @@ import {MobileHero, effectiveAspect} from './MobileHero'
 vi.mock('./LensSplitController', () => ({LensSplitController: () => null}))
 
 const image = {assetId: 'image-a-1400x933-jpg', url: 'https://cdn.sanity.io/images/p/d/a-1400x933.jpg', width: 1400, height: 933, extension: 'jpg', lqip: null, alt: 'Operator', hotspot: null, crop: null}
-const hero = {word: 'Vazeer', script: 'art', mainImage: image, polaroidLeft: {kind: 'image' as const, image: {...image, alt: 'Rig'}}, polaroidRight: null}
+const hero = {word: 'Vazeer', script: 'art', image, thumb: {kind: 'image' as const, image: {...image, alt: 'Rig'}}, wordPath: 'hero.word' as const}
 
 describe('MobileHero', () => {
   it('draws the lens state: the name in three pieces, filled and outlined, hidden from screen readers', () => {

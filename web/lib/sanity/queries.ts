@@ -28,6 +28,7 @@ export const SITE_SETTINGS_QUERY = defineQuery(`*[_type == "siteSettings" && _id
 
 export const HOME_QUERY = defineQuery(`*[_type == "homePage" && _id == "homePage"][0]{
   hero{ word, script, mainImage ${IMAGE_FIELDS}, polaroidLeft ${MEDIA_FIELDS}, polaroidRight ${MEDIA_FIELDS} },
+  mobileHero{ word, script, image ${IMAGE_FIELDS}, thumb ${MEDIA_FIELDS} },
   intro{ script, heading, subline, body, ctaLabel, imageA ${IMAGE_FIELDS}, imageB ${IMAGE_FIELDS} },
   reels{ headingBlock{ script, heading }, ctaLabel },
   explore{ headingBlock{ script, heading }, cards[]{ label, sub, target, image ${IMAGE_FIELDS} } },

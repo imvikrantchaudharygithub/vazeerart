@@ -3,8 +3,12 @@ import {str, toImageVM, toMediaVM, toSeoVM} from './images'
 import {ContentMissingError, isPageKey} from './site'
 import {PAGE_ROUTES, type ImageVM, type MediaVM, type SeoVM} from './types'
 
+/** Phone-only banner: each field falls back to the desktop hero's. `wordPath` is the field click-to-edit opens. */
+export type MobileHeroVM = {word: string; script: string; image: ImageVM | null; thumb: MediaVM | null; wordPath: 'mobileHero.word' | 'hero.word'}
+
 export type HomeVM = {
   hero: {word: string; script: string; mainImage: ImageVM | null; polaroidLeft: MediaVM | null; polaroidRight: MediaVM | null}
+  mobileHero: MobileHeroVM
   intro: {script: string; heading: string; subline: string; body: string; ctaLabel: string; imageA: ImageVM | null; imageB: ImageVM | null}
   reels: {script: string; heading: string; ctaLabel: string}
   explore: {script: string; heading: string; cards: {label: string; sub: string; href: string; image: ImageVM | null}[]}
@@ -15,8 +19,19 @@ export type HomeVM = {
 export function toHomeVM(raw: HOME_QUERY_RESULT): HomeVM {
   if (!raw) throw new ContentMissingError('homePage')
   const target = (t: string | null): string => PAGE_ROUTES[isPageKey(t) ? t : 'work']
+  const hero = {word: str(raw.hero?.word, 'Vazeer'), script: str(raw.hero?.script, 'art'), mainImage: toImageVM(raw.hero?.mainImage), polaroidLeft: toMediaVM(raw.hero?.polaroidLeft), polaroidRight: toMediaVM(raw.hero?.polaroidRight)}
+  // A blank field counts as empty, so the phone banner never loses its name.
+  const filled = (v: string | null | undefined) => (v && v.trim() ? v : '')
+  const phoneWord = filled(raw.mobileHero?.word)
   return {
-    hero: {word: str(raw.hero?.word, 'Vazeer'), script: str(raw.hero?.script, 'art'), mainImage: toImageVM(raw.hero?.mainImage), polaroidLeft: toMediaVM(raw.hero?.polaroidLeft), polaroidRight: toMediaVM(raw.hero?.polaroidRight)},
+    hero,
+    mobileHero: {
+      word: phoneWord || hero.word,
+      script: filled(raw.mobileHero?.script) || hero.script,
+      image: toImageVM(raw.mobileHero?.image) ?? hero.mainImage,
+      thumb: toMediaVM(raw.mobileHero?.thumb) ?? hero.polaroidLeft,
+      wordPath: phoneWord ? 'mobileHero.word' : 'hero.word',
+    },
     intro: {script: str(raw.intro?.script), heading: str(raw.intro?.heading), subline: str(raw.intro?.subline), body: str(raw.intro?.body), ctaLabel: str(raw.intro?.ctaLabel), imageA: toImageVM(raw.intro?.imageA), imageB: toImageVM(raw.intro?.imageB)},
     reels: {script: str(raw.reels?.headingBlock?.script), heading: str(raw.reels?.headingBlock?.heading), ctaLabel: str(raw.reels?.ctaLabel)},
     explore: {

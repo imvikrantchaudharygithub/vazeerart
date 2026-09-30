@@ -252,6 +252,12 @@ export type HomePage = {
     polaroidLeft: MediaSlot;
     polaroidRight: MediaSlot;
   };
+  mobileHero?: {
+    word?: string;
+    script?: string;
+    image?: ImageWithAlt;
+    thumb?: MediaSlot;
+  };
   intro?: {
     script: string;
     heading: string;
@@ -575,7 +581,7 @@ export type SITE_SETTINGS_QUERY_RESULT = {
 
 // Source: ../web/lib/sanity/queries.ts
 // Variable: HOME_QUERY
-// Query: *[_type == "homePage" && _id == "homePage"][0]{  hero{ word, script, mainImage {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, polaroidLeft { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url }, polaroidRight { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url } },  intro{ script, heading, subline, body, ctaLabel, imageA {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, imageB {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} },  reels{ headingBlock{ script, heading }, ctaLabel },  explore{ headingBlock{ script, heading }, cards[]{ label, sub, target, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} } },  currently{ script, heading, body, ctaLabel, bgImage {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} },  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
+// Query: *[_type == "homePage" && _id == "homePage"][0]{  hero{ word, script, mainImage {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, polaroidLeft { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url }, polaroidRight { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url } },  mobileHero{ word, script, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, thumb { kind, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, "videoUrl": video.asset->url } },  intro{ script, heading, subline, body, ctaLabel, imageA {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }}, imageB {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} },  reels{ headingBlock{ script, heading }, ctaLabel },  explore{ headingBlock{ script, heading }, cards[]{ label, sub, target, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} } },  currently{ script, heading, body, ctaLabel, bgImage {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} },  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
 export type HOME_QUERY_RESULT = {
   hero: {
     word: string;
@@ -627,6 +633,40 @@ export type HOME_QUERY_RESULT = {
       } | null;
       videoUrl: string | null;
     };
+  } | null;
+  mobileHero: {
+    word: string | null;
+    script: string | null;
+    image: {
+      alt: string;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        url: string;
+        extension: string;
+        width: number | null;
+        height: number | null;
+        lqip: string | null;
+      } | null;
+    } | null;
+    thumb: {
+      kind: "image" | "video";
+      image: {
+        alt: string;
+        hotspot: SanityImageHotspot | null;
+        crop: SanityImageCrop | null;
+        asset: {
+          _id: string;
+          url: string;
+          extension: string;
+          width: number | null;
+          height: number | null;
+          lqip: string | null;
+        } | null;
+      } | null;
+      videoUrl: string | null;
+    } | null;
   } | null;
   intro: {
     script: string;
@@ -1088,7 +1128,7 @@ export type CONTACT_TYPES_QUERY_RESULT = Array<string> | null;
 declare global {
   interface SanityQueries {
     '*[_type == "siteSettings" && _id == "siteSettings"][0]{\n  brandWord, brandScript, copyright,\n  socials[]{ label, url },\n  management{ label, handle, url }, dm{ label, handle, url },\n  marqueeWords,\n  pages[]{ key, navLabel, menuLabel, preFooterScript, preFooterLabel },\n  leaderLeft, leaderRight, leaderSkip, menuScript, menuClose, menuSocialsLabel,\n  menuPhoto {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n},\n  showIntro, showMarquee, showGrain, showRec,\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': SITE_SETTINGS_QUERY_RESULT;
-    '*[_type == "homePage" && _id == "homePage"][0]{\n  hero{ word, script, mainImage {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, polaroidLeft { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url }, polaroidRight { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } },\n  intro{ script, heading, subline, body, ctaLabel, imageA {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, imageB {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} },\n  reels{ headingBlock{ script, heading }, ctaLabel },\n  explore{ headingBlock{ script, heading }, cards[]{ label, sub, target, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} } },\n  currently{ script, heading, body, ctaLabel, bgImage {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': HOME_QUERY_RESULT;
+    '*[_type == "homePage" && _id == "homePage"][0]{\n  hero{ word, script, mainImage {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, polaroidLeft { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url }, polaroidRight { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } },\n  mobileHero{ word, script, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, thumb { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } },\n  intro{ script, heading, subline, body, ctaLabel, imageA {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, imageB {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} },\n  reels{ headingBlock{ script, heading }, ctaLabel },\n  explore{ headingBlock{ script, heading }, cards[]{ label, sub, target, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} } },\n  currently{ script, heading, body, ctaLabel, bgImage {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': HOME_QUERY_RESULT;
     '*[_type == "workPage" && _id == "workPage"][0]{\n  title, script, intro, filterAll, filterDop, filterEditor,\n  showreel{ poster {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, videoUrl, label, orderNotePrefix, orderNoteOverride },\n  numberPrefix, projectCta,\n  skills{ headingBlock{ script, heading }, items[]{ label, tilt, media { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } } },\n  projectPage{ backLabel, reelPrefix, roleLabel, formatLabel, yearLabel, aspectLabel, grabsScript, grabsHeading, upNextScript },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': WORK_QUERY_RESULT;
     '*[_type == "framesPage" && _id == "framesPage"][0]{\n  script, heading, linkLabel, linkUrl, reelLabel, postLabel, seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': FRAMES_PAGE_QUERY_RESULT;
     '*[_type == "frame"] | order(orderRank){\n  _id, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, ratio, instagramUrl\n}': FRAMES_QUERY_RESULT;
