@@ -1,6 +1,6 @@
 // web/lib/video.test.ts
 import {describe, expect, it} from 'vitest'
-import {parseVideoUrl} from './video'
+import {parseVideoUrl, watchUrl} from './video'
 
 describe('parseVideoUrl', () => {
   it.each([
@@ -44,5 +44,14 @@ describe('parseVideoUrl', () => {
 
   it.each(['', null, undefined, 'https://www.dailymotion.com/video/x7', 'https://youtube.com/', 'not a url'])('rejects %s', (url) => {
     expect(parseVideoUrl(url as string)).toBeNull()
+  })
+})
+
+describe('watchUrl', () => {
+  it('links to the public watch page, dropping playlist and tracking parameters', () => {
+    expect(watchUrl(parseVideoUrl('https://www.youtube.com/watch?v=rE4Z5zeNzjM&list=RDrE4Z5zeNzjM&start_radio=1')!)).toBe('https://www.youtube.com/watch?v=rE4Z5zeNzjM')
+    expect(watchUrl(parseVideoUrl('https://youtu.be/itc0Zko4PC0?si=2O88xKBVTFMxUbcg')!)).toBe('https://www.youtube.com/watch?v=itc0Zko4PC0')
+    expect(watchUrl(parseVideoUrl('https://vimeo.com/123456789')!)).toBe('https://vimeo.com/123456789')
+    expect(watchUrl(parseVideoUrl('https://player.vimeo.com/video/123456789?h=abcdef1234')!)).toBe('https://vimeo.com/123456789/abcdef1234')
   })
 })

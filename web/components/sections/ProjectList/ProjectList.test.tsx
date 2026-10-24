@@ -55,3 +55,21 @@ describe('ProjectList with project pages hidden', () => {
     expect(screen.queryAllByRole('link')).toHaveLength(projectDetailPages ? 6 : 0)
   })
 })
+
+describe('ProjectList with project pages hidden and a video link', () => {
+  const withVideo = [p('a', 'dop', '01'), p('b', 'editor', '02')].map((x, i) => toProjectCard({...x, videoUrl: i === 0 ? 'https://youtu.be/itc0Zko4PC0?si=x' : null}))
+  it('opens the video from the cover and the title in a new tab, keeps the CTA hidden, leaves videoless projects static', () => {
+    render(<ProjectList projects={withVideo} filter="all" numberPrefix="no." cta="Watch →" linkToDetail={false} />)
+    const links = screen.getAllByRole('link')
+    expect(links).toHaveLength(2)
+    for (const a of links) {
+      expect(a).toHaveAttribute('href', 'https://www.youtube.com/watch?v=itc0Zko4PC0')
+      expect(a).toHaveAttribute('target', '_blank')
+      expect(a).toHaveAttribute('rel', 'noreferrer')
+    }
+    expect(screen.getByRole('link', {name: 'Watch A'})).toHaveAttribute('data-order', '0')
+    expect(screen.getByRole('link', {name: 'A'})).toBeInTheDocument()
+    expect(screen.queryByText('Watch →')).toBeNull()
+    expect(screen.getAllByTestId('project-cover')).toHaveLength(1)
+  })
+})

@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest'
-import {alternateOrder, deriveProjects, filterProjects, homeProjects, nextProject, pageProjects, parseWorkFilter, showreelOrderNote, toProjectCard} from './projects'
+import {alternateOrder, deriveProjects, filterProjects, homeProjects, nextProject, pageProjects, parseWorkFilter, projectLink, showreelOrderNote, toProjectCard} from './projects'
 
 const raw = (slug: string, category: 'dop' | 'editor', creditOnly = false, showOnHome = true) => ({
   _id: `project-${slug}`, title: slug.toUpperCase(), slug, format: 'Music Video', year: '2022',
@@ -33,10 +33,10 @@ describe('pageProjects / filterProjects', () => {
 })
 
 describe('toProjectCard', () => {
-  it('keeps exactly the nine keys the /work list renders — no frameGrabs or seo', () => {
+  it('keeps exactly the ten keys the /work list renders — no frameGrabs or seo', () => {
     const card = toProjectCard(all[0])
-    expect(Object.keys(card).sort()).toEqual(['category', 'cover', 'formatLower', 'id', 'n', 'role', 'slug', 'title', 'year'])
-    expect(card).toEqual({id: 'project-a', slug: 'a', title: 'A', formatLower: 'music video', year: '2022', role: 'Director of Photography', category: 'dop', cover: null, n: '01'})
+    expect(Object.keys(card).sort()).toEqual(['category', 'cover', 'formatLower', 'id', 'n', 'role', 'slug', 'title', 'videoUrl', 'year'])
+    expect(card).toEqual({id: 'project-a', slug: 'a', title: 'A', formatLower: 'music video', year: '2022', role: 'Director of Photography', category: 'dop', cover: null, videoUrl: null, n: '01'})
   })
   it('lets filterProjects run on cards', () => {
     const cards = pageProjects(all).map(toProjectCard)
@@ -78,5 +78,22 @@ describe('parseWorkFilter', () => {
     expect(parseWorkFilter('editing')).toBe('editing')
     expect(parseWorkFilter('bogus')).toBe('all')
     expect(parseWorkFilter(undefined)).toBe('all')
+  })
+})
+
+describe('projectLink', () => {
+  const p = {slug: 'a', videoUrl: 'https://youtu.be/itc0Zko4PC0?si=2O88xKBVTFMxUbcg'}
+  it('opens the project page while the detail pages are on', () => {
+    expect(projectLink(p, true)).toEqual({href: '/work/a', external: false})
+    expect(projectLink({slug: 'a', videoUrl: null}, true)).toEqual({href: '/work/a', external: false})
+  })
+  it('opens the video on its own site, canonical and in a new tab, while the detail pages are off', () => {
+    expect(projectLink(p, false)).toEqual({href: 'https://www.youtube.com/watch?v=itc0Zko4PC0', external: true})
+    expect(projectLink({slug: 'a', videoUrl: 'https://example.com/film'}, false)).toEqual({href: 'https://example.com/film', external: true})
+  })
+  it('has no link without a usable video while the detail pages are off', () => {
+    expect(projectLink({slug: 'a', videoUrl: null}, false)).toBeNull()
+    expect(projectLink({slug: 'a', videoUrl: '  '}, false)).toBeNull()
+    expect(projectLink({slug: 'a', videoUrl: 'javascript:alert(1)'}, false)).toBeNull()
   })
 })

@@ -1,9 +1,10 @@
-import Link from 'next/link'
+import {ProjectAnchor} from '@/components/ui/ProjectAnchor'
 import {projectDetailPages} from '@/lib/flags'
 import type {AboutVM} from '@/lib/viewmodel/pagesContent'
-import type {ProjectVM} from '@/lib/viewmodel/projects'
+import {projectLink, type ProjectVM} from '@/lib/viewmodel/projects'
 import styles from './Credits.module.css'
 
+/** Credit rows open the project page or, while the detail pages are off (lib/flags.ts), its video; credit-only rows never link. */
 export function Credits({credits, projects, linkToDetail = projectDetailPages}: {credits: AboutVM['credits']; projects: ProjectVM[]; linkToDetail?: boolean}) {
   return (
     <section className={styles.section}>
@@ -22,10 +23,11 @@ export function Credits({credits, projects, linkToDetail = projectDetailPages}: 
               <span className={styles.meta}>{p.formatLower} · {p.roleShort}</span>
             </>
           )
-          return p.creditOnly || !linkToDetail ? (
-            <div key={p.id} data-reveal="1" data-testid="credit-row" className={`${styles.row} ${styles.rowStatic}`}>{cells}</div>
+          const link = p.creditOnly ? null : projectLink(p, linkToDetail)
+          return link ? (
+            <ProjectAnchor key={p.id} link={link} data-reveal="1" data-testid="credit-row" className={`${styles.row} hoverAmber asButton`}>{cells}</ProjectAnchor>
           ) : (
-            <Link key={p.id} href={`/work/${p.slug}`} data-reveal="1" data-testid="credit-row" className={`${styles.row} hoverAmber asButton`}>{cells}</Link>
+            <div key={p.id} data-reveal="1" data-testid="credit-row" className={`${styles.row} ${styles.rowStatic}`}>{cells}</div>
           )
         })}
       </div>

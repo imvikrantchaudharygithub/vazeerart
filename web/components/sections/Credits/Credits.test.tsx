@@ -28,4 +28,13 @@ describe('Credits', () => {
     expect(rows[0]).toHaveTextContent('2022A')
     expect(screen.queryAllByRole('link')).toHaveLength(0)
   })
+  it('opens the video in a new tab from a row while project pages are hidden; credit-only rows never link', () => {
+    const video = {...p('a', false), videoUrl: 'https://vimeo.com/123456789/abcdef1234'}
+    render(<Credits credits={credits} projects={[video, {...p('b', true), videoUrl: 'https://youtu.be/itc0Zko4PC0'}]} linkToDetail={false} />)
+    const rows = screen.getAllByTestId('credit-row')
+    expect(rows[0].tagName).toBe('A')
+    expect(rows[0]).toHaveAttribute('href', 'https://vimeo.com/123456789/abcdef1234')
+    expect(rows[0]).toHaveAttribute('target', '_blank')
+    expect(rows[1].tagName).toBe('DIV')
+  })
 })

@@ -13,3 +13,6 @@
 
 /* Cover while project detail pages are switched off (lib/flags.ts): same box, not a control. */
 .coverStatic{cursor:default}
+
+/* Title as a link (project page, or the video while the pages are off): the heading keeps its type, the anchor only adds the pointer and hover colour. */
+.titleLink{all:unset;cursor:pointer}

@@ -48,4 +48,12 @@ describe('ReelsRail', () => {
     render(<ReelsRail reels={reels} projects={homeProjects([p('pagal'), p('rooh')])} linkToDetail={false} />)
     expect(screen.getAllByTestId('reel-card')).toHaveLength(2)
   })
+  it('opens the video in a new tab from the card while project pages are hidden', () => {
+    render(<ReelsRail reels={reels} projects={homeProjects([p('pagal', {videoUrl: 'https://youtu.be/fyXMm1U7nUk?si=x'}), p('silent')])} linkToDetail={false} />)
+    const cards = screen.getAllByRole('link').filter((a) => a.getAttribute('target') === '_blank')
+    expect(cards.map((a) => a.getAttribute('href'))).toEqual(['https://www.youtube.com/watch?v=fyXMm1U7nUk'])
+    expect(cards[0]).toHaveTextContent('PAGAL')
+    expect(cards[0]).toHaveAttribute('rel', 'noreferrer')
+    expect(screen.getByTestId('reel-card')).toHaveTextContent('SILENT')
+  })
 })

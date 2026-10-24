@@ -6,8 +6,9 @@
 
 /**
  * Project detail pages (/work/[slug]).
- * While false nothing on the site links to them: the /work covers and the "Watch & view frames"
- * CTA, the home reel cards and the About credit rows render as static elements. The route itself
- * stays reachable by URL so the pages can still be previewed before they are switched on.
+ * While false nothing on the site links to them. A project's cover, title (Work page), reel card (home) and credit
+ * row (About) open its YouTube / Vimeo video in a new tab instead (lib/viewmodel/projects.ts projectLink); a
+ * project without a video is static, and the "Watch & view frames" CTA is not rendered. The route itself stays
+ * reachable by URL so the pages can still be previewed before they are switched on.
  */
 export const projectDetailPages = false

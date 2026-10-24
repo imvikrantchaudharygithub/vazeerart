@@ -27,3 +27,8 @@ export function parseVideoUrl(url: string | null | undefined): VideoEmbed | null
   }
   return null
 }
+
+/** The video's own public page, for links out of the site (embedUrl is for the lightbox only). Tracking and playlist parameters are dropped. */
+export function watchUrl(v: VideoEmbed): string {
+  return v.provider === 'youtube' ? `https://www.youtube.com/watch?v=${v.id}` : `https://vimeo.com/${v.id}${v.hash ? `/${v.hash}` : ''}`
+}

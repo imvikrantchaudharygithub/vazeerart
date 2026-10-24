@@ -9,7 +9,7 @@ vi.mock('next/navigation', () => ({useSearchParams: () => ({get: () => filterPar
 
 const card = (slug: string, category: 'dop' | 'editor', n: string): ProjectCardVM => ({
   id: slug, slug, title: slug.toUpperCase(), formatLower: 'music video', year: '2022',
-  role: category === 'dop' ? 'Director of Photography' : 'Editor', category, cover: null, n,
+  role: category === 'dop' ? 'Director of Photography' : 'Editor', category, cover: null, videoUrl: null, n,
 })
 const projects = [card('a', 'dop', '01'), card('b', 'editor', '02'), card('c', 'dop', '03')]
 

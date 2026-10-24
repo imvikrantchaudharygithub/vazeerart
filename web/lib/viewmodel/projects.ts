@@ -1,5 +1,6 @@
 import type {PROJECTS_QUERY_RESULT} from '@/lib/sanity/types'
 import {str, toImageVM, toSeoVM} from './images'
+import {parseVideoUrl, watchUrl} from '@/lib/video'
 import type {ImageVM, SeoVM} from './types'
 
 export type WorkFilter = 'all' | 'cinematography' | 'editing'
@@ -18,8 +19,23 @@ export type ProjectVM = {
 }
 
 /** What the /work list renders — the narrowest shape sent to the client island. */
-export type ProjectCardVM = Pick<ProjectVM, 'id' | 'slug' | 'title' | 'formatLower' | 'year' | 'role' | 'category' | 'cover' | 'n'>
-export const toProjectCard = ({id, slug, title, formatLower, year, role, category, cover, n}: ProjectVM): ProjectCardVM => ({id, slug, title, formatLower, year, role, category, cover, n})
+export type ProjectCardVM = Pick<ProjectVM, 'id' | 'slug' | 'title' | 'formatLower' | 'year' | 'role' | 'category' | 'cover' | 'videoUrl' | 'n'>
+export const toProjectCard = ({id, slug, title, formatLower, year, role, category, cover, videoUrl, n}: ProjectVM): ProjectCardVM => ({id, slug, title, formatLower, year, role, category, cover, videoUrl, n})
+
+export type ProjectLink = {href: string; external: boolean}
+
+/**
+ * Where a project's cover, title or credit row leads. With the detail pages on (lib/flags.ts) it is the page; with
+ * them off it is the project's video on YouTube / Vimeo (canonical watch URL, playlist and tracking parameters
+ * dropped), opened in a new tab. A project with no video has no link.
+ */
+export function projectLink(p: Pick<ProjectVM, 'slug' | 'videoUrl'>, detailPages: boolean): ProjectLink | null {
+  if (detailPages) return {href: `/work/${p.slug}`, external: false}
+  const embed = parseVideoUrl(p.videoUrl)
+  if (embed) return {href: watchUrl(embed), external: true}
+  const raw = p.videoUrl?.trim()
+  return raw && /^https?:\/\//i.test(raw) ? {href: raw, external: true} : null
+}
 
 export function deriveProjects(raw: PROJECTS_QUERY_RESULT): ProjectVM[] {
   let counter = 0
