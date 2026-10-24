@@ -16,3 +16,6 @@
 /* Card while project detail pages are switched off (lib/flags.ts): same layout, not a control. */
 .cardStatic{cursor:default}
 
+/* Second card set for ReelDrift's seamless wrap: hidden until the drift is running (data-drift on the rail), then laid out as plain flex items. */
+.clone{display:none}
+.rail[data-drift] .clone{display:contents}

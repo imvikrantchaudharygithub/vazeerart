@@ -115,6 +115,7 @@ grain overlay, 3-2-1 leader intro once per session.
 | Explore/menu/card hovers | as above | |
 | Scroll to top on navigation | `window.scrollTo(0,0)` in `go()` | Next.js default behaviour |
 | Mobile hero morph (phones only, added 2026-09-30) | Export `design-reference/mobile-hero/` variant 3a `apply(t)`, played lens → split: sticky stage, progress = scroll over the first 40svh of a 50svh runway (smoothed, τ 120 ms); a part-way stop glides to the end in the last direction with t linear in time; transforms / opacity / colour only | 12 `seg(a,b)` windows, easeInOutCubic, full leg 2.6 s; fit rows 96–780 du; split name scaled to 84 % of the width; `kb 14s ease-in-out infinite alternate` (origin 50% 25%) on the lens photo; entrance `rise` (backwards fill) / `popin`; `lib/motion/lensSplit.ts` |
+| Reel drift (home reel rail, owner request, added 2026-10-24; not in the prototype) | rAF loop on the rail's own `scrollLeft`: +30 px/s while the rail is on screen (IntersectionObserver). The cards are rendered twice; the aria-hidden, inert clone set is displayed only while the drift runs and the offset wraps at one set's pitch, so the loop is seamless and native swipe, wheel and the scroll reveal keep working. Pauses under the pointer, while a card has focus, and for 2.5 s after the visitor scrolls the rail, then resumes from where they left it. Inert under reduced motion and when one set fits the rail | `REEL_DRIFT` {SPEED_PX_S 30, RESUME_MS 2500, MAX_DT_MS 100}; `lib/motion/reelDrift.ts`, `components/sections/ReelsRail/ReelDrift.tsx`; `data-drift="on|paused"` on the rail |
 
 Leader ↔ hero interaction: the prototype does **not** render Home while the
 leader is showing (`isHome = page==='home' && !(leaderOn && !leaderOut)`), so
@@ -383,7 +384,7 @@ set) never get the attribute, so animations run on load, as in the prototype.
 
 Under `@media (prefers-reduced-motion: reduce)`: leader skipped, parallax loop
 disabled, `kenburns`, `float`, `glow`, `grainshift`, `marquee` and `pulse`
-animations set to `none`, reveal shows elements immediately. This is the only
+animations set to `none`, the reel drift never starts, reveal shows elements immediately. This is the only
 intentional deviation from the prototype and applies only to users who opt in
 at OS level.
 

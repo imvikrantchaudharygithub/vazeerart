@@ -44,3 +44,16 @@ export const MOBILE_HERO = {
 } as const
 /** Everything that is not a phone: the desktop hero's photo preload only applies there. */
 export const DESKTOP_HERO_MEDIA = `not all and ${MOBILE_HERO.QUERY}`
+
+// Home reel rail drift (owner request, added 2026-10-24; not in the prototype). A very slow film-strip glide of
+// the rail's own scroll offset. Spec §3.3 "Reel drift".
+export const REEL_DRIFT = {
+  /** CSS px per second: a 576 px desktop card passes in ~19 s, a 280 px phone card in ~9 s. */
+  SPEED_PX_S: 30,
+  /** Quiet time after the visitor's last scroll of the rail (swipe, wheel, momentum) before it glides again. */
+  RESUME_MS: 2500,
+  /** Frame deltas above this (background tab, long task) are clamped so the rail never jumps. */
+  MAX_DT_MS: 100,
+  /** A scroll event landing within this of our last write is our own (browsers snap offsets to device pixels). */
+  OWN_SCROLL_TOLERANCE_PX: 1,
+} as const
