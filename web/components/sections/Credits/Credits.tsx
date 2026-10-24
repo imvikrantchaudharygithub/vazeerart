@@ -1,9 +1,10 @@
 import Link from 'next/link'
+import {projectDetailPages} from '@/lib/flags'
 import type {AboutVM} from '@/lib/viewmodel/pagesContent'
 import type {ProjectVM} from '@/lib/viewmodel/projects'
 import styles from './Credits.module.css'
 
-export function Credits({credits, projects}: {credits: AboutVM['credits']; projects: ProjectVM[]}) {
+export function Credits({credits, projects, linkToDetail = projectDetailPages}: {credits: AboutVM['credits']; projects: ProjectVM[]; linkToDetail?: boolean}) {
   return (
     <section className={styles.section}>
       <div className={styles.head}>
@@ -22,7 +23,7 @@ export function Credits({credits, projects}: {credits: AboutVM['credits']; proje
               <span className={styles.meta}>{p.formatLower} · {p.roleShort}</span>
             </>
           )
-          return p.creditOnly ? (
+          return p.creditOnly || !linkToDetail ? (
             <div key={p.id} data-reveal="1" data-testid="credit-row" className={`${styles.row} ${styles.rowStatic}`}>{cells}</div>
           ) : (
             <Link key={p.id} href={`/work/${p.slug}`} data-reveal="1" data-testid="credit-row" className={`${styles.row} hoverAmber asButton`}>{cells}</Link>

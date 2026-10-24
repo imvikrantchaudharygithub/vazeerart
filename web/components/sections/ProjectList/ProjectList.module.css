@@ -10,3 +10,6 @@
 .sub{font-family:var(--font-bodoni),serif;font-style:italic;font-size:22px;color:#5e564c}
 .role{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase}
 .cta{all:unset;cursor:pointer;align-self:flex-start;margin-top:6px;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:2px solid #a4501a;padding-bottom:6px}
+
+/* Cover while project detail pages are switched off (lib/flags.ts): same box, not a control. */
+.coverStatic{cursor:default}

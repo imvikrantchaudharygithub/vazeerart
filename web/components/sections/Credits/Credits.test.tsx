@@ -12,12 +12,20 @@ const credits = {script: 'the', heading: 'Credits', imdbLabel: 'Full list on IMD
 
 describe('Credits', () => {
   it('lists every project; page projects link, credit-only rows do not', () => {
-    render(<Credits credits={credits} projects={[p('a', false), p('b', true)]} />)
+    render(<Credits credits={credits} projects={[p('a', false), p('b', true)]} linkToDetail />)
     expect(screen.getByRole('link', {name: /^2022A/})).toHaveAttribute('href', '/work/a')
     const rows = screen.getAllByTestId('credit-row')
     expect(rows).toHaveLength(2)
     expect(rows[1].tagName).toBe('DIV')
     expect(rows[1]).toHaveTextContent('music video · Editor')
+    expect(screen.getByRole('link', {name: 'Full list on IMDb ↗'})).toHaveAttribute('href', 'https://imdb.com/x')
+  })
+  it('renders every row static while project pages are hidden; only the IMDb link remains', () => {
+    render(<Credits credits={credits} projects={[p('a', false), p('b', true)]} linkToDetail={false} />)
+    const rows = screen.getAllByTestId('credit-row')
+    expect(rows.map((r) => r.tagName)).toEqual(['DIV', 'DIV'])
+    expect(rows[0]).toHaveTextContent('2022A')
+    expect(screen.getAllByRole('link')).toHaveLength(1)
     expect(screen.getByRole('link', {name: 'Full list on IMDb ↗'})).toHaveAttribute('href', 'https://imdb.com/x')
   })
 })

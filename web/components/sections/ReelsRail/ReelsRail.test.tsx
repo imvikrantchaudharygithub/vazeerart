@@ -8,16 +8,27 @@ const p = (slug: string, extra: Partial<ProjectVM> = {}): ProjectVM => ({
   id: slug, slug, title: slug.toUpperCase(), format: 'Music Video', formatLower: 'music video', year: '2022', role: 'DOP', roleShort: 'DOP', category: 'dop',
   cover: null, frameGrabs: [], videoUrl: null, showOnHome: true, creditOnly: false, n: '01', seo: {title: null, description: null, image: null}, ...extra,
 })
+const reels = {script: 'now showing', heading: 'Selected reels', ctaLabel: 'All work & reels →'}
 
 describe('ReelsRail', () => {
   it('links each shown project to its page with title and (format, year)', () => {
     const projects = homeProjects([p('pagal'), p('hidden', {showOnHome: false}), p('credit', {creditOnly: true})])
-    render(<ReelsRail reels={{script: 'now showing', heading: 'Selected reels', ctaLabel: 'All work & reels →'}} projects={projects} />)
+    render(<ReelsRail reels={reels} projects={projects} linkToDetail />)
     const cards = screen.getAllByRole('link').filter((a) => a.getAttribute('href')?.startsWith('/work/'))
     expect(cards.map((a) => a.getAttribute('href'))).toEqual(['/work/pagal'])
     expect(cards[0]).toHaveTextContent('PAGAL')
     expect(cards[0]).toHaveTextContent('(music video, 2022)')
     expect(cards[0].getAttribute('data-reveal')).toBe('1')
     expect(screen.getByRole('link', {name: 'All work & reels →'})).toHaveAttribute('href', '/work')
+  })
+  it('renders static cards while project pages are hidden and keeps the /work CTA', () => {
+    render(<ReelsRail reels={reels} projects={homeProjects([p('pagal')])} linkToDetail={false} />)
+    expect(screen.getAllByRole('link')).toHaveLength(1)
+    expect(screen.getByRole('link', {name: 'All work & reels →'})).toHaveAttribute('href', '/work')
+    const card = screen.getByTestId('reel-card')
+    expect(card.tagName).toBe('DIV')
+    expect(card).toHaveTextContent('PAGAL')
+    expect(card).toHaveTextContent('(music video, 2022)')
+    expect(card.getAttribute('data-reveal')).toBe('1')
   })
 })
