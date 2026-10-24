@@ -11,7 +11,7 @@ describe('singleton documents', () => {
   it('siteSettings has the five page entries validation and four toggles', () => {
     const fields = byName('siteSettings').fields.map((f: any) => f.name)
     expect(fields).toEqual(
-      expect.arrayContaining(['brandWord', 'brandScript', 'copyright', 'socials', 'management', 'dm', 'marqueeWords', 'pages', 'leaderLeft', 'leaderRight', 'leaderSkip', 'menuScript', 'menuClose', 'menuSocialsLabel', 'menuPhoto', 'showIntro', 'showMarquee', 'showGrain', 'showRec', 'seo']),
+      expect.arrayContaining(['brandWord', 'brandScript', 'copyright', 'socials', 'management', 'dm', 'phone', 'marqueeWords', 'pages', 'leaderLeft', 'leaderRight', 'leaderSkip', 'menuScript', 'menuClose', 'menuSocialsLabel', 'menuPhoto', 'showIntro', 'showMarquee', 'showGrain', 'showRec', 'seo']),
     )
   })
   it('workPage carries the project-page labels group', () => {

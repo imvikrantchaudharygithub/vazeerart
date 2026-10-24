@@ -14,6 +14,15 @@ describe('PersonJsonLd', () => {
     expect(JSON.parse(json)).toMatchObject({'@type': 'Person', name: 'Vazeer Art', jobTitle: 'Cinematographer', sameAs: ['https://instagram.com/vazeer']})
     // Nothing in the CMS supplies an address, so none may be asserted.
     expect(JSON.parse(json)).not.toHaveProperty('address')
+    expect(JSON.parse(json)).not.toHaveProperty('telephone')
+  })
+  it('adds telephone from a tel: phone contact and skips a web link', () => {
+    const parse = (phone: SiteSettingsVM['phone']) => {
+      const html = renderToStaticMarkup(<PersonJsonLd settings={{...settings, phone}} name="Vazeer Art" jobTitle="DOP" />)
+      return JSON.parse(/<script[^>]*>([\s\S]*)<\/script>/.exec(html)![1])
+    }
+    expect(parse({label: 'call', handle: '+91 95208 87694', url: 'tel:+919520887694'}).telephone).toBe('+919520887694')
+    expect(parse({label: 'whatsapp', handle: 'chat', url: 'https://wa.me/919520887694'})).not.toHaveProperty('telephone')
   })
   it('escapes "<" so a CMS string cannot end the script element', () => {
     const html = renderToStaticMarkup(<PersonJsonLd settings={settings} name="x</script><b>" jobTitle="DOP" />)

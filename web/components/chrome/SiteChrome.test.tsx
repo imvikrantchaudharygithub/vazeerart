@@ -8,7 +8,7 @@ vi.mock('next/navigation', () => ({usePathname: () => pathname}))
 
 const settings: SiteSettingsVM = {
   brandWord: 'Vazeer', brandScript: 'art.', copyright: '©', socials: [{label: 'Instagram', url: 'https://instagram.com/x'}],
-  management: {label: 'management', handle: '@m', url: '#'}, dm: {label: 'dm me', handle: '@d', url: '#'},
+  management: {label: 'management', handle: '@m', url: '#'}, dm: {label: 'dm me', handle: '@d', url: '#'}, phone: null,
   marqueeWords: [], leaderLeft: '', leaderRight: '', leaderSkip: '', menuScript: 'menu', menuClose: 'Close ✕', menuSocialsLabel: 'follow on socials /',
   menuPhoto: null, showIntro: true, showMarquee: true, showGrain: true, showRec: true, seo: {title: null, description: null, image: null},
   pages: [

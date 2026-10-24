@@ -43,6 +43,18 @@ export const siteSettings = defineType({
       ],
     }),
     defineField({
+      name: 'phone',
+      title: 'Phone contact (contact page, optional)',
+      type: 'object',
+      group: 'brand',
+      description: 'Third row on the contact page, after management and DM. Leave the whole block empty to hide the row.',
+      fields: [
+        defineField({name: 'label', title: 'Italic label', type: 'string', initialValue: 'call', validation: (r) => r.required()}),
+        defineField({name: 'handle', title: 'Number shown', type: 'string', description: 'As displayed, e.g. +91 95208 87694', validation: (r) => r.required()}),
+        defineField({name: 'url', title: 'Link', type: 'url', description: 'tel:+919520887694 dials on phones; a https:// link (WhatsApp) also works', validation: (r) => r.required().uri({scheme: ['tel', 'https', 'http']})}),
+      ],
+    }),
+    defineField({
       name: 'marqueeWords',
       title: 'Marquee words',
       type: 'array',

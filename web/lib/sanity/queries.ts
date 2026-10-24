@@ -17,7 +17,7 @@ export const PROJECT_FIELDS = /* groq */ `{
 export const SITE_SETTINGS_QUERY = defineQuery(`*[_type == "siteSettings" && _id == "siteSettings"][0]{
   brandWord, brandScript, copyright,
   socials[]{ label, url },
-  management{ label, handle, url }, dm{ label, handle, url },
+  management{ label, handle, url }, dm{ label, handle, url }, phone{ label, handle, url },
   marqueeWords,
   pages[]{ key, navLabel, menuLabel, preFooterScript, preFooterLabel },
   leaderLeft, leaderRight, leaderSkip, menuScript, menuClose, menuSocialsLabel,

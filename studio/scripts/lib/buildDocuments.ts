@@ -31,6 +31,7 @@ export function buildDocuments(assetIds: AssetIdByKey): SanityDoc[] {
     socials: SOCIALS.map((s, i) => ({_type: 'link', _key: `social-${i}`, ...s})),
     management: {...COPY.management},
     dm: {...COPY.dm},
+    phone: {...COPY.phone},
     marqueeWords: [...MARQUEE_WORDS],
     pages: PAGES.map((p) => ({_type: 'pageEntry', _key: `page-${p.key}`, ...p})),
     leaderLeft: COPY.leader.left,

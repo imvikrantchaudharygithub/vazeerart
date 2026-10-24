@@ -313,6 +313,11 @@ export type SiteSettings = {
     handle: string;
     url: string;
   };
+  phone?: {
+    label: string;
+    handle: string;
+    url: string;
+  };
   marqueeWords?: Array<string>;
   pages: Array<
     {
@@ -510,7 +515,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../web/lib/sanity/queries.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{  brandWord, brandScript, copyright,  socials[]{ label, url },  management{ label, handle, url }, dm{ label, handle, url },  marqueeWords,  pages[]{ key, navLabel, menuLabel, preFooterScript, preFooterLabel },  leaderLeft, leaderRight, leaderSkip, menuScript, menuClose, menuSocialsLabel,  menuPhoto {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }},  showIntro, showMarquee, showGrain, showRec,  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
+// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{  brandWord, brandScript, copyright,  socials[]{ label, url },  management{ label, handle, url }, dm{ label, handle, url }, phone{ label, handle, url },  marqueeWords,  pages[]{ key, navLabel, menuLabel, preFooterScript, preFooterLabel },  leaderLeft, leaderRight, leaderSkip, menuScript, menuClose, menuSocialsLabel,  menuPhoto {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }},  showIntro, showMarquee, showGrain, showRec,  seo { title, description, image {  alt, hotspot, crop,  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }} }}
 export type SITE_SETTINGS_QUERY_RESULT = {
   brandWord: string;
   brandScript: string;
@@ -525,6 +530,11 @@ export type SITE_SETTINGS_QUERY_RESULT = {
     url: string;
   } | null;
   dm: {
+    label: string;
+    handle: string;
+    url: string;
+  } | null;
+  phone: {
     label: string;
     handle: string;
     url: string;
@@ -1127,7 +1137,7 @@ export type CONTACT_TYPES_QUERY_RESULT = Array<string> | null;
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '*[_type == "siteSettings" && _id == "siteSettings"][0]{\n  brandWord, brandScript, copyright,\n  socials[]{ label, url },\n  management{ label, handle, url }, dm{ label, handle, url },\n  marqueeWords,\n  pages[]{ key, navLabel, menuLabel, preFooterScript, preFooterLabel },\n  leaderLeft, leaderRight, leaderSkip, menuScript, menuClose, menuSocialsLabel,\n  menuPhoto {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n},\n  showIntro, showMarquee, showGrain, showRec,\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': SITE_SETTINGS_QUERY_RESULT;
+    '*[_type == "siteSettings" && _id == "siteSettings"][0]{\n  brandWord, brandScript, copyright,\n  socials[]{ label, url },\n  management{ label, handle, url }, dm{ label, handle, url }, phone{ label, handle, url },\n  marqueeWords,\n  pages[]{ key, navLabel, menuLabel, preFooterScript, preFooterLabel },\n  leaderLeft, leaderRight, leaderSkip, menuScript, menuClose, menuSocialsLabel,\n  menuPhoto {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n},\n  showIntro, showMarquee, showGrain, showRec,\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': SITE_SETTINGS_QUERY_RESULT;
     '*[_type == "homePage" && _id == "homePage"][0]{\n  hero{ word, script, mainImage {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, polaroidLeft { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url }, polaroidRight { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } },\n  mobileHero{ word, script, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, thumb { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } },\n  intro{ script, heading, subline, body, ctaLabel, imageA {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, imageB {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} },\n  reels{ headingBlock{ script, heading }, ctaLabel },\n  explore{ headingBlock{ script, heading }, cards[]{ label, sub, target, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} } },\n  currently{ script, heading, body, ctaLabel, bgImage {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': HOME_QUERY_RESULT;
     '*[_type == "workPage" && _id == "workPage"][0]{\n  title, script, intro, filterAll, filterDop, filterEditor,\n  showreel{ poster {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, videoUrl, label, orderNotePrefix, orderNoteOverride },\n  numberPrefix, projectCta,\n  skills{ headingBlock{ script, heading }, items[]{ label, tilt, media { kind, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n}, "videoUrl": video.asset->url } } },\n  projectPage{ backLabel, reelPrefix, roleLabel, formatLabel, yearLabel, aspectLabel, grabsScript, grabsHeading, upNextScript },\n  seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': WORK_QUERY_RESULT;
     '*[_type == "framesPage" && _id == "framesPage"][0]{\n  script, heading, linkLabel, linkUrl, reelLabel, postLabel, seo { title, description, image {\n  alt, hotspot, crop,\n  asset->{ _id, url, extension, "width": metadata.dimensions.width, "height": metadata.dimensions.height, "lqip": metadata.lqip }\n} }\n}': FRAMES_PAGE_QUERY_RESULT;

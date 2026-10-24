@@ -5,11 +5,14 @@ import type {ContactVM} from '@/lib/viewmodel/pagesContent'
 import type {SiteSettingsVM} from '@/lib/viewmodel/site'
 import styles from './ContactIntro.module.css'
 
-type Props = {contact: ContactVM; settings: Pick<SiteSettingsVM, 'management' | 'dm'>; children: ReactNode}
+type Props = {contact: ContactVM; settings: Pick<SiteSettingsVM, 'management' | 'dm' | 'phone'>; children: ReactNode}
+
+/** Web links open in a new tab; tel: and mailto: hand over to the device in the same tab. */
+const external = (url: string) => /^https?:/i.test(url)
 
 /** The Contact <main>: left column here, the form as children on the right. */
 export function ContactIntro({contact, settings, children}: Props) {
-  const rows = [settings.management, settings.dm]
+  const rows = [settings.management, settings.dm, ...(settings.phone ? [settings.phone] : [])]
   return (
     <main className={styles.main}>
       <div className={styles.left}>
@@ -21,7 +24,7 @@ export function ContactIntro({contact, settings, children}: Props) {
         <div className={styles.photo}>{contact.photo && <SanityImage image={contact.photo} sizes="300px" />}</div>
         <div className={styles.links}>
           {rows.map((r) => (
-            <a key={r.label} href={r.url} target="_blank" rel="noreferrer" className={styles.linkRow}>
+            <a key={r.label} href={r.url} {...(external(r.url) ? {target: '_blank', rel: 'noreferrer'} : {})} className={styles.linkRow}>
               <span className={styles.linkLabel}>{r.label}</span>
               <span className={styles.linkHandle}>{r.handle}</span>
             </a>

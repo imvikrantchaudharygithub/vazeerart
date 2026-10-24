@@ -9,6 +9,8 @@ export type SiteSettingsVM = {
   brandWord: string; brandScript: string; copyright: string
   socials: LinkVM[]
   management: ContactLinkVM; dm: ContactLinkVM
+  /** Optional third contact row; null hides it. */
+  phone: ContactLinkVM | null
   marqueeWords: string[]
   pages: PageEntryVM[]
   leaderLeft: string; leaderRight: string; leaderSkip: string
@@ -38,6 +40,7 @@ export function toSiteSettingsVM(raw: SITE_SETTINGS_QUERY_RESULT): SiteSettingsV
     socials: (raw.socials ?? []).flatMap((s) => (s.label && s.url ? [{label: s.label, url: s.url}] : [])),
     management: contact(raw.management, 'management'),
     dm: contact(raw.dm, 'dm me'),
+    phone: raw.phone?.handle?.trim() && raw.phone.url?.trim() ? contact(raw.phone, 'call') : null,
     marqueeWords: (raw.marqueeWords ?? []).filter((w): w is string => !!w),
     pages: (raw.pages ?? []).flatMap((p) =>
       isPageKey(p.key)

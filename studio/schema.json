@@ -1762,6 +1762,36 @@
         },
         "optional": true
       },
+      "phone": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "label": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": false
+            },
+            "handle": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": false
+            },
+            "url": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": false
+            }
+          }
+        },
+        "optional": true
+      },
       "marqueeWords": {
         "type": "objectAttribute",
         "value": {

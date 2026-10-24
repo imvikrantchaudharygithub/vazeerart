@@ -46,6 +46,7 @@ export const COPY = {
   copyright: '© Vazeer Art, 2026 · New Delhi',
   management: {label: 'management', handle: '@prachar.it ↗', url: 'https://www.instagram.com/prachar.it/'},
   dm: {label: 'dm me', handle: '@vazeerart ↗', url: 'https://www.instagram.com/vazeerart/'},
+  phone: {label: 'call', handle: '+91 95208 87694', url: 'tel:+919520887694'},
   leader: {left: 'Vazeer Art', right: 'Showreel 2026', skip: 'Skip →'},
   menu: {script: 'menu', close: 'Close ✕', socials: 'follow on socials /'},
   home: {
