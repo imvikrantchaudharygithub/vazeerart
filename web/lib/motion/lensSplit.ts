@@ -69,6 +69,15 @@ export type Geometry = {
   thumbVector: {x: number; y: number}
 }
 
+/**
+ * "art" is set in Mrs Saint Delafield, whose trailing swash (the "t" crossbar) inks about 72 du past the advance
+ * width at 124 du once rotated. Both placements anchor the ink, not the advance, so the swash never leaves the
+ * screen (measured 2026-10-24 with canvas actualBoundingBoxRight; the export anchored the advance and clipped it).
+ */
+export const ART_SWASH = 72
+/** Closest the lens-state "art" ink may come to the right edge (du). */
+export const ART_MARGIN = 12
+
 const LENS_D = 316
 const SPLIT_H = 480
 
@@ -97,9 +106,11 @@ export function lensSplitGeometry(i: GeometryInput): Geometry {
   const splitRow = i.widths.map((w) => { const p = {x: cx, y: 583, s}; cx += w * s; return p })
   const lensRows = i.widths.map((w, n) => ({x: (Wd - w) / 2, y: 130 + n * 200, s: 1}))
   const ka = (90 / 124) * f
-  const artSplit = {x: x0 + rowW - i.artWidth * ka + 4 * f, y: 583 + 72 * f, k: ka, r: -8}
-  // Glued to ER as in the export's 2c lockup (274 at 390 wide), not to the screen edge.
-  const artLens = {x: Wd / 2 + 79, y: 676, k: 1, r: -10}
+  const artInk = i.artWidth + ART_SWASH
+  const artSplit = {x: x0 + rowW - artInk * ka + 4 * f, y: 583 + 72 * f, k: ka, r: -8}
+  // The export glued the advance to ER (Wd / 2 + 79, 274 at 390 wide) and the swash ran off-screen; the ink is
+  // anchored ART_MARGIN inside the right edge instead. MobileHero.module.css mirrors it as right: 84 du.
+  const artLens = {x: Wd - ART_MARGIN - artInk, y: 676, k: 1, r: -10}
 
   const duTop = Y0 - offY / u
   const splitTop = Math.min(0, duTop)

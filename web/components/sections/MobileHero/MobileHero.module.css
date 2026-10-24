@@ -23,7 +23,8 @@
 .kb{animation:kb 14s ease-in-out infinite alternate;transform-origin:50% 25%}
 .grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,13,11,.55) 0%,rgba(15,13,11,0) 25%);opacity:0}
 .thumb{position:absolute;left:calc(22 * var(--u));top:calc(var(--offy) + 314 * var(--u));width:calc(120 * var(--u));height:calc(150 * var(--u));box-sizing:border-box;border:max(2px, calc(4 * var(--u))) solid #efe7da;box-shadow:0 calc(16 * var(--u)) calc(36 * var(--u)) rgba(0,0,0,.45);overflow:hidden;background:#1c1916;opacity:0;transform:translate(calc(50cqw - 82 * var(--u)), calc(-77 * var(--u))) rotate(10deg) scale(.3)}
-.artWrap{position:absolute;left:calc(50cqw + 79 * var(--u));top:calc(var(--offy) + 580 * var(--u));animation:popin 1s cubic-bezier(.2,.8,.2,1) both 1.2s}
+/* right = ART_MARGIN + ART_SWASH du (lib/motion/lensSplit.ts): the script "t" swash inks ~72 du past the advance, so the box is anchored by its ink, 12 du inside the edge. */
+.artWrap{position:absolute;right:calc(84 * var(--u));top:calc(var(--offy) + 580 * var(--u));animation:popin 1s cubic-bezier(.2,.8,.2,1) both 1.2s}
 .art{display:block;transform-origin:0 0;transform:rotate(-10deg);font-family:var(--font-delafield),cursive;font-size:calc(124 * var(--u));line-height:1;white-space:nowrap;color:#e8a24a}
 @media (prefers-reduced-motion: reduce){
   .root{height:auto}

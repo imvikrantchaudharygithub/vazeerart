@@ -1,6 +1,6 @@
 // web/lib/motion/lensSplit.test.ts
 import {describe, expect, it} from 'vitest'
-import {chunkWord, glidePlan, lensSplitFrame, lensSplitGeometry, progressFromScroll, seg, smoothToward} from './lensSplit'
+import {ART_MARGIN, ART_SWASH, chunkWord, glidePlan, lensSplitFrame, lensSplitGeometry, progressFromScroll, seg, smoothToward} from './lensSplit'
 
 // The export's own stage: 390 wide, fit window 684 du tall → u = 1, and its measured integer widths.
 const EXPORT = {W: 390, Hs: 684, stageH: 748, widths: [234, 205, 222], artWidth: 88, aspect: 1.5, focus: {x: 0.5, y: 0.5}}
@@ -32,8 +32,8 @@ describe('lensSplitGeometry at the export size reproduces setup()', () => {
     for (const r of g.splitRow) { expect(r.y).toBe(583); expect(r.s).toBeCloseTo(0.496, 6) }
   })
   it('places "art" like artA / artB', () => {
-    expect(g.artSplit.x).toBeCloseTo(299.057, 3); expect(g.artSplit.y).toBe(655); expect(g.artSplit.k).toBeCloseTo(0.725806, 5); expect(g.artSplit.r).toBe(-8)
-    expect(g.artLens).toEqual({x: 274, y: 676, k: 1, r: -10})
+    expect(g.artSplit.x).toBeCloseTo(246.799, 3); expect(g.artSplit.y).toBe(655); expect(g.artSplit.k).toBeCloseTo(0.725806, 5); expect(g.artSplit.r).toBe(-8)
+    expect(g.artLens).toEqual({x: 218, y: 676, k: 1, r: -10})
   })
   it('has the lens at 37,250 316×316 and the thumb vector to its centre', () => {
     expect(g.lens).toEqual({x: 37, y: 250, w: 316, h: 316})
@@ -69,7 +69,7 @@ describe('lensSplitFrame matches the export apply(t) (Appendix A of the measured
     expect(pos[2][0]).toBeCloseTo(195.2, 1); expect(pos[2][1]).toBeCloseTo(565.7, 1); expect(pos[2][2]).toBeCloseTo(0.66, 2)
     expect(f.wordColor).toBe('rgb(229,222,209)'); expect(f.artColor).toBe('rgb(94,68,35)')
     expect(f.outline).toBe(0); expect(f.thumb.opacity).toBe(0)
-    expect(274 + f.art.tx).toBeCloseTo(295.3, 1); expect(676 + f.art.ty).toBeCloseTo(658.1, 1); expect(f.art.r).toBeCloseTo(-8.3, 1); expect(f.art.k).toBeCloseTo(0.766, 3)
+    expect(218 + f.art.tx).toBeCloseTo(242.5, 1); expect(676 + f.art.ty).toBeCloseTo(658.1, 1); expect(f.art.r).toBeCloseTo(-8.3, 1); expect(f.art.k).toBeCloseTo(0.766, 3)
   })
   it('t = 0.25 matches the export late frame', () => {
     const f = lensSplitFrame(0.25, g)
@@ -89,7 +89,7 @@ describe('lensSplitFrame matches the export apply(t) (Appendix A of the measured
     expect([f.amber, f.outline, f.grad]).toEqual([0, 0, 1])
     expect(f.ring.shadow).toBe('none')
     expectClose(f.thumb, {tx: 0, ty: 0, r: -6, k: 1, opacity: 1})
-    expect(f.art.tx).toBeCloseTo(25.057, 3); expect(f.art.ty).toBe(-21); expect(f.art.r).toBe(-8)
+    expect(f.art.tx).toBeCloseTo(28.799, 3); expect(f.art.ty).toBe(-21); expect(f.art.r).toBe(-8)
     expect(f.wordColor).toBe('rgb(20,17,14)'); expect(f.artColor).toBe('rgb(20,17,14)')
   })
   it('keeps the photo cover zoom uniform and equal to the export object-fit recrop (0.527× → 0.8× of 900×600)', () => {
@@ -109,7 +109,11 @@ describe('lensSplitGeometry on a height-bound phone (iPhone 13/14 Safari, 390 ×
     const last = p.splitRow[2]
     expect((last.x + 222 * last.s - p.splitRow[0].x) / p.Wd).toBeCloseTo(327.856 / 390, 3)
   })
-  it('keeps "art" glued to ER in the lens state', () => expect(p.artLens.x - p.lensRows[2].x).toBeCloseTo(274 - 84, 6))
+  it('keeps the "art" ink ART_MARGIN inside the right edge in the lens state', () => expect(p.artLens.x + 88 + ART_SWASH).toBeCloseTo(p.Wd - ART_MARGIN, 6))
+  it('ends the split "art" ink at the right edge of the name row (+4 du)', () => {
+    const last = p.splitRow[2]
+    expect(p.artSplit.x + (88 + ART_SWASH) * p.artSplit.k).toBeCloseTo(last.x + 222 * last.s + 4 * (p.Wd / 390), 6)
+  })
 })
 
 describe('scroll helpers', () => {
