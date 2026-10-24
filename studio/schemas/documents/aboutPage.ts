@@ -47,8 +47,6 @@ export const aboutPage = defineType({
       group: 'credits',
       fields: [
         defineField({name: 'headingBlock', title: 'Heading', type: 'headingBlock', validation: (r) => r.required()}),
-        defineField({name: 'imdbLabel', title: 'IMDb link label', type: 'string', initialValue: 'Full list on IMDb ↗', validation: (r) => r.required().max(40)}),
-        defineField({name: 'imdbUrl', title: 'IMDb URL', type: 'url', validation: (r) => r.required()}),
       ],
     }),
     defineField({

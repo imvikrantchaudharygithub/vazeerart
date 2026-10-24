@@ -36,8 +36,6 @@ export const PAGES = [
 export const SOCIALS = [
   {label: 'Instagram', url: 'https://www.instagram.com/vazeerart/'},
   {label: 'Facebook', url: 'https://www.facebook.com/vazeerart/'},
-  {label: 'IMDb', url: 'https://www.imdb.com/name/nm11732285/'},
-  {label: 'TikTok', url: 'https://www.tiktok.com/@vazeerart'},
 ]
 
 export const FORM_TYPES = ['Music video', 'Commercial', 'Film / Series', 'Edit only']
@@ -113,7 +111,7 @@ export const COPY = {
       ],
       aside: '(yes, the gimbal comes everywhere)',
     },
-    credits: {script: 'the', heading: 'Credits', imdbLabel: 'Full list on IMDb ↗', imdbUrl: 'https://www.imdb.com/name/nm11732285/'},
+    credits: {script: 'the', heading: 'Credits'},
     finale: {script: 'find the frame', sub: '(no one else is looking for)'},
   },
   contact: {

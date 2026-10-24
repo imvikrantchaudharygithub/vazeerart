@@ -3,7 +3,6 @@
 .headText{display:flex;flex-direction:column}
 .script{font-family:var(--font-delafield),cursive;font-size:72px;line-height:.6;color:#e8a24a}
 .heading{margin:12px 0 0;font-family:var(--font-anton),sans-serif;text-transform:uppercase;font-size:clamp(52px,6vw,96px);line-height:.9}
-.imdb{font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border-bottom:2px solid #e8a24a;padding-bottom:6px}
 .list{border-top:1px solid rgba(239,231,218,.18)}
 .row{all:unset;cursor:pointer;display:grid;grid-template-columns:80px minmax(0,1fr) auto;gap:8px 24px;align-items:baseline;width:100%;padding:20px 0;border-bottom:1px solid rgba(239,231,218,.18)}
 .rowStatic{cursor:default}

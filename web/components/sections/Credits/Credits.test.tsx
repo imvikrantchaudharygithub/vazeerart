@@ -8,24 +8,24 @@ const p = (slug: string, creditOnly: boolean): ProjectVM => ({
   id: slug, slug, title: slug.toUpperCase(), format: 'Music Video', formatLower: 'music video', year: '2022', role: 'Editor', roleShort: 'Editor', category: 'editor',
   cover: null, frameGrabs: [], videoUrl: null, showOnHome: true, creditOnly, n: creditOnly ? '' : '01', seo: {title: null, description: null, image: null},
 })
-const credits = {script: 'the', heading: 'Credits', imdbLabel: 'Full list on IMDb ↗', imdbUrl: 'https://imdb.com/x'}
+const credits = {script: 'the', heading: 'Credits'}
 
 describe('Credits', () => {
   it('lists every project; page projects link, credit-only rows do not', () => {
     render(<Credits credits={credits} projects={[p('a', false), p('b', true)]} linkToDetail />)
+    expect(screen.getByRole('heading', {level: 2})).toHaveTextContent('Credits')
     expect(screen.getByRole('link', {name: /^2022A/})).toHaveAttribute('href', '/work/a')
     const rows = screen.getAllByTestId('credit-row')
     expect(rows).toHaveLength(2)
     expect(rows[1].tagName).toBe('DIV')
     expect(rows[1]).toHaveTextContent('music video · Editor')
-    expect(screen.getByRole('link', {name: 'Full list on IMDb ↗'})).toHaveAttribute('href', 'https://imdb.com/x')
+    expect(screen.getAllByRole('link')).toHaveLength(1)
   })
-  it('renders every row static while project pages are hidden; only the IMDb link remains', () => {
+  it('renders every row static, with no links at all, while project pages are hidden', () => {
     render(<Credits credits={credits} projects={[p('a', false), p('b', true)]} linkToDetail={false} />)
     const rows = screen.getAllByTestId('credit-row')
     expect(rows.map((r) => r.tagName)).toEqual(['DIV', 'DIV'])
     expect(rows[0]).toHaveTextContent('2022A')
-    expect(screen.getAllByRole('link')).toHaveLength(1)
-    expect(screen.getByRole('link', {name: 'Full list on IMDb ↗'})).toHaveAttribute('href', 'https://imdb.com/x')
+    expect(screen.queryAllByRole('link')).toHaveLength(0)
   })
 })

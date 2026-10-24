@@ -789,20 +789,6 @@
                 "name": "headingBlock"
               },
               "optional": false
-            },
-            "imdbLabel": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              },
-              "optional": false
-            },
-            "imdbUrl": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              },
-              "optional": false
             }
           }
         },

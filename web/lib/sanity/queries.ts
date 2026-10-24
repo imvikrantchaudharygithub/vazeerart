@@ -56,7 +56,7 @@ export const FRAMES_QUERY = defineQuery(`*[_type == "frame"] | order(orderRank){
 export const ABOUT_QUERY = defineQuery(`*[_type == "aboutPage" && _id == "aboutPage"][0]{
   hero{ script, heading, body, ctaLabel, portrait ${IMAGE_FIELDS}, polaroid ${MEDIA_FIELDS} },
   statement{ headingPlain, headingAccent, paragraphs, aside },
-  credits{ headingBlock{ script, heading }, imdbLabel, imdbUrl },
+  credits{ headingBlock{ script, heading } },
   finale{ script, sub, bgImage ${IMAGE_FIELDS} },
   seo ${SEO_FIELDS}
 }`)

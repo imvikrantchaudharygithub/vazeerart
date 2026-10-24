@@ -102,8 +102,6 @@ export function buildDocuments(assetIds: AssetIdByKey): SanityDoc[] {
     statement: {...COPY.about.statement, paragraphs: [...COPY.about.statement.paragraphs]},
     credits: {
       headingBlock: {_type: 'headingBlock', script: COPY.about.credits.script, heading: COPY.about.credits.heading},
-      imdbLabel: COPY.about.credits.imdbLabel,
-      imdbUrl: COPY.about.credits.imdbUrl,
     },
     finale: {...COPY.about.finale, bgImage: slot('aboutFinaleBg')},
   }

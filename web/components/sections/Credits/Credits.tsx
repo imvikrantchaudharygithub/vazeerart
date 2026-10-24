@@ -12,7 +12,6 @@ export function Credits({credits, projects, linkToDetail = projectDetailPages}: 
           <span className={styles.script}>{credits.script}</span>
           <h2 className={styles.heading}>{credits.heading}</h2>
         </div>
-        <a href={credits.imdbUrl} target="_blank" rel="noreferrer" className={styles.imdb}>{credits.imdbLabel}</a>
       </div>
       <div className={styles.list}>
         {projects.map((p) => {

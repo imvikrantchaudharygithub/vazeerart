@@ -198,7 +198,7 @@ See §6 for the schema this maps to. Prototype data (used verbatim by the seed):
 
 **Form type chips:** Music video · Commercial · Film / Series · Edit only
 
-**Socials:** Instagram `https://www.instagram.com/vazeerart/` · Facebook `https://www.facebook.com/vazeerart/` · IMDb `https://www.imdb.com/name/nm11732285/` · TikTok `https://www.tiktok.com/@vazeerart`
+**Socials:** Instagram `https://www.instagram.com/vazeerart/` · Facebook `https://www.facebook.com/vazeerart/` (the prototype also listed IMDb and TikTok; both were removed from the site and the schema on 2026-10-24 at the owner's request)
 **Management:** @prachar.it → `https://www.instagram.com/prachar.it/` · **DM:** @vazeerart
 
 **Leader:** "Vazeer Art" ● "Showreel 2026", skip label "Skip →"
@@ -474,7 +474,7 @@ an inline accent are split into `*Plain` + `*Accent`. All fields have a
 **`aboutPage`**
 `hero: { script, heading, body: text, ctaLabel, portrait: image, polaroid: mediaSlot }` ·
 `statement: { headingPlain ("University of Delhi grad and gimbal lover turned"), headingAccent ("DOP & editor"), paragraphs: text[], aside ("(yes, the gimbal comes everywhere)") }` ·
-`credits: headingBlock ("the"/"Credits") + imdbLabel ("Full list on IMDb ↗") + imdbUrl` ·
+`credits: headingBlock ("the"/"Credits")` (the IMDb link fields were removed 2026-10-24) ·
 `finale: { script ("find the frame"), sub ("(no one else is looking for)"), bgImage }` · `seo`.
 
 **`contactPage`**

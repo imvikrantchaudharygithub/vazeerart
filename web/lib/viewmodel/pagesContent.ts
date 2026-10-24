@@ -86,7 +86,7 @@ export function toFramesVM(raw: FRAMES_QUERY_RESULT, page: FramesPageVM): FrameV
 export type AboutVM = {
   hero: {script: string; heading: string; body: string; ctaLabel: string; portrait: ImageVM | null; polaroid: MediaVM | null}
   statement: {headingPlain: string; headingAccent: string; paragraphs: string[]; aside: string}
-  credits: {script: string; heading: string; imdbLabel: string; imdbUrl: string}
+  credits: {script: string; heading: string}
   finale: {script: string; sub: string; bgImage: ImageVM | null}
   seo: SeoVM
 }
@@ -95,7 +95,7 @@ export function toAboutVM(raw: ABOUT_QUERY_RESULT): AboutVM {
   return {
     hero: {script: str(raw.hero?.script), heading: str(raw.hero?.heading), body: str(raw.hero?.body), ctaLabel: str(raw.hero?.ctaLabel), portrait: toImageVM(raw.hero?.portrait), polaroid: toMediaVM(raw.hero?.polaroid)},
     statement: {headingPlain: str(raw.statement?.headingPlain), headingAccent: str(raw.statement?.headingAccent), paragraphs: (raw.statement?.paragraphs ?? []).filter((p): p is string => !!p), aside: str(raw.statement?.aside)},
-    credits: {script: str(raw.credits?.headingBlock?.script), heading: str(raw.credits?.headingBlock?.heading), imdbLabel: str(raw.credits?.imdbLabel), imdbUrl: str(raw.credits?.imdbUrl, '#')},
+    credits: {script: str(raw.credits?.headingBlock?.script), heading: str(raw.credits?.headingBlock?.heading)},
     finale: {script: str(raw.finale?.script), sub: str(raw.finale?.sub), bgImage: toImageVM(raw.finale?.bgImage)},
     seo: toSeoVM(raw.seo),
   }
